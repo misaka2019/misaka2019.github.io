@@ -19,7 +19,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>Hello World - Hexo</title>
+  <title>数据可视化总结 - Hexo</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -162,8 +162,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-08-23 20:11" pubdate>
-      2020年8月23日 晚上
+    <time datetime="2020-09-25 19:13" pubdate>
+      2020年9月25日 晚上
     </time>
   </div>
 
@@ -173,7 +173,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      75 字
+      663 字
     </span>
   
 
@@ -183,7 +183,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      9
        分钟
     </span>
   
@@ -213,22 +213,64 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto" id="post">
             <!-- SEO header -->
-            <h1 style="display: none">Hello World</h1>
+            <h1 style="display: none">数据可视化总结</h1>
             
             <div class="markdown-body" id="post-body">
-              <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><div class="hljs"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span></code></pre></div>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><div class="hljs"><pre><code class="hljs bash">$ hexo server</code></pre></div>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><div class="hljs"><pre><code class="hljs bash">$ hexo generate</code></pre></div>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><div class="hljs"><pre><code class="hljs bash">$ hexo deploy</code></pre></div>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+              <p>数据可视化指的是通过可视化表示来探索数据，它与数据挖掘紧密相关。</p>
+<p>总的来说数据可视化能让人们更直观的看到数据的特点。其实数据可视化也是对数据进行处理，只不过是以图表方式来表现的。</p>
+<p>下面将介绍几种用matplotlib库来实现可视化的方法。<br>数据可视化还有数据描述性统计，就是算出方差，均值，中位数等等。</p>
+<div class="hljs"><pre><code class="hljs sas">def des(self,n):
+    def status(<span class="hljs-meta">x</span>):
+        <span class="hljs-meta">return</span> pd.Series([<span class="hljs-meta">x</span>.count(),<span class="hljs-meta">x</span><span class="hljs-meta">.min(</span>),<span class="hljs-meta">x</span>.id<span class="hljs-meta">xmin(</span>),<span class="hljs-meta">x</span>.quantile(.25),<span class="hljs-meta">x</span>.medi<span class="hljs-meta">an(</span>),
+              <span class="hljs-meta">x</span>.quantile(.75),<span class="hljs-meta">x</span><span class="hljs-meta">.mean(</span>),<span class="hljs-meta">x</span><span class="hljs-meta">.max(</span>),<span class="hljs-meta">x</span>.id<span class="hljs-meta">xmax(</span>),<span class="hljs-meta">x</span>.mad(),<span class="hljs-meta">x</span><span class="hljs-meta">.var(</span>),
+              <span class="hljs-meta">x</span><span class="hljs-meta">.std(</span>),<span class="hljs-meta">x</span>.skew(),<span class="hljs-meta">x</span>.kurt()],<span class="hljs-meta">index</span>=[<span class="hljs-string">&#x27;总数&#x27;</span>,<span class="hljs-string">&#x27;最小值&#x27;</span>,<span class="hljs-string">&#x27;最小值位置&#x27;</span>,<span class="hljs-string">&#x27;25%分位数&#x27;</span>,
+            <span class="hljs-string">&#x27;中位数&#x27;</span>,<span class="hljs-string">&#x27;75%分位数&#x27;</span>,<span class="hljs-string">&#x27;均值&#x27;</span>,<span class="hljs-string">&#x27;最大值&#x27;</span>,<span class="hljs-string">&#x27;最大值位数&#x27;</span>,<span class="hljs-string">&#x27;平均绝对偏差&#x27;</span>,<span class="hljs-string">&#x27;方差&#x27;</span>,<span class="hljs-string">&#x27;标准差&#x27;</span>,<span class="hljs-string">&#x27;偏度&#x27;</span>,<span class="hljs-string">&#x27;峰度&#x27;</span>])
+df = pd.DataFrame(n, columns=[<span class="hljs-string">&#x27;x1&#x27;</span>,<span class="hljs-string">&#x27;x2&#x27;</span>,<span class="hljs-string">&#x27;x3&#x27;</span>])#输入数组
+p<span class="hljs-meta">rint(</span>df.head())
+p<span class="hljs-meta">rint(</span>df.apply(status))</code></pre></div>
+<p>一、直方图</p>
+<div class="hljs"><pre><code class="hljs haskell"><span class="hljs-keyword">import</span> matplotlib <span class="hljs-keyword">as</span> plt
+<span class="hljs-title">plt</span>.hist(<span class="hljs-class"><span class="hljs-keyword">data</span>, normed=1)</span>
+<span class="hljs-meta">#其实hist函数还有很多参数</span></code></pre></div>
+<p>二、水平条形图</p>
+<div class="hljs"><pre><code class="hljs routeros"><span class="hljs-comment"># 指定默认字体（防止中文出现乱码）</span>
+mpl.rcParams[<span class="hljs-string">&#x27;font.sans-serif&#x27;</span>] = [<span class="hljs-string">&#x27;FangSong&#x27;</span>]  # 指定‘仿宋’字体
+<span class="hljs-comment"># 水平柱形图---条形图</span>
+fig, ax = plt.subplots()
+ax.barh(x, y, 0.5, <span class="hljs-attribute">color</span>=<span class="hljs-string">&#x27;skyblue&#x27;</span>)  # 0.5是设置的柱子的宽度
+ax.<span class="hljs-builtin-name">set</span>(<span class="hljs-attribute">title</span>=<span class="hljs-string">&#x27;水平条形图&#x27;</span>, <span class="hljs-attribute">xlabel</span>=<span class="hljs-string">&#x27;x&#x27;</span>, <span class="hljs-attribute">ylabel</span>=<span class="hljs-string">&#x27;y&#x27;</span>)
+plt.show()</code></pre></div>
+<p>三、热力图</p>
+<div class="hljs"><pre><code class="hljs routeros"><span class="hljs-comment"># 绘制x-y-z的热力图，比如 年-月-销量 的热力图</span>
+f, ax = plt.subplots(figsize=(9, 6))
+<span class="hljs-comment">#绘制热力图，还要将数值写到热力图上</span>
+<span class="hljs-comment">#每个网格上用线隔开,data是df类型</span>
+sns.heatmap(data, <span class="hljs-attribute">annot</span>=<span class="hljs-literal">True</span>, <span class="hljs-attribute">fmt</span>=<span class="hljs-string">&quot;d&quot;</span>, <span class="hljs-attribute">linewidths</span>=0.5, <span class="hljs-attribute">ax</span>=ax,cmap = <span class="hljs-string">&quot;YlGnBu&quot;</span>)
+<span class="hljs-comment">#设置坐标字体方向并保持水平对齐</span>
+label_y = ax.get_yticklabels()
+plt.setp(label_y, <span class="hljs-attribute">rotation</span>=360, <span class="hljs-attribute">horizontalalignment</span>=<span class="hljs-string">&#x27;right&#x27;</span>)
+label_x = ax.get_xticklabels()
+plt.setp(label_x, <span class="hljs-attribute">rotation</span>=45, <span class="hljs-attribute">horizontalalignment</span>=<span class="hljs-string">&#x27;right&#x27;</span>)
+plt.show()</code></pre></div>
+<p>四、折线图<br><div class="hljs"><pre><code class="hljs routeros"><span class="hljs-comment"># 获取&#x27;column&#x27;这一列的值</span>
+y = df[<span class="hljs-string">&#x27;column&#x27;</span>].values
+<span class="hljs-comment"># 获取索引列的值（年份）</span>
+x = df.index.values
+<span class="hljs-comment"># 指定默认字体（防止中文出现乱码）</span>
+mpl.rcParams[<span class="hljs-string">&#x27;font.sans-serif&#x27;</span>] = [<span class="hljs-string">&#x27;FangSong&#x27;</span>]  # 指定‘仿宋’字体
+<span class="hljs-comment"># 折线图</span>
+fig, ax = plt.subplots()
+ax.plot(x, y)
+ax.<span class="hljs-builtin-name">set</span>(<span class="hljs-attribute">title</span>=None, <span class="hljs-attribute">xlabel</span>=None, <span class="hljs-attribute">ylabel</span>=None)  # 中文出现乱码，要先设置字体
+plt.show()</code></pre></div></p>
+<p>五、散点图</p>
+<div class="hljs"><pre><code class="hljs routeros"><span class="hljs-comment"># 指定默认字体（防止中文出现乱码）</span>
+mpl.rcParams[<span class="hljs-string">&#x27;font.sans-serif&#x27;</span>] = [<span class="hljs-string">&#x27;FangSong&#x27;</span>]  # 指定‘仿宋’字体
+<span class="hljs-comment"># 折线图</span>
+fig, ax = plt.subplots()
+ax.scatter(x, y)
+ax.<span class="hljs-builtin-name">set</span>(<span class="hljs-attribute">title</span>=None, <span class="hljs-attribute">xlabel</span>=None, <span class="hljs-attribute">ylabel</span>=None)  # 中文出现乱码，要先设置字体
+plt.show()</code></pre></div>
 
             </div>
             <hr>
@@ -245,15 +287,15 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2020/09/23/%E6%A6%82%E7%8E%87%E8%AE%BA/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">概率论（上）</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2020/09/25/%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86/">
+                        <span class="hidden-mobile">数据预处理方法总结</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>
@@ -438,7 +480,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Hello World&nbsp;",
+        "数据可视化总结&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
@@ -499,6 +541,45 @@
 
 
 
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.0.5/es5/tex-svg.js" ></script>
+
+  
 
 
 

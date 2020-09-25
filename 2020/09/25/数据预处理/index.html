@@ -19,7 +19,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>Hello World - Hexo</title>
+  <title>数据预处理方法总结 - Hexo</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -162,8 +162,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-08-23 20:11" pubdate>
-      2020年8月23日 晚上
+    <time datetime="2020-09-25 19:13" pubdate>
+      2020年9月25日 晚上
     </time>
   </div>
 
@@ -173,7 +173,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      75 字
+      1.2k 字
     </span>
   
 
@@ -183,7 +183,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      14
        分钟
     </span>
   
@@ -213,22 +213,75 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto" id="post">
             <!-- SEO header -->
-            <h1 style="display: none">Hello World</h1>
+            <h1 style="display: none">数据预处理方法总结</h1>
             
             <div class="markdown-body" id="post-body">
-              <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><div class="hljs"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span></code></pre></div>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><div class="hljs"><pre><code class="hljs bash">$ hexo server</code></pre></div>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><div class="hljs"><pre><code class="hljs bash">$ hexo generate</code></pre></div>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><div class="hljs"><pre><code class="hljs bash">$ hexo deploy</code></pre></div>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+              <p>  数据是机器学习的原料，机器学习是通过对数据的训练才得到某种特性的。因此正确的预处理数据对模型结果的输出尤为重要。</p>
+<blockquote>
+<p>-一、数据可能存在的问题<br>  数据一开始可能有数据重复，数据缺失，数据存在异常值等情况。<br> 二、数据预处理的步骤<br>数据处理主要包括数据的清洗，数据的转化.数据描述，特征选择和特征抽取这几个步骤。</p>
+<p>1、数据清洗主要通过对缺失值，异常值和重复数据的处理来完成的。</p>
+</blockquote>
+<p>对缺失值的处理首先要判断是否有缺失值，用isnull函数，这个函数返回的是一个布尔类型的结果。其中缺失值为True，非缺失值为Flase。<br>然后再进行缺失值的处理.</p>
+<hr>
+<p>缺失值处理主要有以下两种方式。<br>一是删除缺失记录<br>删除数据通过pandas的dropna函数来删除缺失值。</p>
+<div class="hljs"><pre><code class="hljs angelscript">df.dropna(axis = <span class="hljs-number">0</span>，thresh = <span class="hljs-number">2</span>)</code></pre></div>
+<p>axis = 0代表沿着竖直方向（删除行），1代表沿着水平方向（删除列）。使用dropna函数可以直接删除缺失数据所在行或列（默认是行）</p>
+<p>thresh  = 2代表保留至少2个非NaN数据所在的行。默认是不保留</p>
+<hr>
+<blockquote>
+<p>二是填充数据<br>填充数据用到的pandas里的函数是</p>
+</blockquote>
+<div class="hljs"><pre><code class="hljs python">fillna(value=<span class="hljs-literal">None</span>, method=<span class="hljs-literal">None</span>, axis=<span class="hljs-literal">None</span>, inplace=<span class="hljs-literal">False</span>, limit=<span class="hljs-literal">None</span>, downcast=<span class="hljs-literal">None</span>, **kwargs)
+<span class="hljs-string">&#x27;&#x27;&#x27;</span>
+<span class="hljs-string">vlaue参数指的是填充的值</span>
+<span class="hljs-string">method指填充的方法	pad/ffill表示用之前的数据填充（列，第一行不填充）backfill/bfill表示用之后的数据填充（列。最后一行不填充）。</span>
+<span class="hljs-string">limit指限制填充的次数</span>
+<span class="hljs-string">&#x27;&#x27;&#x27;</span></code></pre></div>
+<p>。<br>另外还有平均值填补，拉格朗日插值法。平均值就是用mean()函数求出平均值。</p>
+<p>拉格朗日插值法是通过其他存在值的计算，来拟合出缺失的数据，不过在缺失大量数据时，偏差较大。</p>
+<blockquote>
+<p>异常值的处理也主要有两种方法。<br>一是利用3σ原则来找出异常值。就是如果数据服从正态分布，异常值则为与平均值相差超过3倍σ的值。</p>
+</blockquote>
+<div class="hljs"><pre><code class="hljs subunit">u = data.mean()#计算均值
+std = data.std()#计算标准差
+<span class="hljs-keyword">error </span>= data[np.bas(data-u)&gt;3*std]#求出异常值</code></pre></div>
+<blockquote>
+<p>二是箱型图分析</p>
+</blockquote>
+<p>箱线图是一种用于显示一组数据分散情况的统计图。箱型图不受异常值影响，可以以一种相对稳定的方式描述数据的离散分布情况。</p>
+<p>下面是python代码实现方法。其中的precentile函数是用来求出数组的上四分位，中位和下四分位数的。</p>
+<p>percentile = np.percentile(self.n, (25, 50, 75), interpolation=’midpoint’)</p>
+<h1 id="以下为箱线图的五个特征值"><a href="#以下为箱线图的五个特征值" class="headerlink" title="以下为箱线图的五个特征值"></a>以下为箱线图的五个特征值</h1><div class="hljs"><pre><code class="hljs ini"><span class="hljs-attr">Q1</span> = percentile[<span class="hljs-number">0</span>]<span class="hljs-comment">#上四分位数</span>
+<span class="hljs-attr">Q3</span> = percentile[<span class="hljs-number">2</span>]<span class="hljs-comment">#下四分位数</span>
+<span class="hljs-attr">IQR</span> = Q3 - Q1<span class="hljs-comment">#四分位距</span>
+<span class="hljs-attr">ulim</span> = Q3 + <span class="hljs-number">1.5</span>*IQR<span class="hljs-comment">#上限 非异常范围内的最大值</span>
+<span class="hljs-attr">llim</span> = Q1 - <span class="hljs-number">1.5</span>*IQR<span class="hljs-comment">#下限 非异常范围内的最小值</span></code></pre></div>
+<p>2、在数据的转换阶段，有对数据进行归一化，标准化，离散化等操作。</p>
+<p>首先，归一化操作是将数据统一映射到[0,1]区间上。由于数据相差过大，所以一般要做归一化处理。</p>
+<div class="hljs"><pre><code class="hljs gml">range_ = np.<span class="hljs-built_in">max</span>(<span class="hljs-symbol">x</span>) - np.<span class="hljs-built_in">min</span>(<span class="hljs-symbol">x</span>)
+num = (<span class="hljs-symbol">x</span>-np.<span class="hljs-built_in">min</span>(<span class="hljs-symbol">x</span>)) / range_</code></pre></div>
+<p>标准化数据，保证每个维度的特征数据方差为1，均值为0。使得预测结果不会被某些维度过大的特征值而主导。</p>
+<div class="hljs"><pre><code class="hljs ini"><span class="hljs-attr">mu</span> = np.mean(self.x,axis=<span class="hljs-number">0</span>)<span class="hljs-comment">#计算平均数</span>
+<span class="hljs-attr">sigma</span> = np.std(self.x,axis=<span class="hljs-number">0</span>)<span class="hljs-comment">#计算方差</span>
+<span class="hljs-attr">num</span> =  (x-mu) / sigma</code></pre></div>
+<p>连续值离散化是将数据按照不同的区间分好类，有等宽法和等频法。</p>
+<p>等宽法是将数据平均分成三个相同的区间。</p>
+<div class="hljs"><pre><code class="hljs vala">d1 = pd.cut(df,k, labels = range(k))
+<span class="hljs-meta">#k表示划分区间的个数</span>
+<span class="hljs-meta">#df表示输入的dataframe类型的数据</span>
+<span class="hljs-meta">#lables表示表头</span></code></pre></div>
+<p>等频法是按数据出现频率划分。将相同数量的记录放在每个区间，保证每个区间的数量基本一致。即分组后，每个分组的元素个数是一样的。</p>
+<div class="hljs"><pre><code class="hljs apache"><span class="hljs-attribute">k</span> = <span class="hljs-number">4</span>
+<span class="hljs-attribute">w</span> =<span class="hljs-meta"> [1.0*i/k for i in range(k+1)]</span>
+<span class="hljs-attribute">w</span> = data.describe(percentiles = w)[<span class="hljs-number">4</span>:<span class="hljs-number">4</span>+k+<span class="hljs-number">1</span>]#取几个分位数的值作为不等长列表，用于cut函数
+<span class="hljs-attribute">w</span>[<span class="hljs-number">0</span>] = w[<span class="hljs-number">0</span>]*(<span class="hljs-number">1</span>-<span class="hljs-number">1</span>e-<span class="hljs-number">10</span>)#浮点化
+<span class="hljs-attribute">d2</span> = pd.cut(data, w, labels = range(k))
+<span class="hljs-comment">#或者直接用qcut(data，k)函数</span></code></pre></div>
+<p>还有另外一种数据处理操作是离散值处理（独热编码）<br>独热编码是将同类型的数据分类按照二进制来变成0或1的数字。例如：<br>男：01，女：10</p>
+<p>学生：001，老师：010，领导：100</p>
+<div class="hljs"><pre><code class="hljs ini"><span class="hljs-attr">date</span> = pd.read_csv(self.n)<span class="hljs-comment">#读取csv文件</span>
+<span class="hljs-attr">date_df</span> = pd.DataFrame(date)<span class="hljs-comment">#转换成DataFrame格式</span>
+<span class="hljs-attr">date_gd</span> = pd.get_dummies(date_df)<span class="hljs-comment">#进行编码</span></code></pre></div>
 
             </div>
             <hr>
@@ -245,15 +298,21 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2020/09/23/%E6%A6%82%E7%8E%87%E8%AE%BA/">
+                      <a href="/2020/09/25/%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">概率论（上）</span>
+                        <span class="hidden-mobile">数据可视化总结</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2020/09/25/%E6%A6%82%E7%8E%87%E8%AE%BA%EF%BC%88%E4%BA%8C%EF%BC%89/">
+                        <span class="hidden-mobile">概率论（下）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>
@@ -438,7 +497,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Hello World&nbsp;",
+        "数据预处理方法总结&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
@@ -499,6 +558,45 @@
 
 
 
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.0.5/es5/tex-svg.js" ></script>
+
+  
 
 
 

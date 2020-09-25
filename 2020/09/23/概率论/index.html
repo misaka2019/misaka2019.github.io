@@ -19,7 +19,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>概率论 - Hexo</title>
+  <title>概率论（上） - Hexo</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -183,7 +183,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      40
+      39
        分钟
     </span>
   
@@ -213,7 +213,7 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto" id="post">
             <!-- SEO header -->
-            <h1 style="display: none">概率论</h1>
+            <h1 style="display: none">概率论（上）</h1>
             
             <div class="markdown-body" id="post-body">
               <h3 id="一些基本概念"><a href="#一些基本概念" class="headerlink" title="一些基本概念"></a>一些基本概念</h3><ol>
@@ -233,7 +233,8 @@
 <h5 id="和事件"><a href="#和事件" class="headerlink" title="和事件"></a>和事件</h5><p>事件A和B至少有一个发生称为事件A与B的和事件，就是两个集合的并集。</p>
 <h5 id="积事件"><a href="#积事件" class="headerlink" title="积事件"></a>积事件</h5><p>A与B同时发生称为事件A和B的积事件，记作AB。就是A和B的交集。</p>
 <h5 id="互不相容"><a href="#互不相容" class="headerlink" title="互不相容"></a>互不相容</h5><p>如果AB=不可能事件，称A,B互不相容或互斥事件。同一事件所有基本事件互不相容，不可能事件与所有事件互不相容</p>
-<p>==推广：做一次试验，事件组中任意两个互不相容，则称此事件组互不相容。==<br>事件组互不相容指的是任意有限个互不相容。<br>#####（5）逆事件（对立事件）<br>如果AB=不可能事件，A并B为样本空间，称A,B为对立事件。</p>
+<p>==推广：做一次试验，事件组中任意两个互不相容，则称此事件组互不相容。==<br>事件组互不相容指的是任意有限个互不相容。</p>
+<h5 id="（5）逆事件（对立事件）"><a href="#（5）逆事件（对立事件）" class="headerlink" title="（5）逆事件（对立事件）"></a>（5）逆事件（对立事件）</h5><p>如果AB=不可能事件，A并B为样本空间，称A,B为对立事件。</p>
 <h5 id="差事件"><a href="#差事件" class="headerlink" title="差事件"></a>差事件</h5><p>事件A发生并且B不发生，称为事件A与B的差事件。记为A-B</p>
 <h5 id="随机事件运算律"><a href="#随机事件运算律" class="headerlink" title="随机事件运算律"></a>随机事件运算律</h5><ul>
 <li>交换律</li>
@@ -243,8 +244,9 @@
 <li>吸收率</li>
 </ul>
 <h3 id="概率"><a href="#概率" class="headerlink" title="概率"></a>概率</h3><h5 id="概率-1"><a href="#概率-1" class="headerlink" title="概率"></a>概率</h5><p>概率是刻画随机事件发生可能性大小的数量指标。它不依主观变化而变化。事件A概率为P(A)，且0&lt;=P(A)&lt;=1。</p>
-<h5 id="频率"><a href="#频率" class="headerlink" title="频率"></a>频率</h5><p>在先沟通条件下，进行了n次实验，事件A发生了m次，称比值<br>$$<br>f_n(A)=\frac{n}{m}<br>$$</p>
-<ul>
+<h5 id="频率"><a href="#频率" class="headerlink" title="频率"></a>频率</h5><p>在先沟通条件下，进行了n次实验，事件A发生了m次，称比值</p>
+<script type="math/tex; mode=display">
+f_n(A)=\frac{n}{m}</script><ul>
 <li>频率从一定程度上反映了事件发生可能性的大小，它随着试验的次数、试验者的变化会有所不用。</li>
 <li>频率具有稳定性，在一定条件下，频率稳定于某个常数。</li>
 <li>频率不确定性，不会随着试验次数增大趋于某个特定常数。<h5 id="古典概型"><a href="#古典概型" class="headerlink" title="古典概型"></a>古典概型</h5>如果满足==仅有有限多个基本事件，每个基本事件发生的可能性相等==才是古典概型。才可以用样本点次数/样本空间总点数来计算概率。<h5 id="概率的公理化定义"><a href="#概率的公理化定义" class="headerlink" title="概率的公理化定义"></a>概率的公理化定义</h5></li>
@@ -264,20 +266,27 @@
 <h5 id="全概率公式"><a href="#全概率公式" class="headerlink" title="全概率公式"></a>全概率公式</h5><p>定义： 设Ω为随机试验的样本空间，B1,B2,B3…Bn为一组事件，若</p>
 <ul>
 <li>B1，B2……Bn各事件互斥</li>
-<li>B1∪B2∪Bn=Ω即对Ω的有限划分<br>则有<br>$$<br>P(A)=\sum_{i=1}^{n} p\left(B_{i}\right)P(A|B_i)<br>$$</li>
+<li>B1∪B2∪Bn=Ω即对Ω的有限划分<br>则有<script type="math/tex; mode=display">
+P(A)=\sum_{i=1}^{n} p\left(B_{i}\right)P(A|B_i)</script></li>
 </ul>
 <p>全概率公式体现了一种概率的分解计算思想，应用关键：正确寻找样本空间的有限划分。全概率公式常用于对各原因导致一个结果发生的知因求果型问题的概率预测。</p>
 <h5 id="贝叶斯公式"><a href="#贝叶斯公式" class="headerlink" title="贝叶斯公式"></a>贝叶斯公式</h5><p>把已发生的结果记为事件A，可能引起A发生的所有相异原因记为事件B1，B2,……，Bn。B为Ω的有限划分。就是关注A已发生条件下，某原因Bi导致其发生的概率。</p>
-<p>$$<br>\begin{aligned}<br>P(B, \mid A) &amp;=\frac{P\left(A B_{j}\right)}{P(A)} \<br>&amp;=\frac{P\left(B_{j}\right) P\left(A \mid B_{j}\right)}{P(A)} \<br>&amp;=\frac{P\left(B_{j}\right) P\left(A \mid B_{j}\right)}{\sum_{i=1}^{n} P\left(B_{i}\right) P\left(A \mid B_{i}\right)}<br>\end{aligned}<br>$$</p>
-<h5 id="事件的独立性"><a href="#事件的独立性" class="headerlink" title="事件的独立性"></a>事件的独立性</h5><p>设A,B是试验E的两个事件，若满足P(A|B)=P(A)或P(B|A)=P(B)或P(AB)=P(A)P(B)，则称事件A与B相互独立。</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+P(B, \mid A) &=\frac{P\left(A B_{j}\right)}{P(A)} \\
+&=\frac{P\left(B_{j}\right) P\left(A \mid B_{j}\right)}{P(A)} \\
+&=\frac{P\left(B_{j}\right) P\left(A \mid B_{j}\right)}{\sum_{i=1}^{n} P\left(B_{i}\right) P\left(A \mid B_{i}\right)}
+\end{aligned}</script><h5 id="事件的独立性"><a href="#事件的独立性" class="headerlink" title="事件的独立性"></a>事件的独立性</h5><p>设A,B是试验E的两个事件，若满足P(A|B)=P(A)或P(B|A)=P(B)或P(AB)=P(A)P(B)，则称事件A与B相互独立。</p>
 <ul>
 <li>定理1 若事件A与B相互独立，则A与B的对立事件，B与A的对立事件，B的对立事件与A的对立事件也相互独立。 </li>
 <li>两两独立就是任意n个事件之间的两个事件相互独立。</li>
-<li>若事件列An相互独立，则将该事件列中任意多个事件换成它们的对立事件后，所得到的n个事件依然相互独立。<h3 id="随机变量的分布"><a href="#随机变量的分布" class="headerlink" title="随机变量的分布"></a>随机变量的分布</h3>设E的样本空间为Ω，对于每一个样本点w∈Ω，都有唯一实数X(W)与之对应，且对于任意实数x，事件{W|X(W)&lt;=x}都有确定的概率，则称X（w）为随机变量，简记为X。<h5 id="分布函数"><a href="#分布函数" class="headerlink" title="分布函数"></a>分布函数</h5>设X是样本空间Ω上的随机变量，x是任意实数，称函数<br>$$<br>F(x)=P{X \leq x}=P{\omega \mid X(\omega) \leq x}<br>$$<br>为随机变量X的分布函数。<h5 id="分布函数性质"><a href="#分布函数性质" class="headerlink" title="分布函数性质"></a>分布函数性质</h5></li>
+<li>若事件列An相互独立，则将该事件列中任意多个事件换成它们的对立事件后，所得到的n个事件依然相互独立。<h3 id="随机变量的分布"><a href="#随机变量的分布" class="headerlink" title="随机变量的分布"></a>随机变量的分布</h3>设E的样本空间为Ω，对于每一个样本点w∈Ω，都有唯一实数X(W)与之对应，且对于任意实数x，事件{W|X(W)&lt;=x}都有确定的概率，则称X（w）为随机变量，简记为X。<h5 id="分布函数"><a href="#分布函数" class="headerlink" title="分布函数"></a>分布函数</h5>设X是样本空间Ω上的随机变量，x是任意实数，称函数<script type="math/tex; mode=display">
+F(x)=P\{X \leq x\}=P\{\omega \mid X(\omega) \leq x\}</script>为随机变量X的分布函数。<h5 id="分布函数性质"><a href="#分布函数性质" class="headerlink" title="分布函数性质"></a>分布函数性质</h5></li>
 </ul>
 <ol>
 <li>F(X)单调不减</li>
-<li>0&lt;=F(X)&lt;=1且<br>$$<br>\lim _{x \rightarrow-\infty} F(x)=0, \lim _{x \rightarrow \infty} F(x)=1<br>$$</li>
+<li>0&lt;=F(X)&lt;=1且<script type="math/tex; mode=display">
+\lim _{x \rightarrow-\infty} F(x)=0, \lim _{x \rightarrow \infty} F(x)=1</script></li>
 </ol>
 <p>3.F(X)右连续，即F(X+0)=F(X)<br>注：P(X=x)=F(x)-F(x-0)<br>如果某个函数满足上面三个式子，那一定是分布函数。</p>
 <h5 id="离散型随机变量"><a href="#离散型随机变量" class="headerlink" title="离散型随机变量"></a>离散型随机变量</h5><p>随机变量分为离散型随机变量与 非离散型随机变量两种，随机变量的函数仍为随机变量。有些随机变量,它全部可能取到的不相同的值是有限个或可列无限多个，也可以说概率1以一定的规律分布在各个可能值上。这种随机变量称为”离散型随机变量”。</p>
@@ -286,22 +295,49 @@
 <li>(1)Pn≥0 n=1,2,…</li>
 <li>(2)∑pn=1<h5 id="二项分布"><a href="#二项分布" class="headerlink" title="二项分布"></a>二项分布</h5>一般地，如果随机变量服从参数为和的二项分布，我们记为或。n次试验中正好得到k次成功的概率由概率质量函数给出：</li>
 </ul>
-<p>$$<br>P{X=k}=C_k^n p^{k}(1-p)^{n-k}<br>$$<br>式中k=0，1，2，…，n,是二项式系数（这就是二项分布名称的由来）。</p>
+<script type="math/tex; mode=display">
+P\{X=k\}=C_k^n p^{k}(1-p)^{n-k}</script><p>式中k=0，1，2，…，n,是二项式系数（这就是二项分布名称的由来）。</p>
 <h5 id="泊松分布"><a href="#泊松分布" class="headerlink" title="泊松分布"></a>泊松分布</h5><p>泊松分布的概率函数为:</p>
-<p>$$<br>P(X=k)=\frac{\lambda^{k}}{k !} e^{-\lambda}, k=0,1, \cdots<br>$$<br>泊松分布的参数入是单位时间(或单位醒积)内随机事件的平均发生次数。泊松分布适合于描述单位时间内随机事件发生的<br>次数。<br>泊松分布的期望和方差均为 λ</p>
-<p>特征函数为<br>$$<br>\psi(t)=\exp \left{\lambda\left(e^{i t}-1\right)\right}<br>$$<br>泊松分布可看成二项分布的极限分布。在大量次独立重复中“稀有事件”出现次数可认为服从泊松分布。</p>
-<h4 id="连续型随机变量"><a href="#连续型随机变量" class="headerlink" title="连续型随机变量"></a>连续型随机变量</h4><p>设随机变量X的分布函数为F(X)，若存在非负函数f(x),对于任意实数x，均有<br>$$<br>F(x)=\int_{-\infty}^{x} f(t) d t<br>$$<br>则称随机变量X是连续型随机变量。称f(x)为X的概率密度函数，简称概率密度。密度曲线的高低反映了随机变量在各处取值概率的大小。</p>
+<script type="math/tex; mode=display">
+P(X=k)=\frac{\lambda^{k}}{k !} e^{-\lambda}, k=0,1, \cdots</script><p>泊松分布的参数入是单位时间(或单位醒积)内随机事件的平均发生次数。泊松分布适合于描述单位时间内随机事件发生的<br>次数。<br>泊松分布的期望和方差均为 λ</p>
+<p>特征函数为  </p>
+<script type="math/tex; mode=display">
+\psi(t)=\exp \left\{\lambda\left(e^{i t}-1\right)\right\}</script><p>泊松分布可看成二项分布的极限分布。在大量次独立重复中“稀有事件”出现次数可认为服从泊松分布。</p>
+<h4 id="连续型随机变量"><a href="#连续型随机变量" class="headerlink" title="连续型随机变量"></a>连续型随机变量</h4><p>设随机变量X的分布函数为F(X)，若存在非负函数f(x),对于任意实数x，均有</p>
+<script type="math/tex; mode=display">
+F(x)=\int_{-\infty}^{x} f(t) d t</script><p>则称随机变量X是连续型随机变量。称f(x)为X的概率密度函数，简称概率密度。密度曲线的高低反映了随机变量在各处取值概率的大小。</p>
 <ul>
 <li>连续型随机变量X的分布函数是连续函数。</li>
 <li>X是连续型随机变量，则对任意实数x0属于R，有P{X=x0}=0。</li>
 <li>P{Φ}=0<h5 id="均匀分布"><a href="#均匀分布" class="headerlink" title="均匀分布"></a>均匀分布</h5>定义：设随机变量X 的概率密度函数为</li>
 </ul>
-<p>$$<br>f(x)=\left{\begin{array}{ll}<br>\frac{1}{b-a}, &amp; x \in(a, b) \<br>0, &amp; x \notin(a, b)<br>\end{array}\right.<br>$$</p>
-<p>称随机变量X在区间<br>$$<br>(\boldsymbol{a}, \boldsymbol{b})<br>$$<br> 上服从<br>均匀分布。记为<br>$$<br>X  \sim U(a, b)<br>$$<br> 特点：如果随机变量X落在(a,b)的子区间的概率与位置无关，与子区间的长度成正比。</p>
+<script type="math/tex; mode=display">
+f(x)=\left\{\begin{array}{ll}
+\frac{1}{b-a}, & x \in(a, b) \\
+0, & x \notin(a, b)
+\end{array}\right.</script><p>称随机变量X在区间 </p>
+<script type="math/tex; mode=display">
+(\boldsymbol{a}, \boldsymbol{b})</script><p> 上服从<br>均匀分布。记为</p>
+<script type="math/tex; mode=display">
+X  \sim U(a, b)</script><p> 特点：如果随机变量X落在(a,b)的子区间的概率与位置无关，与子区间的长度成正比。</p>
 <p>== 服从均匀分布的随机变量落在长度相同的区间内的概率相等。==</p>
 <h5 id="指数分布"><a href="#指数分布" class="headerlink" title="指数分布"></a>指数分布</h5><p>定义</p>
-<p>$$<br>f(x)=\left{\begin{array}{ll}<br>\lambda e^{-\lambda x}, &amp; x&gt;0 \<br>0, &amp; x \leq 0<br>\end{array} \lambda&gt;0\right.<br>$$<br>则称随机变量X服从参数为λ的指数分布.<br>$$<br>X\sim E(\lambda)<br>$$<br>重要性质：无记忆性</p>
-<p>$$<br>\begin{aligned}<br>&amp;\text { 即: } \quad P{X&gt;t+s \mid X&gt;t}=P{X&gt;s}\<br>&amp;\begin{aligned}<br>P{X&gt;s+t \mid X&gt;t} &amp;=\frac{P{X&gt;s+t, X&gt;t}}{P{X&gt;t}} \<br>&amp;=\frac{P{X&gt;s+t}}{P{X&gt;t}}=\frac{1-F(s+t)}{1-F(t)} \<br>&amp;=\frac{e^{-\lambda(s+t)}}{e^{-\lambda t}}=e^{-\lambda s}=P{X&gt;s}<br>\end{aligned}<br>\end{aligned}<br>$$</p>
+<script type="math/tex; mode=display">
+f(x)=\left\{\begin{array}{ll}
+\lambda e^{-\lambda x}, & x>0 \\
+0, & x \leq 0
+\end{array} \lambda>0\right.</script><p>则称随机变量X服从参数为λ的指数分布. </p>
+<script type="math/tex; mode=display">
+X\sim E(\lambda)</script><p>重要性质：无记忆性</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+&\text { 即: } \quad P\{X>t+s \mid X>t\}=P\{X>s\}\\
+&\begin{aligned}
+P\{X>s+t \mid X>t\} &=\frac{P\{X>s+t, X>t\}}{P\{X>t\}} \\
+&=\frac{P\{X>s+t\}}{P\{X>t\}}=\frac{1-F(s+t)}{1-F(t)} \\
+&=\frac{e^{-\lambda(s+t)}}{e^{-\lambda t}}=e^{-\lambda s}=P\{X>s\}
+\end{aligned}
+\end{aligned}</script><div class="table-container">
 <table>
 <thead>
 <tr>
@@ -309,23 +345,47 @@
 <th>指数分布</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>特点：某段时间t内，事件次数的概率</td>
 <td>特点：事件的时间间隔的概率</td>
 </tr>
-</tbody></table>
-<p>$$<br>泊松分布的分布函数\<br>\begin{array}{l}<br>P(N(t)=n)=\frac{(\lambda t)^{n} e^{-\lambda t}}{n !}  \<br>N(t) \sim P(\lambda t) \quad=\frac{(\lambda t)^{0} e^{-\lambda t}}{0 !}<br>\end{array}<br>$$</p>
-<p>那么指数分布分布函数就是泊松分布随机变量等于0的情况，即<br>$$<br>{X&gt;t}={N(t)=0}<br>$$</p>
-<h5 id="正态分布的概率分布"><a href="#正态分布的概率分布" class="headerlink" title="正态分布的概率分布"></a>正态分布的概率分布</h5><p>设随机变量  X  的概率密度函数为</p>
-<p>$$<br>\varphi\left(x ; \mu, \sigma^{2}\right)=\frac{1}{\sqrt{2 \pi} \sigma} e^{-\frac{(x-\mu)^{2}}{2 \sigma^{2}}}, x \in R\<br> \quad X \sim N\left(\mu, \sigma^{2}\right)<br>$$<br>其中<br>$$<br>\mu, \sigma(\sigma&gt;\mathbf{0})<br>$$<br> 是常数，  则称随机变量  X  服从参数为<br>$$<br>\mu, \sigma^{2}<br>$$<br> 的正态分布 (或高斯分布)。<br>$$<br>当\mu=\mathbf{0}, \sigma=\mathbf{1}  时，其概率密度函数为</p>
-<p>\varphi(x)=\frac{1}{\sqrt{2 \pi}} e^{-\frac{x^{2}}{2}}, x \in R\<br>则称随机变量X服从标准正态分布<br>$$<br>特征：</p>
+</tbody>
+</table>
+</div>
+<script type="math/tex; mode=display">
+泊松分布的分布函数\\
+\begin{array}{l}
+P(N(t)=n)=\frac{(\lambda t)^{n} e^{-\lambda t}}{n !}  \\
+N(t) \sim P(\lambda t) \quad=\frac{(\lambda t)^{0} e^{-\lambda t}}{0 !}
+\end{array}</script><p>那么指数分布分布函数就是泊松分布随机变量等于0的情况，即</p>
+<script type="math/tex; mode=display">
+\{X>t\}=\{N(t)=0\}</script><h5 id="正态分布的概率分布"><a href="#正态分布的概率分布" class="headerlink" title="正态分布的概率分布"></a>正态分布的概率分布</h5><p>设随机变量  X  的概率密度函数为</p>
+<script type="math/tex; mode=display">
+\varphi\left(x ; \mu, \sigma^{2}\right)=\frac{1}{\sqrt{2 \pi} \sigma} e^{-\frac{(x-\mu)^{2}}{2 \sigma^{2}}}, x \in R\\
+ \quad X \sim N\left(\mu, \sigma^{2}\right)</script><p>其中  </p>
+<script type="math/tex; mode=display">
+\mu, \sigma(\sigma>\mathbf{0})</script><p> 是常数，  则称随机变量  X  服从参数为 </p>
+<script type="math/tex; mode=display">
+\mu, \sigma^{2}</script><p> 的正态分布 (或高斯分布)。</p>
+<script type="math/tex; mode=display">
+当\mu=\mathbf{0}, \sigma=\mathbf{1}  时，其概率密度函数为
+
+\varphi(x)=\frac{1}{\sqrt{2 \pi}} e^{-\frac{x^{2}}{2}}, x \in R\\
+则称随机变量X服从标准正态分布</script><p>特征：</p>
 <ul>
 <li>概率曲线下总面积为1</li>
 <li>曲线关于x=μ对称，并且P{μ-x&lt;X&lt;μ}=P{μ&lt;X&lt;μ+x}</li>
-<li>曲线在x=μ处取得最大值<br>$$<br>\frac{1}{\sqrt{2 \pi} \sigma}<br>$$</li>
+<li>曲线在x=μ处取得最大值<script type="math/tex; mode=display">
+\frac{1}{\sqrt{2 \pi} \sigma}</script></li>
 </ul>
-<p>若随机变量<br>$$<br>X \sim N\left(\mu, \sigma^{2}\right), \quad<br>$$<br> 其分布函数为</p>
-<p>$$<br>{\Phi\left(x ; \mu, \sigma^{2}\right)=\int_{-\infty}^{x} \varphi\left(t ; \mu, \sigma^{2}\right) d t}\<br>x \in R\<br>{\Phi\left(x ; \mu, \sigma^{2}\right)=\Phi\left(\frac{x-\mu}{\sigma}\right)}<br>$$<br>正态分布变量取值具有对称性，且概率分布具有中间大，两头小的特征。因此人的身高，考试成绩，测量误差，热噪声均可看成正态分布。</p>
+<p>若随机变量 </p>
+<script type="math/tex; mode=display">
+X \sim N\left(\mu, \sigma^{2}\right), \quad</script><p> 其分布函数为</p>
+<script type="math/tex; mode=display">
+{\Phi\left(x ; \mu, \sigma^{2}\right)=\int_{-\infty}^{x} \varphi\left(t ; \mu, \sigma^{2}\right) d t}\\
+x \in R\\
+{\Phi\left(x ; \mu, \sigma^{2}\right)=\Phi\left(\frac{x-\mu}{\sigma}\right)}</script><p>正态分布变量取值具有对称性，且概率分布具有中间大，两头小的特征。因此人的身高，考试成绩，测量误差，热噪声均可看成正态分布。</p>
 
             </div>
             <hr>
@@ -341,6 +401,12 @@
                 <div class="post-prevnext row">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2020/09/25/%E6%A6%82%E7%8E%87%E8%AE%BA%EF%BC%88%E4%BA%8C%EF%BC%89/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">概率论（下）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
@@ -535,7 +601,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "概率论&nbsp;",
+        "概率论（上）&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
@@ -596,6 +662,45 @@
 
 
 
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.0.5/es5/tex-svg.js" ></script>
+
+  
 
 
 

@@ -4,6 +4,81 @@
   
   
   <entry>
+    <title>复杂度分析</title>
+    <link href="/2020/09/27/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90/"/>
+    <url>/2020/09/27/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90/</url>
+    
+    <content type="html"><![CDATA[<p>讲在之前要说一下几种记号。</p><ul><li>大O记号，大O记号描述了一个算法最坏的情况。因为是假设n&gt;&gt;2,从而通过n的替换来放大函数（常系数可以忽略，低次项可以忽略），并且相比于原式更加简洁也可以反映前者的增长趋势。这也是我们通常参考的时间复杂度。</li><li>大Ω记号，大Ω记号描述算法最好的情况，也是假设n&gt;&gt;2，从而通过n的替换来缩小函数，这通常是函数的下界。</li><li>大θ记号，大θ来描述算法的确切情况，是介于大O和大Ω之间的。</li></ul><hr><p>推导大O阶：<br>1.用常数1取代运行时间中的所有加法常数。<br>2.在修改后的运行次数函数中，只保留最高阶项。<br>3.弱国最高阶项存在且不是1，则去除与这个项相乘的常数。得到的就是大O阶。</p><p>一个程序的时间复杂度大大影响了程序的时间，所以当我们在做一些有运行时间限制的算法题的时候，要优先考虑代码的时间复杂度。</p><p>下面列举几种常见的==时间复杂度==</p><h4 id="gt-1、常数复杂度O-1"><a href="#gt-1、常数复杂度O-1" class="headerlink" title="&gt; 1、常数复杂度O(1)"></a>&gt; 1、常数复杂度O(1)</h4><p>只执行一次的代码。一般情况不含转向（循环、调用、递归等），是循序执行的即是O(1)</p><pre><code class="hljs angelscript"><span class="hljs-built_in">array</span> = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>]a = <span class="hljs-built_in">array</span>[<span class="hljs-number">0</span>]</code></pre><h4 id="gt-2、线性复杂度o-n"><a href="#gt-2、线性复杂度o-n" class="headerlink" title="&gt; 2、线性复杂度o(n)"></a>&gt; 2、线性复杂度o(n)</h4><p>只有一层循环。例子图的遍历，二叉树遍历(n代表二叉树节点总数，因为每个节点访问一次，且仅访问一次)、二维数组二分法查找（有序）。还有DFS和BFS。</p><pre><code class="hljs angelscript"><span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>;i&lt;<span class="hljs-number">3</span>;i++);</code></pre><h4 id="gt-3、n平方复杂度O-n-2"><a href="#gt-3、n平方复杂度O-n-2" class="headerlink" title="&gt; 3、n平方复杂度O(n^2)"></a>&gt; 3、n平方复杂度O(n^2)</h4><p>双层嵌套循环</p><pre><code class="hljs angelscript"><span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>;i&lt;<span class="hljs-number">3</span>;i++);    <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> n = <span class="hljs-number">0</span>;n&lt;<span class="hljs-number">3</span>;n-- );</code></pre><h4 id="gt-4、指数复杂度O-2-n"><a href="#gt-4、指数复杂度O-2-n" class="headerlink" title="&gt; 4、指数复杂度O(2^n)"></a>&gt; 4、指数复杂度O(2^n)</h4><p>费伯罗契数列</p><pre><code class="hljs routeros"><span class="hljs-comment">#include &lt;stdio.h&gt;</span>void main()&#123;int <span class="hljs-attribute">a</span>=0;int <span class="hljs-attribute">b</span>=1;int <span class="hljs-attribute">c</span>=0;int i;<span class="hljs-keyword">for</span>(<span class="hljs-attribute">i</span>=0;i&lt;10000;i++)&#123;    <span class="hljs-attribute">a</span>=b;    <span class="hljs-attribute">b</span>=c;    <span class="hljs-attribute">c</span>=a+b;    printf(<span class="hljs-string">&quot;%d&quot;</span>,c);&#125;&#125;</code></pre><h4 id="gt-5、对数复杂度O-logn"><a href="#gt-5、对数复杂度O-logn" class="headerlink" title="&gt; 5、对数复杂度O(logn)"></a>&gt; 5、对数复杂度O(logn)</h4><p>对于对数复杂度，底数不再要求。因为底数是常数，只需要根据对数运算法则，底数可任意变换，无非是前面多了一个常数系数。而在时间复杂度计算系数是可以忽略的。那么同理也有常数次幂无所谓。此类算法是非常高效的，复杂度无限接近于常数。</p><p>例如：一维数组二分查找<br>另外归并排序的时间复杂度是O(nlogn)</p><h4 id="gt-6、阶乘复杂度"><a href="#gt-6、阶乘复杂度" class="headerlink" title="&gt; 6、阶乘复杂度"></a>&gt; 6、阶乘复杂度</h4><p>例子求阶乘</p><hr><h2 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="==空间复杂度=="></a>==空间复杂度==</h2><p>空间复杂度可以节省缓存空间，节约内存。</p><p>1、数组的长度基本决定了空间复杂度，对于一维数组的长度就是空间复杂度O(n)。二维数组的长度为n^2,那空间复杂度为O(n^2)。</p><p>2、递归的深度也表示空间复杂度的最大值，若递归里包含数组，那么数组和递归两者之间的最大值为空间复杂度。<br>3、算法的空间复杂度通过计算算法所需的存储空间实现，算法空间复杂度的计算公式记作：S（n）=O（f（n）），其中，n为问题的规模，F（n）为语句关于n所占存储空间的函数。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>数据结构</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>数据结构</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>线性表、栈和队列</title>
+    <link href="/2020/09/27/%E7%BA%BF%E6%80%A7%E8%A1%A8/"/>
+    <url>/2020/09/27/%E7%BA%BF%E6%80%A7%E8%A1%A8/</url>
+    
+    <content type="html"><![CDATA[<h4 id="线性表"><a href="#线性表" class="headerlink" title="线性表"></a>线性表</h4><p>线性表指零个或多个数据元素的有限序列。<br>在非空表中每个数据元素都有一个确定的位置，如a1是第一个数据元素，an是最后一个数据元素，ai是第i个数据元素，称i为数据元素ai在线性表中的次序。在较复杂的线性表中，一个数据元素可以由若干个数据项组成。</p><p>线性表的链式存储结构的特点是用一组任意的存储单元存储线性表的数据元素，这组存储单元可以存在内存中未被占用的任意位置。</p><p>比起顺序存储结构每个数据元素只需要存储一个位置就可以了。现在链式存储结构中，除了要存储数据元素信息外，还要存储它的后继元素的存储地址。</p><p>我们把存储数据元素信息的领称为数据域，把存储直接后继位置的域称为指针域。指针域中存储的信息称为指针或链。这两部分信息组成数据元素称为存储映像，称为结点（node）。</p><p>我们把链表中的第一个结点的存储位置叫做头指针，最后一个结点为空。头结点的数据域一般不存储任何信息。</p><h5 id="头指针"><a href="#头指针" class="headerlink" title="头指针"></a>头指针</h5><ul><li>头指针是指链表比指向第一个结点的指针，若链表有头结点，则是指向头结点的指针。</li><li>头指针具有标识作用，所以常用头指针冠以链表的名字（指针变量的名字）。</li><li>无论链表是否为空，头指针均不为空。</li><li>头指针是链表的必要元素。<h5 id="头结点"><a href="#头结点" class="headerlink" title="头结点"></a>头结点</h5></li><li>头结点是为了操作的统一和方便而设立的，放在第一个元素的结点之前，其数据域一般无意义（但也可以用来存放链表的长度）。</li><li>有了头结点，对在第一元素结点前插入结点和删除第一结点起操作与其他结点的操作统一了。</li><li>头结点不一定是链表的必要元素。 </li></ul><h5 id="头插法建立单链表"><a href="#头插法建立单链表" class="headerlink" title="头插法建立单链表"></a>头插法建立单链表</h5><p>头插法从一个空表开始，生成新结点，读取数据存放到新结点的数据域中，然后将新结点插入到当前链表的表头上，直到结束为止。 </p><h5 id="尾插法建立单链表"><a href="#尾插法建立单链表" class="headerlink" title="尾插法建立单链表"></a>尾插法建立单链表</h5><p>尾插法从一个空表开始，生成新结点，读取数据存放到新结点的数据域中，然后将新结点插入到当前链表的表尾上，再用新结点来赋值给暂存结点，以达到每次暂存结点都是尾结点的目的。</p><h5 id="单链表结构与顺序存储结构优缺点"><a href="#单链表结构与顺序存储结构优缺点" class="headerlink" title="单链表结构与顺序存储结构优缺点"></a>单链表结构与顺序存储结构优缺点</h5><p>存储分配方式：</p><ul><li>顺序存储结构用一段连续的存储单元依次存储线性表的数据元素。</li><li>单链表采用链式存储结构，用一组任意的存储单元存放线性表的元素。<br>时间性能</li><li>查找<ul><li>顺序存储结构O(1)</li><li>单链表O(n)</li></ul></li><li>插入和删除<ul><li>顺序存储结构需要平均移动表长一半的元素，时间为O(n)</li><li>单链表再计算出某位置的指针后，插入和删除时间仅为O(1)</li></ul></li><li>空间性能<ul><li>顺序存储结构需要预分配存储空间，分大了，，容易造成空间的浪费，分小了，容易发生溢出。</li><li>单链表不需要分配存储空间，只要有就可以分配，元素个数也不受限制。</li></ul></li></ul><p>总之，线性表若需要频繁的查找，很少进行插入和删除操作时，宜采用顺序存储结构。如果需要频繁插入和删除时，宜采用单链表结构。</p><h5 id="静态链表"><a href="#静态链表" class="headerlink" title="静态链表"></a>静态链表</h5><p>用数组描述的链表叫做静态链表。</p><ul><li>我们对数组的第一个和最后一个元素做特殊处理，他们的data不存放数据。</li><li>我们通常把未使用的数组元素成为备用链表。</li><li>数组的第一个元素，即下标为0的那个元素的cur就存放备用链表的第一个结点的下标。</li><li>数组的最后一个元素，即下标为MAXSIZE-1的cur则存放第一个有数值的元素下标，相当于单链表中头结点的作用。<br>静态链表的插入，每当进行插入操作时，便可以从备用链表上取得第一个结点作为待插入的新结点。</li></ul><p>静态链表的删除。每当进行删除操作时，将指定元素上一位的下标改为下一位元素的下标，再将第一个元素的游标改为删除的下标。</p><h5 id="静态链表的优缺点"><a href="#静态链表的优缺点" class="headerlink" title="静态链表的优缺点"></a>静态链表的优缺点</h5><ul><li>优点<ul><li>在插入和删除操作时，只需要修改游标，不需要移动元素，从而改进了再顺序存储结构中的插入和删除操作需要移动大量元素的缺点。</li></ul></li><li>缺点  <ul><li>没有解决连续存储分配数组带来的表长难以确定的问题</li><li>失去了顺序存储结构随机存取的特性。<br>总之，静态链表其实时为了给没有指针的编程语言设计的一种实现单链表功能的方法。尽管我们可以用单链表就不用静态链表了，但这样的思考方式时非常巧妙的，应该理解其思想，以备不时之需。</li></ul></li></ul><h5 id="双链表"><a href="#双链表" class="headerlink" title="双链表"></a>双链表</h5><p>在线性表的链式存储结构中，每个物理节点增加一个指向后继节点的指针域和一个指向前驱节点的指针域。优点：从任一节点出发可以快速找到其前趋节点和后继节点，从任一节点出发可以访问其他节点。</p><pre><code class="hljs cpp"><span class="hljs-comment">//双链表的定义</span><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">DNode</span>&#123;</span>    ElemType data;    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">DNode</span> *<span class="hljs-title">prior</span>;</span> <span class="hljs-comment">//指向前趋节点</span>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">DNode</span> *<span class="hljs-title">next</span>;</span> <span class="hljs-comment">//指向后继节点</span>&#125; DLinkList;</code></pre><h5 id="广义表"><a href="#广义表" class="headerlink" title="广义表"></a>广义表</h5><p>广义表是线性表的推广，对于线性表而言，n个元素都是基本的单元素。广义表中这些元素不仅可以使单元素也可以是另一个广义表。<br><pre><code class="hljs cpp"><span class="hljs-comment">//广义表的定义</span><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">GNode</span> *<span class="hljs-title">GList</span>;</span><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">GNode</span>&#123;</span>    <span class="hljs-keyword">int</span> Tag;    <span class="hljs-comment">//标志域：0表示结点是单元素，1表示结点是广义表。</span>    <span class="hljs-keyword">union</span>&#123;  <span class="hljs-comment">//子表指针区域Sublist与单元素数据域Data复用，即共用存储空间</span>        ElementType Data;        GList SubList;    &#125;URegion;    GList Next; <span class="hljs-comment">//指向后继结点</span>&#125;;</code></pre><br>多重链表：链表中的节点可能同时隶属于多个链。多重链表中节点的指针域会有多个，如上面的广义表包含了Next和SubList两个指针域。但是包含多个指针域的链表并不一定是多重链表，比如双向链表。另外树、图这样相对复杂的数据结构都可以采用多重链表的方式实现存储。</p><h4 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h4><p>栈是限定仅在表尾进行插入和删除操作的线性表。栈元素具有线性关系，即前驱后继关系。</p><h5 id="栈的结构定义"><a href="#栈的结构定义" class="headerlink" title="栈的结构定义"></a>栈的结构定义</h5><pre><code class="hljs cpp"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">int</span> SElemType   <span class="hljs-comment">//SElemType根据实际情况而定，这里假设为int。</span><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span>&#123;</span>    SElemType data[MAXSIZE];    <span class="hljs-keyword">int</span> top;   <span class="hljs-comment">//用于栈顶指针</span>&#125;SqStack;</code></pre><p>堆栈：具有一定操作约束的线性表，旨在一端（栈顶，Top）做插入、删除操作。插入数据：入栈（Push）。删除数据出栈（Pop）。后入先出原则。</p><h5 id="入栈"><a href="#入栈" class="headerlink" title="入栈"></a>入栈</h5><pre><code class="hljs livescript"><span class="hljs-literal">void</span> Push(Stack Ptrs,ElementType item)&#123;    <span class="hljs-keyword">if</span>(Ptrs-&gt;Top == MaxSize-<span class="hljs-number">1</span>)&#123;        printf(<span class="hljs-string">&quot;堆栈满&quot;</span>):<span class="hljs-keyword">return</span>;    &#125;    <span class="hljs-keyword">else</span>&#123;        Ptrs-&gt;Data[++(Ptrs-&gt;Top)] = item;        <span class="hljs-keyword">return</span>;    &#125;&#125;</code></pre><h5 id="出栈"><a href="#出栈" class="headerlink" title="出栈"></a>出栈</h5><pre><code class="hljs coq">Sratus Pop(SqStack *S,SElemType *e)&#123;    <span class="hljs-keyword">if</span> (S-&gt;<span class="hljs-built_in">top</span>==<span class="hljs-number">-1</span>)        <span class="hljs-keyword">return</span> ERROE;    *e = S-&gt;data[S-&gt;<span class="hljs-built_in">top</span>];  //将要删除的栈顶元素赋值给*e    S-&gt;<span class="hljs-built_in">top</span>--;    //栈顶指针减<span class="hljs-number">1</span>    <span class="hljs-keyword">return</span> OK;&#125;</code></pre><p>两栈共享空间结构就是让栈底在数组的两端，这样两栈如果增加元素就是往中间靠拢。这样可以最大程度利用空间。</p><p>链栈是指栈的链式存储结构，栈顶放在单链表的头部。如果栈在使用过程中元素变化不可预料，那麽最好使用链栈，反之则使用顺序栈更好一些。</p><h6 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h6><p>我们把一个直接调用自己或经过一系列的调用语句间接地调用自己地函数称作递归函数。每个递归定义必须至少有一个条件，满足条件时递归不再进行，否则就会造成栈溢出。在递归前行阶段，对于每一层递归，函数的局部变量、参数值和返回地址被push。在退回阶段，位域栈顶的局部变量、参数值和返回地址被pop，用于返回调用层次中执行代码的其余部分也就是恢复了调用状态。</p><h5 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h5><p>队列是只允许在一段进行插入操作，而在在另一端进行删除操作的线性表。队列是一种先进先出的线性表，允许插入的一段称为队尾，允许删除的一端称为队头。</p><p>循环队列，循环队列是为了解决假溢出问题。我们把队列的这种头尾相接的顺序存储结构称为循环队列。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>数据结构</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>数据结构</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>基本数据类型</title>
+    <link href="/2020/09/26/C%E8%AF%AD%E8%A8%80%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/"/>
+    <url>/2020/09/26/C%E8%AF%AD%E8%A8%80%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</url>
+    
+    <content type="html"><![CDATA[<h2 id="1-C语言的基本数据类型"><a href="#1-C语言的基本数据类型" class="headerlink" title="1.C语言的基本数据类型"></a>1.C语言的基本数据类型</h2><h3 id="1-1变量"><a href="#1-1变量" class="headerlink" title="1.1变量"></a>1.1变量</h3><h5 id="1-1-1变量的解释"><a href="#1-1-1变量的解释" class="headerlink" title="1.1.1变量的解释"></a>1.1.1变量的解释</h5><p>变量类似一个盒子，你可以先把东西放里面（赋值），等用时再取出来。一个变量“盒子”理论上能放一个任何东西。但是我们需要贴上标签告诉别人这个盒子装的是什么东西（声明）。另外变量“盒子”有点特殊，他只能放入一个东西。如果一个“盒子”里已经有一个东西，但是你又放入了一个东西，原本东西就会被挤出去。<br>所以在c语言中变量的声明和赋值有两种方法：</p><ol><li>声明并赋值</li><li>先声明后赋值</li></ol><h5 id="1-1-2变量命名规则"><a href="#1-1-2变量命名规则" class="headerlink" title="1.1.2变量命名规则"></a>1.1.2变量命名规则</h5><p>c语言中变量名是不能随便起的，他也要遵循一定的规则。</p><ol><li>变量名中只能出现英文，数字，下划线和美元符号。</li><li>变量名不能以数字开头</li><li>大小写敏感。A和a是两个变量。</li><li>变量名不能和关键字相同。</li></ol><h6 id="1-1-3拓展"><a href="#1-1-3拓展" class="headerlink" title="1.1.3拓展"></a>1.1.3拓展</h6><p>c语言中的32个关键字。</p><ul><li>auto、double、int、struct；</li><li></li><li>break、else、long、switch；</li><li></li><li>case、enum、register、typedef；</li><li></li><li>char、extern、return、union；</li><li></li><li>const、float、short、unsigned；</li><li></li><li>continue、for、signed、void；</li><li></li><li>default、goto、sizeof、volatile；</li><li></li><li>do、if、while、static；</li></ul><h3 id="1-2基本数据类型"><a href="#1-2基本数据类型" class="headerlink" title="1.2基本数据类型"></a>1.2基本数据类型</h3><p>编译器要处理数据，就需要知道数据的存储大小和存储方式，即数据类型。<br>常用的基本数据类型有</p><ul><li>字符char，字符型在本质上就是整型，在c语言中用char表示一个字符型。他表示占用一个字符的存储空间。当我们读出时将会得到一个整形数据，而我们输出时会得到一个字符是因为我们人为的定义了一个对照表，这个表规定字符a的数值就是97，所以当我们遇到97时我们有两种读出方式，第一种以整数形式读出就是97，另一种就是以字符型读出，使用%c指定读出形式，则对照表则为a。</li><li>整数int，整数又称作整数型，就是我们平时看到的准确的整数，一般占4个字节（32位）。最高位代表符号，0表示正数，1表示负数，取值范围是-2147483648~2147483647。</li><li>浮点型，浮点型又称实型。<ul><li>单精度浮点数float，系统中基本的浮点类型。我们在c语言中使用float表示一个单精度浮点类型。一个float类型占用4个字节储存位。使用%f作为其格式说明符，而且float一般精确到小数点后6位。</li><li>双精度浮点数double，范围更大的浮点类型。比float类型表示更多的有效数字以及更大的指数。我们在c语言中使用一个double类型表示一个双精度的浮点类。一个double类型占用8个字节，其内存消耗是double的两倍，double运算速度比float慢得多。double的格式说明符仍然是%f，而且double类型一般精确到小数位后15位。long double范围更大的浮点类型。我们使用%lf作为其格式说明符。<br>基本上c语言最常用的就是这四个数据类型。</li></ul></li></ul><h3 id="1-3数据类型汇总表格"><a href="#1-3数据类型汇总表格" class="headerlink" title="1.3数据类型汇总表格"></a>1.3数据类型汇总表格</h3><div class="table-container"><table><thead><tr><th>名称</th><th>全称类型说明符</th><th>缩写类型说明符</th><th>位数</th><th>范围</th></tr></thead><tbody><tr><td>整型</td><td>int</td><td>int</td><td>16位</td><td>-32768至+32767</td></tr><tr><td>无符号整型</td><td>unsigned int</td><td>unsigned</td><td>16位</td><td>0 至 65535</td></tr><tr><td>短整型</td><td>short int</td><td>short</td><td>16位</td><td>-32768至+32767</td></tr><tr><td>无符号短整型</td><td>unsigned short int</td><td>unsigned short</td><td>16位</td><td>0 至 65535</td></tr><tr><td>长整型</td><td>long int</td><td>long</td><td>32位</td><td>-2^63 ~ 2^63-1</td></tr><tr><td>无符号长整型</td><td>unsigned long int</td><td>unsigned long</td><td>32位</td><td>0至4,294,967,295</td></tr><tr><td>单精度浮点型</td><td>float</td><td>float</td><td>32位</td><td>-3.4<em>10(-38)至3.4</em>10(38)</td></tr><tr><td>双精度浮点型</td><td>double</td><td>double</td><td>64位</td><td>-16 -1.7<em>10(-308)～1.7</em>10(308)</td></tr><tr><td>长双精度浮点型</td><td>long double</td><td>long double</td><td>128位</td><td>-1.2<em>10(-4932)～1.2</em>10(4932)</td></tr></tbody></table></div><h3 id="1-4基本类型的注意事项"><a href="#1-4基本类型的注意事项" class="headerlink" title="1.4基本类型的注意事项"></a>1.4基本类型的注意事项</h3><h5 id="1-4-1表示其他进制"><a href="#1-4-1表示其他进制" class="headerlink" title="1.4.1表示其他进制"></a>1.4.1表示其他进制</h5><p>只有整数可以表示其他进制。</p><ol><li>十六进制。以0x或0X开头（0是阿拉伯数字0）</li><li>八进制。以0开头（0是阿拉伯数字0）</li><li>二进制。以0b或0B开头（0是阿拉伯数字0）</li></ol><h5 id="1-4-2-科学计数法"><a href="#1-4-2-科学计数法" class="headerlink" title="1.4.2 科学计数法"></a>1.4.2 科学计数法</h5><p>只有double类型可以进行科学计数法。</p><pre><code class="hljs apache"><span class="hljs-attribute">double</span> a = <span class="hljs-number">3</span>E<span class="hljs-number">2</span>; //表示<span class="hljs-number">3</span> x <span class="hljs-number">10</span>^<span class="hljs-number">2</span>，所以a = <span class="hljs-number">300</span></code></pre><h5 id="1-4-3-长整型long的问题"><a href="#1-4-3-长整型long的问题" class="headerlink" title="1.4.3 长整型long的问题"></a>1.4.3 长整型long的问题</h5><p>声明长整型时数的后面要加上L</p><pre><code class="hljs livecodeserver"><span class="hljs-keyword">long</span> <span class="hljs-keyword">a</span> = <span class="hljs-number">666</span>L; <span class="hljs-comment"> //L大小写都可以，但为了便于区分，一般使用大写L</span></code></pre><h5 id="1-4-4-浮点型float问题"><a href="#1-4-4-浮点型float问题" class="headerlink" title="1.4.4 浮点型float问题"></a>1.4.4 浮点型float问题</h5><p>声明float时数的后面要加上F，因为默认的浮点型都是double</p><pre><code class="hljs angelscript"><span class="hljs-built_in">float</span> a = <span class="hljs-number">3.14</span>F;    <span class="hljs-comment">//F大小写都可以</span></code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>C语言</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>C语言</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>数据可视化总结</title>
     <link href="/2020/09/25/%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/"/>
     <url>/2020/09/25/%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/</url>
@@ -96,31 +171,6 @@
     <tags>
       
       <tag>数学基础</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="/2020/08/23/hello-world/"/>
-    <url>/2020/08/23/hello-world/</url>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span></code></pre><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre><code class="hljs bash">$ hexo server</code></pre><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre><code class="hljs bash">$ hexo generate</code></pre><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre><code class="hljs bash">$ hexo deploy</code></pre><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
-    
-    
-    <categories>
-      
-      <category>hello world</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>hello world</tag>
       
     </tags>
     

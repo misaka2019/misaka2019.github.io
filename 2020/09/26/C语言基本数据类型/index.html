@@ -19,7 +19,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>数据可视化总结 - misaka</title>
+  <title>基本数据类型 - misaka</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -162,8 +162,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-09-25 19:13" pubdate>
-      2020年9月25日 晚上
+    <time datetime="2020-09-26 11:00" pubdate>
+      2020年9月26日 上午
     </time>
   </div>
 
@@ -173,7 +173,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      663 字
+      1.2k 字
     </span>
   
 
@@ -183,7 +183,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      9
+      13
        分钟
     </span>
   
@@ -221,64 +221,139 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto" id="post">
             <!-- SEO header -->
-            <h1 style="display: none">数据可视化总结</h1>
+            <h1 style="display: none">基本数据类型</h1>
             
             <div class="markdown-body" id="post-body">
-              <p>数据可视化指的是通过可视化表示来探索数据，它与数据挖掘紧密相关。</p>
-<p>总的来说数据可视化能让人们更直观的看到数据的特点。其实数据可视化也是对数据进行处理，只不过是以图表方式来表现的。</p>
-<p>下面将介绍几种用matplotlib库来实现可视化的方法。<br>数据可视化还有数据描述性统计，就是算出方差，均值，中位数等等。</p>
-<div class="hljs"><pre><code class="hljs sas">def des(self,n):
-    def status(<span class="hljs-meta">x</span>):
-        <span class="hljs-meta">return</span> pd.Series([<span class="hljs-meta">x</span>.count(),<span class="hljs-meta">x</span><span class="hljs-meta">.min(</span>),<span class="hljs-meta">x</span>.id<span class="hljs-meta">xmin(</span>),<span class="hljs-meta">x</span>.quantile(.25),<span class="hljs-meta">x</span>.medi<span class="hljs-meta">an(</span>),
-              <span class="hljs-meta">x</span>.quantile(.75),<span class="hljs-meta">x</span><span class="hljs-meta">.mean(</span>),<span class="hljs-meta">x</span><span class="hljs-meta">.max(</span>),<span class="hljs-meta">x</span>.id<span class="hljs-meta">xmax(</span>),<span class="hljs-meta">x</span>.mad(),<span class="hljs-meta">x</span><span class="hljs-meta">.var(</span>),
-              <span class="hljs-meta">x</span><span class="hljs-meta">.std(</span>),<span class="hljs-meta">x</span>.skew(),<span class="hljs-meta">x</span>.kurt()],<span class="hljs-meta">index</span>=[<span class="hljs-string">&#x27;总数&#x27;</span>,<span class="hljs-string">&#x27;最小值&#x27;</span>,<span class="hljs-string">&#x27;最小值位置&#x27;</span>,<span class="hljs-string">&#x27;25%分位数&#x27;</span>,
-            <span class="hljs-string">&#x27;中位数&#x27;</span>,<span class="hljs-string">&#x27;75%分位数&#x27;</span>,<span class="hljs-string">&#x27;均值&#x27;</span>,<span class="hljs-string">&#x27;最大值&#x27;</span>,<span class="hljs-string">&#x27;最大值位数&#x27;</span>,<span class="hljs-string">&#x27;平均绝对偏差&#x27;</span>,<span class="hljs-string">&#x27;方差&#x27;</span>,<span class="hljs-string">&#x27;标准差&#x27;</span>,<span class="hljs-string">&#x27;偏度&#x27;</span>,<span class="hljs-string">&#x27;峰度&#x27;</span>])
-df = pd.DataFrame(n, columns=[<span class="hljs-string">&#x27;x1&#x27;</span>,<span class="hljs-string">&#x27;x2&#x27;</span>,<span class="hljs-string">&#x27;x3&#x27;</span>])#输入数组
-p<span class="hljs-meta">rint(</span>df.head())
-p<span class="hljs-meta">rint(</span>df.apply(status))</code></pre></div>
-<p>一、直方图</p>
-<div class="hljs"><pre><code class="hljs haskell"><span class="hljs-keyword">import</span> matplotlib <span class="hljs-keyword">as</span> plt
-<span class="hljs-title">plt</span>.hist(<span class="hljs-class"><span class="hljs-keyword">data</span>, normed=1)</span>
-<span class="hljs-meta">#其实hist函数还有很多参数</span></code></pre></div>
-<p>二、水平条形图</p>
-<div class="hljs"><pre><code class="hljs routeros"><span class="hljs-comment"># 指定默认字体（防止中文出现乱码）</span>
-mpl.rcParams[<span class="hljs-string">&#x27;font.sans-serif&#x27;</span>] = [<span class="hljs-string">&#x27;FangSong&#x27;</span>]  # 指定‘仿宋’字体
-<span class="hljs-comment"># 水平柱形图---条形图</span>
-fig, ax = plt.subplots()
-ax.barh(x, y, 0.5, <span class="hljs-attribute">color</span>=<span class="hljs-string">&#x27;skyblue&#x27;</span>)  # 0.5是设置的柱子的宽度
-ax.<span class="hljs-builtin-name">set</span>(<span class="hljs-attribute">title</span>=<span class="hljs-string">&#x27;水平条形图&#x27;</span>, <span class="hljs-attribute">xlabel</span>=<span class="hljs-string">&#x27;x&#x27;</span>, <span class="hljs-attribute">ylabel</span>=<span class="hljs-string">&#x27;y&#x27;</span>)
-plt.show()</code></pre></div>
-<p>三、热力图</p>
-<div class="hljs"><pre><code class="hljs routeros"><span class="hljs-comment"># 绘制x-y-z的热力图，比如 年-月-销量 的热力图</span>
-f, ax = plt.subplots(figsize=(9, 6))
-<span class="hljs-comment">#绘制热力图，还要将数值写到热力图上</span>
-<span class="hljs-comment">#每个网格上用线隔开,data是df类型</span>
-sns.heatmap(data, <span class="hljs-attribute">annot</span>=<span class="hljs-literal">True</span>, <span class="hljs-attribute">fmt</span>=<span class="hljs-string">&quot;d&quot;</span>, <span class="hljs-attribute">linewidths</span>=0.5, <span class="hljs-attribute">ax</span>=ax,cmap = <span class="hljs-string">&quot;YlGnBu&quot;</span>)
-<span class="hljs-comment">#设置坐标字体方向并保持水平对齐</span>
-label_y = ax.get_yticklabels()
-plt.setp(label_y, <span class="hljs-attribute">rotation</span>=360, <span class="hljs-attribute">horizontalalignment</span>=<span class="hljs-string">&#x27;right&#x27;</span>)
-label_x = ax.get_xticklabels()
-plt.setp(label_x, <span class="hljs-attribute">rotation</span>=45, <span class="hljs-attribute">horizontalalignment</span>=<span class="hljs-string">&#x27;right&#x27;</span>)
-plt.show()</code></pre></div>
-<p>四、折线图<br><div class="hljs"><pre><code class="hljs routeros"><span class="hljs-comment"># 获取&#x27;column&#x27;这一列的值</span>
-y = df[<span class="hljs-string">&#x27;column&#x27;</span>].values
-<span class="hljs-comment"># 获取索引列的值（年份）</span>
-x = df.index.values
-<span class="hljs-comment"># 指定默认字体（防止中文出现乱码）</span>
-mpl.rcParams[<span class="hljs-string">&#x27;font.sans-serif&#x27;</span>] = [<span class="hljs-string">&#x27;FangSong&#x27;</span>]  # 指定‘仿宋’字体
-<span class="hljs-comment"># 折线图</span>
-fig, ax = plt.subplots()
-ax.plot(x, y)
-ax.<span class="hljs-builtin-name">set</span>(<span class="hljs-attribute">title</span>=None, <span class="hljs-attribute">xlabel</span>=None, <span class="hljs-attribute">ylabel</span>=None)  # 中文出现乱码，要先设置字体
-plt.show()</code></pre></div></p>
-<p>五、散点图</p>
-<div class="hljs"><pre><code class="hljs routeros"><span class="hljs-comment"># 指定默认字体（防止中文出现乱码）</span>
-mpl.rcParams[<span class="hljs-string">&#x27;font.sans-serif&#x27;</span>] = [<span class="hljs-string">&#x27;FangSong&#x27;</span>]  # 指定‘仿宋’字体
-<span class="hljs-comment"># 折线图</span>
-fig, ax = plt.subplots()
-ax.scatter(x, y)
-ax.<span class="hljs-builtin-name">set</span>(<span class="hljs-attribute">title</span>=None, <span class="hljs-attribute">xlabel</span>=None, <span class="hljs-attribute">ylabel</span>=None)  # 中文出现乱码，要先设置字体
-plt.show()</code></pre></div>
+              <h2 id="1-C语言的基本数据类型"><a href="#1-C语言的基本数据类型" class="headerlink" title="1.C语言的基本数据类型"></a>1.C语言的基本数据类型</h2><h3 id="1-1变量"><a href="#1-1变量" class="headerlink" title="1.1变量"></a>1.1变量</h3><h5 id="1-1-1变量的解释"><a href="#1-1-1变量的解释" class="headerlink" title="1.1.1变量的解释"></a>1.1.1变量的解释</h5><p>变量类似一个盒子，你可以先把东西放里面（赋值），等用时再取出来。一个变量“盒子”理论上能放一个任何东西。但是我们需要贴上标签告诉别人这个盒子装的是什么东西（声明）。另外变量“盒子”有点特殊，他只能放入一个东西。如果一个“盒子”里已经有一个东西，但是你又放入了一个东西，原本东西就会被挤出去。<br>所以在c语言中变量的声明和赋值有两种方法：</p>
+<ol>
+<li>声明并赋值</li>
+<li>先声明后赋值</li>
+</ol>
+<h5 id="1-1-2变量命名规则"><a href="#1-1-2变量命名规则" class="headerlink" title="1.1.2变量命名规则"></a>1.1.2变量命名规则</h5><p>c语言中变量名是不能随便起的，他也要遵循一定的规则。</p>
+<ol>
+<li>变量名中只能出现英文，数字，下划线和美元符号。</li>
+<li>变量名不能以数字开头</li>
+<li>大小写敏感。A和a是两个变量。</li>
+<li>变量名不能和关键字相同。</li>
+</ol>
+<h6 id="1-1-3拓展"><a href="#1-1-3拓展" class="headerlink" title="1.1.3拓展"></a>1.1.3拓展</h6><p>c语言中的32个关键字。</p>
+<ul>
+<li>auto、double、int、struct；</li>
+<li></li>
+<li>break、else、long、switch；</li>
+<li></li>
+<li>case、enum、register、typedef；</li>
+<li></li>
+<li>char、extern、return、union；</li>
+<li></li>
+<li>const、float、short、unsigned；</li>
+<li></li>
+<li>continue、for、signed、void；</li>
+<li></li>
+<li>default、goto、sizeof、volatile；</li>
+<li></li>
+<li>do、if、while、static；</li>
+</ul>
+<h3 id="1-2基本数据类型"><a href="#1-2基本数据类型" class="headerlink" title="1.2基本数据类型"></a>1.2基本数据类型</h3><p>编译器要处理数据，就需要知道数据的存储大小和存储方式，即数据类型。<br>常用的基本数据类型有</p>
+<ul>
+<li>字符char，字符型在本质上就是整型，在c语言中用char表示一个字符型。他表示占用一个字符的存储空间。当我们读出时将会得到一个整形数据，而我们输出时会得到一个字符是因为我们人为的定义了一个对照表，这个表规定字符a的数值就是97，所以当我们遇到97时我们有两种读出方式，第一种以整数形式读出就是97，另一种就是以字符型读出，使用%c指定读出形式，则对照表则为a。</li>
+<li>整数int，整数又称作整数型，就是我们平时看到的准确的整数，一般占4个字节（32位）。最高位代表符号，0表示正数，1表示负数，取值范围是-2147483648~2147483647。</li>
+<li>浮点型，浮点型又称实型。<ul>
+<li>单精度浮点数float，系统中基本的浮点类型。我们在c语言中使用float表示一个单精度浮点类型。一个float类型占用4个字节储存位。使用%f作为其格式说明符，而且float一般精确到小数点后6位。</li>
+<li>双精度浮点数double，范围更大的浮点类型。比float类型表示更多的有效数字以及更大的指数。我们在c语言中使用一个double类型表示一个双精度的浮点类。一个double类型占用8个字节，其内存消耗是double的两倍，double运算速度比float慢得多。double的格式说明符仍然是%f，而且double类型一般精确到小数位后15位。long double范围更大的浮点类型。我们使用%lf作为其格式说明符。<br>基本上c语言最常用的就是这四个数据类型。</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-3数据类型汇总表格"><a href="#1-3数据类型汇总表格" class="headerlink" title="1.3数据类型汇总表格"></a>1.3数据类型汇总表格</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>全称类型说明符</th>
+<th>缩写类型说明符</th>
+<th>位数</th>
+<th>范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>整型</td>
+<td>int</td>
+<td>int</td>
+<td>16位</td>
+<td>-32768至+32767</td>
+</tr>
+<tr>
+<td>无符号整型</td>
+<td>unsigned int</td>
+<td>unsigned</td>
+<td>16位</td>
+<td>0 至 65535</td>
+</tr>
+<tr>
+<td>短整型</td>
+<td>short int</td>
+<td>short</td>
+<td>16位</td>
+<td>-32768至+32767</td>
+</tr>
+<tr>
+<td>无符号短整型</td>
+<td>unsigned short int</td>
+<td>unsigned short</td>
+<td>16位</td>
+<td>0 至 65535</td>
+</tr>
+<tr>
+<td>长整型</td>
+<td>long int</td>
+<td>long</td>
+<td>32位</td>
+<td>-2^63 ~ 2^63-1</td>
+</tr>
+<tr>
+<td>无符号长整型</td>
+<td>unsigned long int</td>
+<td>unsigned long</td>
+<td>32位</td>
+<td>0至4,294,967,295</td>
+</tr>
+<tr>
+<td>单精度浮点型</td>
+<td>float</td>
+<td>float</td>
+<td>32位</td>
+<td>-3.4<em>10(-38)至3.4</em>10(38)</td>
+</tr>
+<tr>
+<td>双精度浮点型</td>
+<td>double</td>
+<td>double</td>
+<td>64位</td>
+<td>-16 -1.7<em>10(-308)～1.7</em>10(308)</td>
+</tr>
+<tr>
+<td>长双精度浮点型</td>
+<td>long double</td>
+<td>long double</td>
+<td>128位</td>
+<td>-1.2<em>10(-4932)～1.2</em>10(4932)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="1-4基本类型的注意事项"><a href="#1-4基本类型的注意事项" class="headerlink" title="1.4基本类型的注意事项"></a>1.4基本类型的注意事项</h3><h5 id="1-4-1表示其他进制"><a href="#1-4-1表示其他进制" class="headerlink" title="1.4.1表示其他进制"></a>1.4.1表示其他进制</h5><p>只有整数可以表示其他进制。</p>
+<ol>
+<li>十六进制。以0x或0X开头（0是阿拉伯数字0）</li>
+<li>八进制。以0开头（0是阿拉伯数字0）</li>
+<li>二进制。以0b或0B开头（0是阿拉伯数字0）</li>
+</ol>
+<h5 id="1-4-2-科学计数法"><a href="#1-4-2-科学计数法" class="headerlink" title="1.4.2 科学计数法"></a>1.4.2 科学计数法</h5><p>只有double类型可以进行科学计数法。</p>
+<div class="hljs"><pre><code class="hljs apache"><span class="hljs-attribute">double</span> a = <span class="hljs-number">3</span>E<span class="hljs-number">2</span>; //表示<span class="hljs-number">3</span> x <span class="hljs-number">10</span>^<span class="hljs-number">2</span>，所以a = <span class="hljs-number">300</span></code></pre></div>
+<h5 id="1-4-3-长整型long的问题"><a href="#1-4-3-长整型long的问题" class="headerlink" title="1.4.3 长整型long的问题"></a>1.4.3 长整型long的问题</h5><p>声明长整型时数的后面要加上L</p>
+<div class="hljs"><pre><code class="hljs livecodeserver"><span class="hljs-keyword">long</span> <span class="hljs-keyword">a</span> = <span class="hljs-number">666</span>L; <span class="hljs-comment"> //L大小写都可以，但为了便于区分，一般使用大写L</span></code></pre></div>
+<h5 id="1-4-4-浮点型float问题"><a href="#1-4-4-浮点型float问题" class="headerlink" title="1.4.4 浮点型float问题"></a>1.4.4 浮点型float问题</h5><p>声明float时数的后面要加上F，因为默认的浮点型都是double</p>
+<div class="hljs"><pre><code class="hljs angelscript"><span class="hljs-built_in">float</span> a = <span class="hljs-number">3.14</span>F;    <span class="hljs-comment">//F大小写都可以</span></code></pre></div>
 
             </div>
             <hr>
@@ -288,7 +363,7 @@ plt.show()</code></pre></div>
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+                      <a class="hover-with-bg" href="/categories/C%E8%AF%AD%E8%A8%80/">C语言</a>
                     
                   </div>
                 
@@ -296,7 +371,7 @@ plt.show()</code></pre></div>
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/">特征工程</a>
+                      <a class="hover-with-bg" href="/tags/C%E8%AF%AD%E8%A8%80/">C语言</a>
                     
                   </div>
                 
@@ -309,9 +384,9 @@ plt.show()</code></pre></div>
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2020/09/26/C%E8%AF%AD%E8%A8%80%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
+                      <a href="/2020/09/27/%E7%BA%BF%E6%80%A7%E8%A1%A8/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">基本数据类型</span>
+                        <span class="hidden-mobile">线性表、栈和队列</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -319,8 +394,8 @@ plt.show()</code></pre></div>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2020/09/25/%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86/">
-                        <span class="hidden-mobile">数据预处理方法总结</span>
+                      <a href="/2020/09/25/%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/">
+                        <span class="hidden-mobile">数据可视化总结</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -508,7 +583,7 @@ plt.show()</code></pre></div>
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "数据可视化总结&nbsp;",
+        "基本数据类型&nbsp;",
       ],
       cursorChar: " ",
       typeSpeed: 70,

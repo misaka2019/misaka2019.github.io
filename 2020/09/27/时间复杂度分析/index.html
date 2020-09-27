@@ -19,7 +19,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>Hello World - misaka</title>
+  <title>复杂度分析 - misaka</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -162,8 +162,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-08-23 20:11" pubdate>
-      2020年8月23日 晚上
+    <time datetime="2020-09-27 19:32" pubdate>
+      2020年9月27日 晚上
     </time>
   </div>
 
@@ -173,7 +173,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      75 字
+      877 字
     </span>
   
 
@@ -183,7 +183,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      10
        分钟
     </span>
   
@@ -221,18 +221,50 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto" id="post">
             <!-- SEO header -->
-            <h1 style="display: none">Hello World</h1>
+            <h1 style="display: none">复杂度分析</h1>
             
             <div class="markdown-body" id="post-body">
-              <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><div class="hljs"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span></code></pre></div>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><div class="hljs"><pre><code class="hljs bash">$ hexo server</code></pre></div>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><div class="hljs"><pre><code class="hljs bash">$ hexo generate</code></pre></div>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><div class="hljs"><pre><code class="hljs bash">$ hexo deploy</code></pre></div>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+              <p>讲在之前要说一下几种记号。</p>
+<ul>
+<li>大O记号，大O记号描述了一个算法最坏的情况。因为是假设n&gt;&gt;2,从而通过n的替换来放大函数（常系数可以忽略，低次项可以忽略），并且相比于原式更加简洁也可以反映前者的增长趋势。这也是我们通常参考的时间复杂度。</li>
+<li>大Ω记号，大Ω记号描述算法最好的情况，也是假设n&gt;&gt;2，从而通过n的替换来缩小函数，这通常是函数的下界。</li>
+<li>大θ记号，大θ来描述算法的确切情况，是介于大O和大Ω之间的。</li>
+</ul>
+<hr>
+<p>推导大O阶：<br>1.用常数1取代运行时间中的所有加法常数。<br>2.在修改后的运行次数函数中，只保留最高阶项。<br>3.弱国最高阶项存在且不是1，则去除与这个项相乘的常数。得到的就是大O阶。</p>
+<p>一个程序的时间复杂度大大影响了程序的时间，所以当我们在做一些有运行时间限制的算法题的时候，要优先考虑代码的时间复杂度。</p>
+<p>下面列举几种常见的==时间复杂度==</p>
+<h4 id="gt-1、常数复杂度O-1"><a href="#gt-1、常数复杂度O-1" class="headerlink" title="&gt; 1、常数复杂度O(1)"></a>&gt; 1、常数复杂度O(1)</h4><p>只执行一次的代码。一般情况不含转向（循环、调用、递归等），是循序执行的即是O(1)</p>
+<div class="hljs"><pre><code class="hljs angelscript"><span class="hljs-built_in">array</span> = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>]
+a = <span class="hljs-built_in">array</span>[<span class="hljs-number">0</span>]</code></pre></div>
+<h4 id="gt-2、线性复杂度o-n"><a href="#gt-2、线性复杂度o-n" class="headerlink" title="&gt; 2、线性复杂度o(n)"></a>&gt; 2、线性复杂度o(n)</h4><p>只有一层循环。例子图的遍历，二叉树遍历(n代表二叉树节点总数，因为每个节点访问一次，且仅访问一次)、二维数组二分法查找（有序）。还有DFS和BFS。</p>
+<div class="hljs"><pre><code class="hljs angelscript"><span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>;i&lt;<span class="hljs-number">3</span>;i++);</code></pre></div>
+<h4 id="gt-3、n平方复杂度O-n-2"><a href="#gt-3、n平方复杂度O-n-2" class="headerlink" title="&gt; 3、n平方复杂度O(n^2)"></a>&gt; 3、n平方复杂度O(n^2)</h4><p>双层嵌套循环</p>
+<div class="hljs"><pre><code class="hljs angelscript"><span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>;i&lt;<span class="hljs-number">3</span>;i++);
+    <span class="hljs-keyword">for</span>(<span class="hljs-built_in">int</span> n = <span class="hljs-number">0</span>;n&lt;<span class="hljs-number">3</span>;n-- );</code></pre></div>
+<h4 id="gt-4、指数复杂度O-2-n"><a href="#gt-4、指数复杂度O-2-n" class="headerlink" title="&gt; 4、指数复杂度O(2^n)"></a>&gt; 4、指数复杂度O(2^n)</h4><p>费伯罗契数列</p>
+<div class="hljs"><pre><code class="hljs routeros"><span class="hljs-comment">#include &lt;stdio.h&gt;</span>
+void main()
+&#123;
+int <span class="hljs-attribute">a</span>=0;
+int <span class="hljs-attribute">b</span>=1;
+int <span class="hljs-attribute">c</span>=0;
+int i;
+<span class="hljs-keyword">for</span>(<span class="hljs-attribute">i</span>=0;i&lt;10000;i++)
+&#123;
+    <span class="hljs-attribute">a</span>=b;
+    <span class="hljs-attribute">b</span>=c;
+    <span class="hljs-attribute">c</span>=a+b;
+    printf(<span class="hljs-string">&quot;%d&quot;</span>,c);
+&#125;
+&#125;</code></pre></div>
+<h4 id="gt-5、对数复杂度O-logn"><a href="#gt-5、对数复杂度O-logn" class="headerlink" title="&gt; 5、对数复杂度O(logn)"></a>&gt; 5、对数复杂度O(logn)</h4><p>对于对数复杂度，底数不再要求。因为底数是常数，只需要根据对数运算法则，底数可任意变换，无非是前面多了一个常数系数。而在时间复杂度计算系数是可以忽略的。那么同理也有常数次幂无所谓。此类算法是非常高效的，复杂度无限接近于常数。</p>
+<p>例如：一维数组二分查找<br>另外归并排序的时间复杂度是O(nlogn)</p>
+<h4 id="gt-6、阶乘复杂度"><a href="#gt-6、阶乘复杂度" class="headerlink" title="&gt; 6、阶乘复杂度"></a>&gt; 6、阶乘复杂度</h4><p>例子求阶乘</p>
+<hr>
+<h2 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="==空间复杂度=="></a>==空间复杂度==</h2><p>空间复杂度可以节省缓存空间，节约内存。</p>
+<p>1、数组的长度基本决定了空间复杂度，对于一维数组的长度就是空间复杂度O(n)。二维数组的长度为n^2,那空间复杂度为O(n^2)。</p>
+<p>2、递归的深度也表示空间复杂度的最大值，若递归里包含数组，那么数组和递归两者之间的最大值为空间复杂度。<br>3、算法的空间复杂度通过计算算法所需的存储空间实现，算法空间复杂度的计算公式记作：S（n）=O（f（n）），其中，n为问题的规模，F（n）为语句关于n所占存储空间的函数。</p>
 
             </div>
             <hr>
@@ -242,7 +274,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/hello-world/">hello world</a>
+                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
                     
                   </div>
                 
@@ -250,7 +282,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/hello-world/">hello world</a>
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
                     
                   </div>
                 
@@ -263,15 +295,15 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2020/09/23/%E6%A6%82%E7%8E%87%E8%AE%BA/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">概率论（上）</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2020/09/27/%E7%BA%BF%E6%80%A7%E8%A1%A8/">
+                        <span class="hidden-mobile">线性表、栈和队列</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>
@@ -456,7 +488,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Hello World&nbsp;",
+        "复杂度分析&nbsp;",
       ],
       cursorChar: " ",
       typeSpeed: 70,
@@ -517,6 +549,45 @@
 
 
 
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.0.5/es5/tex-svg.js" ></script>
+
+  
 
 
 

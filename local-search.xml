@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>哈夫曼树和哈夫曼编码</title>
+    <link href="/2020/10/11/%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91%E5%92%8C%E5%93%88%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81/"/>
+    <url>/2020/10/11/%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91%E5%92%8C%E5%93%88%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81/</url>
+    
+    <content type="html"><![CDATA[<h4 id="哈夫曼树"><a href="#哈夫曼树" class="headerlink" title="哈夫曼树"></a>哈夫曼树</h4><p>带权路径长度(WPL):设二叉树有n个叶子结点，每个叶子结点带有权值wk，从根结点到每个叶子结点的长度为lk，则每个叶子结点的带权路径长度之和就是每个的路径和权重相乘之和。</p><p>最优化二叉树或哈夫曼树：wpl最小二叉树。</p><h4 id="哈夫曼树的构造"><a href="#哈夫曼树的构造" class="headerlink" title="哈夫曼树的构造"></a>哈夫曼树的构造</h4><p>每次把权值最小的两棵二叉树合并。</p><pre><code class="hljs rust">typedef <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">TreeNode</span></span> *HuffmanTree;<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">TreeNode</span></span>&#123;    int Weight;    HuffmanTree Left,Right;&#125;HuffmanTree Huffman(MinHeap H)&#123;    <span class="hljs-comment">//假设H-&gt;Size个权值已经存在H-&gt;Elements[]-&gt;Weight里</span>    int i;HuffmanTree T;    BuildMinHeap(H);  <span class="hljs-comment">//将H-&gt;Elements[]按权值调整为最小堆</span>    <span class="hljs-keyword">for</span>(i=<span class="hljs-number">1</span>;i&lt;H-&gt;size;i++)&#123; <span class="hljs-comment">//做H-&gt;Size-1次合并</span>    T = malloc(sizeof(<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">TreeNode</span></span>)); <span class="hljs-comment">//建立新结点    </span>    T-&gt;Left = DeleteMin(H); <span class="hljs-comment">//从最小堆中删除一个结点，作为新T的左子结点</span>    T-&gt;Right = DeleteMin(H);    <span class="hljs-comment">//从最小堆中删除一个结点，作为新T的右子结点</span>    T-&gt;Weight = T-&gt;Left-&gt;Weight+T-&gt;Right-&gt;Weight;   <span class="hljs-comment">//计算新权值</span>    Insert(H,T);  <span class="hljs-comment">//将新T插入最小堆</span>    &#125;    T = DeleteMin(H);    <span class="hljs-keyword">return</span> T;&#125;</code></pre><h4 id="哈夫曼树的特点"><a href="#哈夫曼树的特点" class="headerlink" title="哈夫曼树的特点"></a>哈夫曼树的特点</h4><ul><li>没有度为1的结点；</li><li>n个叶子结点的哈夫曼树共有2n-1个节点；</li><li>哈夫曼树的任意非叶节点的左右子树交换后仍然是哈夫曼树；</li><li>对同一组权值，可能存在不同构的两颗哈夫曼树</li></ul><p>哈夫曼树为了让字符串的编码存储空间最小，就是不等长编码。为了避免二义性可以无二义地解码，我们可以用二叉树进行编码。即左右分支为0、1，字符只在叶结点上。所以让字符编码存储空间最小就等价于构造哈夫曼树。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>数据结构</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>数据结构</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>树和堆</title>
     <link href="/2020/10/10/%E6%A0%91%E5%92%8C%E5%A0%86/"/>
     <url>/2020/10/10/%E6%A0%91%E5%92%8C%E5%A0%86/</url>

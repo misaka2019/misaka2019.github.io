@@ -19,7 +19,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>树和堆 - whu</title>
+  <title>图 - whu</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -162,8 +162,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-10-10 21:32" pubdate>
-      2020年10月10日 晚上
+    <time datetime="2020-10-17 15:23" pubdate>
+      2020年10月17日 下午
     </time>
   </div>
 
@@ -173,7 +173,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.2k 字
+      809 字
     </span>
   
 
@@ -183,7 +183,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      26
+      8
        分钟
     </span>
   
@@ -221,125 +221,53 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto" id="post">
             <!-- SEO header -->
-            <h1 style="display: none">树和堆</h1>
+            <h1 style="display: none">图</h1>
             
             <div class="markdown-body" id="post-body">
-              <h1 id="树"><a href="#树" class="headerlink" title="树"></a>树</h1><p>树是由n个结点构成的有限集合。当n=0时称为空树。</p>
-<p> 对于任一棵非空树，树中有一个称为“根（root）”的特殊结点，用r表示。其余结点可以分为m个互不相交的有限集，其中每个集合本身又是一棵树，称为原来树的子树。子树是不相交的，除了根结点外，每个结点有且仅有一个父结点，一棵N个结点的树有N-1条边。</p>
-<p> 二叉树的定义：一个有穷的结点集合。这个集合可以为空。若不为空，则它是由根结点和称为其左子树和右子树的两个不相交的二叉树组成。</p>
-<p> 对任何非空二叉树T，若n0表示叶结点的个数，n2表示度为2的非叶节点个数，那么两者满足关系n0=n2+1。</p>
-<h3 id="二叉树的存储结构"><a href="#二叉树的存储结构" class="headerlink" title="二叉树的存储结构"></a>二叉树的存储结构</h3><p>1.顺序存储结构，完全二叉树，从上至下，从左到右顺序存储n个结点的完全二叉树的结点父子关系。对于非根节点的父节点的序号是i/2.结点（序号为i）的左孩子节点的序号是2i，（若2i&lt;=n，否则没有左孩子）。结点(序号为i)的右孩子节点的序号是2i+1（若2i+1&lt;=n,否则没有右孩子)。<br>2.链式存储结构，就是把结点分成左孩子指针和兄弟指针。</p>
-<h3 id="二叉树的遍历"><a href="#二叉树的遍历" class="headerlink" title="二叉树的遍历"></a>二叉树的遍历</h3><p>1.先序遍历，遍历过程为访问根结点，先序遍历其左子树，先序遍历其右子树。<br>2.中序遍历，遍历过程为中序遍历其左子树，访问根结点，然后中序遍历其右子树。<br>3.后序遍历，遍历过程为后序遍历其左子树，后序遍历其右子树最后访问根结点。</p>
-<p>先序、中序和后序遍历过程：遍历过程中经过结点的路线一样，只是访问各节点的时机不同。</p>
-<p>二叉树中序遍历非递归遍历算法，使用非递归算法实现 。遇到一个结点就把他压栈，并且取遍历他的左子树。当左子树遍历结束后，从栈顶弹出这个节点并且访问它，然后按其右指针再去中序遍历该节点的右子树。</p>
-<div class="hljs"><pre><code class="hljs gauss">void <span class="hljs-built_in">InOrderTraversal</span>(BinTree BT)&#123;
-    BinTree T=BT;
-    Stack S = <span class="hljs-built_in">CreatStack</span>(MaxSize);<span class="hljs-comment">//创建并初始化堆栈S</span>
-    <span class="hljs-keyword">while</span>(T|| !<span class="hljs-built_in">IsEmpty</span>(s))&#123;
-        <span class="hljs-keyword">while</span>(T)&#123;   <span class="hljs-comment">//一直向左并将沿途结点压入堆栈</span>
-            <span class="hljs-keyword">Push</span>(S,T);
-            T = T-&gt;Left;
-        &#125;
-        <span class="hljs-keyword">if</span>(!<span class="hljs-built_in">IsEmpty</span>(s))&#123;
-            T = <span class="hljs-keyword">Pop</span>(S); <span class="hljs-comment">//结点弹出堆栈</span>
-            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%5d&quot;</span>,T-&gt;Data);  <span class="hljs-comment">//打印节点</span>
-            T = T-&gt;Right;   <span class="hljs-comment">//转向右子树</span>
-        &#125;
-    &#125;
-&#125;</code></pre></div>
-<h5 id="二叉树的层序遍历"><a href="#二叉树的层序遍历" class="headerlink" title="二叉树的层序遍历"></a>二叉树的层序遍历</h5><p>二叉树遍历的核心问题：二维结构的线性化。层序基本过程：先根结点入队，然后从队列中取出一个元素，访问该元素所指结点，若该元素所指结点的左右孩子结点为空，则将其左右孩子的指针顺序入队。</p>
-<div class="hljs"><pre><code class="hljs excel">void LevelOrderTraversal(BinTree BT)&#123;
-    Queue Q; BinTree <span class="hljs-built_in">T</span>;
-    <span class="hljs-built_in">if</span> (!BT) return;
-    Q = CreateQueue(MaxSize);
-    AddQ(Q，BT)；
-    while(!IsEmptyQ(Q))&#123;
-        <span class="hljs-built_in">T</span> = DeleteQ(Q);
-        printf(<span class="hljs-string">&quot;%d\n&quot;</span>,<span class="hljs-built_in">T</span>-&gt;data);
-        <span class="hljs-built_in">if</span>(<span class="hljs-built_in">T</span>-&gt;<span class="hljs-built_in">Left</span>) AddQ(Q,<span class="hljs-built_in">T</span>-&gt;<span class="hljs-built_in">Left</span>);
-        <span class="hljs-built_in">if</span>(<span class="hljs-built_in">T</span>-&gt;<span class="hljs-built_in">Right</span>) AddQ(Q,<span class="hljs-built_in">T</span>-&gt;<span class="hljs-built_in">Right</span>);
-    &#125;
-&#125;</code></pre></div>
-<p>先序和中序遍历序列来确定一棵二叉树，先根据先序遍历序列第一个结点确定根结点，然后根据根结点在中序遍历序列中分割出左右两个子序列，最后对左子树和右子树分别递归使用相同的方法继续分解。</p>
-<h3 id="二叉搜索树的查找操作"><a href="#二叉搜索树的查找操作" class="headerlink" title="二叉搜索树的查找操作"></a>二叉搜索树的查找操作</h3><p>查找从根结点开始，如果树为空，返回NULL。若搜索数为空，则根结点关键字和X进行比较，并进行不同处理。若X小于根结点键值，只需在左子树中继续搜索，如果X大于根结点的键值，在右子树中继续搜索，如果两者比较结果是相等的，则搜索完成，返回指向此结点的指针。</p>
-<p>二叉搜索树的插入，关键是要找到元素应该插入的位置。 </p>
-<div class="hljs"><pre><code class="hljs coq">BinTree Insert(ElementType X,BinTree BST)
-&#123;
-    <span class="hljs-keyword">if</span>(!BST)&#123;
-        //若原树为空，生成并返回一个结点的二叉搜索树
-        BST = malloc(sizeof(struct TreeNode));
-        BST-&gt;Data = X;
-        BST-&gt;<span class="hljs-keyword">Left</span> = BST-&gt;<span class="hljs-keyword">Right</span> = NULL;
-    &#125;<span class="hljs-keyword">else</span> //开始找要插入元素的位置
-        <span class="hljs-keyword">if</span>(x&lt;BST-&gt;Data)
-            BST-&gt;<span class="hljs-keyword">Left</span> = Insert(x,BST-&gt;<span class="hljs-keyword">Left</span>);
-            //递归插入左子树
-        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(x&gt;BST-&gt;Data)
-            //递归插入右子树
-            BST-&gt;<span class="hljs-keyword">Right</span> = Insert(x,BST-&gt;<span class="hljs-keyword">Right</span>);
-        //<span class="hljs-keyword">else</span> x已经存在，什么都不做
-    <span class="hljs-keyword">return</span> BST;
-&#125;</code></pre></div>
-<h3 id="二叉搜索树的删除"><a href="#二叉搜索树的删除" class="headerlink" title="二叉搜索树的删除"></a>二叉搜索树的删除</h3><p> 要删除的结点只有一个孩子结点，将其父结点的指针指向要删除结点的孩子结点</p>
-<p>要删除的结点有左右两棵子树，用另一结点替代被删除结点：右子树的最小元素或者左子树的最大元素。</p>
-<div class="hljs"><pre><code class="hljs coq">BinTree Delete(ElementType X,BinTree BST)
-&#123;
-    Position Tmp;
-    <span class="hljs-keyword">if</span>(!BST)printf(<span class="hljs-string">&quot;要删除的元素未找到&quot;</span>);
-    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(X&lt;BST-&gt;Data)
-            BST-&gt;<span class="hljs-keyword">Left</span> = Delete(X,BST-&gt;<span class="hljs-keyword">Left</span>);    //左子树递归删除
-    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(x&gt;BST-&gt;Data)
-            BST-&gt;<span class="hljs-keyword">Left</span> = Delete(X,BST-&gt;<span class="hljs-keyword">Right</span>);   //右子树递归删除
-    <span class="hljs-keyword">else</span> //找到要删除的结点
-        <span class="hljs-keyword">if</span>(BST-&gt;<span class="hljs-keyword">Left</span> &amp;&amp; BST-&gt;<span class="hljs-keyword">Right</span>)&#123; //被删除结点有左右两个子节点
-            Tmp = FindMin(BST-&gt;<span class="hljs-keyword">Right</span>);  //在右子树中找最小的元素填充删除的结点
-            BST-&gt;Data = Tmp-&gt;Data;
-            BST-&gt;<span class="hljs-keyword">Right</span> = Delete(BST-&gt;Data,BST-&gt;<span class="hljs-keyword">Right</span>);
-                                            //在删除结点的右子树中删除最小元素
-        &#125;<span class="hljs-keyword">else</span>&#123;  //被删除结点有一个或无子结点
-            Tmp = BST;
-            <span class="hljs-keyword">if</span>(!BST-&gt;<span class="hljs-keyword">Left</span>) //有右孩子或无子结点
-                BST = BST-&gt;<span class="hljs-keyword">Right</span>;
-            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(!BST-&gt;<span class="hljs-keyword">Right</span>)
-                BST = BST-&gt;<span class="hljs-keyword">Left</span>;
-            free(Tmp);
-        &#125;
-    <span class="hljs-keyword">return</span> BST; 
-&#125;</code></pre></div>
-<h3 id="平衡二叉树（avl树）"><a href="#平衡二叉树（avl树）" class="headerlink" title="平衡二叉树（avl树）"></a>平衡二叉树（avl树）</h3><p>BF(T) = hL-hR,其中hL和hR分别为T的左、右子树的高度。<br>空树或者任一结点左右子树高度差的绝对值不超过1，即|BF(T)|&lt;=1</p>
-<h1 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h1><p>优先级队列，顾名思义，它首先应该是一个队列。我们前面讲过，队列最大的特性就是先进先出。不过，在优先级队列中，数据的出队顺序不是先进先出，而是 按照优先级来，优先级最高的，最先出队。 如何实现一个优先级队列呢？方法有很多，但是用堆来实现是最直接、最高效的。这是因为，堆和优先级队列非常相似。一个堆就可以看作一个优先级队列。很 多时候，它们只是概念上的区分而已。往优先级队列中插入一个元素，就相当于往堆中插入一个元素；从优先级队列中取出优先级最高的元素，就相当于取出堆 顶元素。 </p>
-<p>堆是一种完全二叉树。它最大的特性是：每个节点的值都大于等于（或小于等于）其子树节点的值。因此，堆被分成了两类，大 顶堆和小顶堆。 堆中比较重要的两个操作是插入一个数据和删除堆顶元素。这两个操作都要用到堆化。插入一个数据的时候，我们把新插入的数据放到数组的最后，然后从下往 上堆化；删除堆顶数据的时候，我们把数组中的最后一个元素放到堆顶，然后从上往下堆化。这两个操作时间复杂度都是logn。</p>
-<h3 id="堆的两个特性"><a href="#堆的两个特性" class="headerlink" title="堆的两个特性"></a>堆的两个特性</h3><p>结构性：用数组表示完全二叉树。<br>有序性：任一结点的关键字是其子树所有节点的最大值。最大堆，也称大顶堆：最大值。最小堆也称小顶堆：最小值。</p>
-<h3 id="最大堆的创建"><a href="#最大堆的创建" class="headerlink" title="最大堆的创建"></a>最大堆的创建</h3><div class="hljs"><pre><code class="hljs arduino"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">HeapStruct</span> &quot;<span class="hljs-title">MaxHeap</span>&quot;;</span>
-<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">HeapStruct</span>&#123;</span>
-        ElementType *Elements; <span class="hljs-comment">//存储堆元素的数组</span>
-        <span class="hljs-keyword">int</span> Size;   <span class="hljs-comment">//堆的当前元素个数</span>
-        <span class="hljs-keyword">int</span> Capacity; <span class="hljs-comment">//堆的最大容量</span>
-&#125;;
-
-<span class="hljs-function">MaxHeap <span class="hljs-title">Create</span><span class="hljs-params">(<span class="hljs-keyword">int</span> MaxSize)</span></span>&#123;
-    <span class="hljs-comment">//创建容量为MaxSize的空的最大堆</span>
-    MaxHeap H = <span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(struct HeapStruct));
-    H-&gt;Elements = <span class="hljs-built_in">malloc</span>((MaxSize+<span class="hljs-number">1</span>)*<span class="hljs-keyword">sizeof</span>(ElementType));
-    H-&gt;<span class="hljs-built_in">size</span> = <span class="hljs-number">0</span>;
-    H-&gt;Capacity = MaxSize;
-    H-&gt;Elements[<span class="hljs-number">0</span>] = MaxData;
-        <span class="hljs-comment">//定义哨兵为大于堆中所有可能元素的值，便于以后更快操作</span>
-    <span class="hljs-keyword">return</span> H;
-&#125;</code></pre></div>
-<p>将新增节点插入到其父节点到根结点的有序序列中<br><div class="hljs"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Insert</span><span class="hljs-params">(MaxHeap H,ElementsType item)</span></span>&#123;
-    <span class="hljs-comment">//将元素item插入最大堆H，其中H-&gt;Elements[0]已经定义为哨兵</span>
-    <span class="hljs-keyword">int</span> i;
-    <span class="hljs-keyword">if</span>(IsFull(H))&#123;
-        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;最大堆已满&quot;</span>);
-        <span class="hljs-keyword">return</span> ;
-    &#125;
-    i = ++H-&gt;Size;  <span class="hljs-comment">//i指向插入后堆中的最后一个元素位置</span>
-    <span class="hljs-keyword">for</span>(;H-&gt;Elements[i/<span class="hljs-number">2</span>] &lt; item;i/<span class="hljs-number">2</span>)
-        H-&gt;Elements[i] = H-&gt;Elements[i/<span class="hljs-number">2</span>]; <span class="hljs-comment">//向下过滤节点</span>
-    H-&gt;Elements[i] = item;  <span class="hljs-comment">//将item插入</span>
-    
-&#125;</code></pre></div></p>
+              <h3 id="图"><a href="#图" class="headerlink" title="图"></a>图</h3><p>图表示多对多地关系。包含</p>
+<ul>
+<li>一组顶点：通常用V表示顶点集合。</li>
+<li>一组边：通常用E表示边的集合。<ul>
+<li>边是顶点对：（v,w）∈E，其中v，w∈V</li>
+<li>有向边<v,w>表示从v指向w的边（单行线）</li>
+<li>不考虑重边和自回路</li>
+</ul>
+</li>
+</ul>
+<h5 id="常见术语"><a href="#常见术语" class="headerlink" title="常见术语"></a>常见术语</h5><p>图中所有路径都是右方向的称为无向图，有方向的称为有向图。</p>
+<p>顶点的度指顶点相连接的边的条数。在有向图中，入度表示有多少条边指向这个顶点。出度表示有多少条边是以这个顶点为起点指向其他顶点。带权重的图称为网络。</p>
+<h5 id="图的表示"><a href="#图的表示" class="headerlink" title="图的表示"></a>图的表示</h5><h6 id="邻接矩阵"><a href="#邻接矩阵" class="headerlink" title="邻接矩阵"></a>邻接矩阵</h6><ul>
+<li>使用二维数组来存储，若有边为1，无边则为0。如果用一个长度为N(N+1)/2的1维数组A存储，则Gij在A中对应的下标是(i*(i+1)/2+j)</li>
+<li>好处<ul>
+<li>直观、简单、好理解</li>
+<li>方便检查任意一对顶点间是否存在边</li>
+<li>方便找任一顶点的所有“邻接点”（有边直接相连的顶点）</li>
+<li>方便计算任一顶点的“度”（从该点发出的边数为“出度”，指向该点的边数为“入度”）<ul>
+<li>无向图：对应行非0元素的个数</li>
+<li>有向图：对应行非0元素的个数是“出度”；对应列非0元素的个数是“入度”。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>坏处<ul>
+<li>浪费空间，存稀疏图有大量无效元素</li>
+</ul>
+</li>
+</ul>
+<h6 id="邻接表"><a href="#邻接表" class="headerlink" title="邻接表"></a>邻接表</h6><ul>
+<li>G[N]维指针数组，对应矩阵每行一个链表，只存非0元素。</li>
+<li>好处<ul>
+<li>方便找任一顶点的所有邻接点</li>
+<li>节约稀疏图的空间</li>
+<li>对于无向图方便计算任一顶点的度，对于有向图只能计算出度，需要构造逆邻接表来方便计算入度。</li>
+<li>不方便检查任意一堆顶点间是否存在边。 </li>
+</ul>
+</li>
+</ul>
+<h3 id="图的遍历"><a href="#图的遍历" class="headerlink" title="图的遍历"></a>图的遍历</h3><p>深度优先搜索(DFS)相当于树的先序遍历。<br>广度优先搜索相当于树的层序遍历。，它其实就是一种“地毯式”层层推进的搜索策略，即先查找离起始顶点最近的，然后 是次近的，依次往外搜索。</p>
+<p>广度优先搜索，通俗的理解就是，地毯式层层推进，从起始顶点开始，依次往外遍历。广度优先搜索需要借助队列来实现，遍历得到的路径就是，起始顶点到终 止顶点的最短路径。深度优先搜索用的是回溯思想，非常适合用递归实现。换种说法，深度优先搜索是借助栈来实现的。在执行效率方面，深度优先和广度优先 搜索的时间复杂度都是O(E)，空间复杂度是O(V)。 </p>
+<p> 最短路径问题的抽象<br> 在网络中，求两个不同顶点之间的所有路径中，边的权值之和最小的那一条路径。这条路径就是两点之间的最短路径，第一个顶点为源点，最后一个顶点为终点。</p>
+<p> 无权图的单源最短路算法<br> 按照递增的顺序找出到各个顶点的最短路。相当于BFS。 </p>
 
             </div>
             <hr>
@@ -370,18 +298,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2020/10/11/%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91%E5%92%8C%E5%93%88%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">哈夫曼树和哈夫曼编码</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2020/09/27/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90/">
-                        <span class="hidden-mobile">复杂度分析</span>
+                      <a href="/2020/10/11/%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91%E5%92%8C%E5%93%88%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81/">
+                        <span class="hidden-mobile">哈夫曼树和哈夫曼编码</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -592,7 +514,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "树和堆&nbsp;",
+        "图&nbsp;",
       ],
       cursorChar: " ",
       typeSpeed: 70,

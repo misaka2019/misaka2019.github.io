@@ -1,0 +1,733 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/9.jpg">
+  <link rel="icon" type="image/png" href="/img/10.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>分词 - whu</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/tomorrow-night-eighties.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_6peoq002giu.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>whu's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/5.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container page-header text-center fade-in-up">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2021-01-20 22:46" pubdate>
+      2021年1月20日 晚上
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      44
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto" id="post">
+            <!-- SEO header -->
+            <h1 style="display: none">分词</h1>
+            
+            <div class="markdown-body" id="post-body">
+              <h4 id="分词"><a href="#分词" class="headerlink" title="分词"></a>分词</h4><p>分词就是把文本从字序列的表示升级为词序列表示的过程。对于中文来说，如果不进行分词，那么神经网络将直接基于原始的汉字序列进行处理和学习。然而我们知道一个字再不同的词语中可能含有不同的意思，因此我们需要分词来缓解这种一字多义的问题。</p>
+<p>除此之外，从特征（feature）与NLP任务的角度来说，字相比词来说，是更原始和低级的特征，往往与任务目标的关联比较小；而到了词级别后，往往与任务目标能发生很强的关联。比如对于情感分类任务，“我今天走狗屎运了”这句中的每个字都跟正向情感关系不大，甚至“狗”这个字还往往跟负面情感密切相关，但是“狗屎运”这个词却表达了“幸运”、“开心”、“惊喜”的正向情感，因此，<strong>分词可以看作是给模型提供了更high-level、更直接的feature，</strong>丢给模型后自然容易获得更佳的表现。</p>
+<p>另外，如果模型本身能够学习到字的多义性，并且学习到字组词的规律，那么就相当于隐含的内置了一个分词器再模型内部，这个时候这个内置的分词器是与解决目标任务的网络部分一起“端到端训练”的，因此甚至可能获得更好的性能。然而要满足这个条件需要训练语料非常丰富，且模型足够大，才有可能获得比“分词器+词级模型”更好的表现。</p>
+<p>此外，<strong>分词也并不是百利而无一害的</strong>，一旦分词器的精度不够高，或者语料本身就噪声很大（错字多、句式杂乱、各种不规范用语），这时强行分词反而容易使得模型更难学习。比如模型终于学会了“哈士奇”这个词，却有人把哈士奇打成了“蛤士奇”，结果分词器没认出来，把它分成了“蛤”、“士”、“奇”这三个字，这样我们这个已经训练好的“word level模型”就看不到“哈士奇”了（毕竟模型训练的时候，“哈士奇”是基本单位）。</p>
+<h5 id="中文分词的困难"><a href="#中文分词的困难" class="headerlink" title="中文分词的困难"></a>中文分词的困难</h5><ol>
+<li><strong>歧义问题</strong></li>
+<li><strong>未登录问题</strong>，比如中文词典中每年会新增一些热词，这时候分词器很容易因为“落伍”而出现切分错误。</li>
+<li><strong>规范问题</strong>，分词时的切分边界也一直没有一个确定的规范。尽管在 1992 年国家颁布了《信息处理用现代词汉语分词规范》，但是这种规范很容易受主观因素影响，在实际场景中也难免遇到有所不及的问题。</li>
+</ol>
+<h4 id="常用算法"><a href="#常用算法" class="headerlink" title="常用算法"></a>常用算法</h4><h5 id="基于词典"><a href="#基于词典" class="headerlink" title="基于词典"></a>基于词典</h5><p>对于中文分词问题，最简单的算法就是基于词典直接进行<strong>greedy匹配</strong>。</p>
+<p>比如，我们可以直接从句子开头的第一个字开始查字典，找出字典中以该字开头的最长的单词，然后就得到了第一个切分好的词。这种简单的算法即为<strong>前向最大匹配法（FMM）</strong>。</p>
+<p>不过，<strong>由于中文句子本身具有重要信息后置的特点，从后往前匹配的分词正确率往往要高于从前往后</strong>，于是就有了反向进行的“<strong>后向最大匹配法（BMM）</strong>”。当然了，无论是FMM还是BMM，都一定存在不少切分错误，因此一种考虑更周到的方法是<strong>“双向最大匹配”</strong>。</p>
+<h5 id="基于语言模型"><a href="#基于语言模型" class="headerlink" title="基于语言模型"></a>基于语言模型</h5><p><strong>基于词典的方法在切分时是没有考虑词语所在的上下文的，没有从全局出发找最优解</strong>。给定一个句子，各种切分组合是数量有限的，如果有一个东西可以评估出任何一个组合的存在合理性的分值，那么不就找到了最佳的分词组合嘛！</p>
+<p>所以，这种方法的本质就是<strong>在各种切词组合中找出那个最合理的组合</strong>，这个过程就可以看作<strong>在切分词图中找出一条概率最大的路径</strong>：<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWM0LnpoaW1nLmNvbS92Mi1jYzEwNDkyNTZkZWY1YjhkMWNiY2FhOWVhM2I3OGMzZl9iLmpwZw?x-oss-process=image/format,png" srcset="/img/loading.gif" alt="v2-cc1049256def5b8d1cbcaa9ea3b78c3f_b.jpg"></p>
+<p>给定哟个句子分词后得到的单词序列{w1,w2…wm}，语言模型能够算出这个词序列存在的可能性。然后通过链式法则进行展开：</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWMxLnpoaW1nLmNvbS92Mi04ZDU4MTNiYzJiYTQyMzQzNmJiMGRkYTcxOGUzMDliMF9iLnBuZw?x-oss-process=image/format,png" srcset="/img/loading.gif" alt="v2-8d5813bc2ba423436bb0dda718e309b0_b.png"></p>
+<p>当m取值稍微一大，乘法链的后面几项会变得非常难计算（估计出这几项的概率需要依赖极其庞大的语料才能保证估计误差可接受）。计算困难怎么办？当然是<strong>用合理的假设来简化计算</strong>，比如我们可以假设当前位置取什么词仅取决于相邻的前面n个位置，即<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWM0LnpoaW1nLmNvbS92Mi1iZTNkMTIyNmRmZmFiN2Q1OWYzOWM5ZmJlYjJlZjJhYl9iLnBuZw?x-oss-process=image/format,png" srcset="/img/loading.gif" alt="v2-be3d1226dffab7d59f39c9fbeb2ef2ab_b.png"></p>
+<p>这种简化的语言模型就称为<strong>n-gram语言模型</strong>。这样乘法链中的每个乘子都可以在已经完成人工标注的分词语料中计算得到。</p>
+<h5 id="基于统计机器学习"><a href="#基于统计机器学习" class="headerlink" title="基于统计机器学习"></a>基于统计机器学习</h5><p>一般用<strong>{B:begin, M:middle, E:end, S:single}</strong>这4个类别来描述一个分词样本中每个字所属的类别。它们代表的是该字在词语中的位置。其中，B代表该字是词语中的起始字，M代表是词语中的中间字，E代表是词语中的结束字，S则代表是单字成词。</p>
+<p>一个样本如下所示：</p>
+<blockquote>
+<p>人/b 们/e 常/s 说/s 生/b 活/e 是/s 一/s 部/s 教/b 科/m 书/e</p>
+</blockquote>
+<p>之后我们就可以直接套用统计机器学习模型来训练出一个分词器啦。统计序列标注模型的代表就是生成式模型的代表——<strong>隐马尔可夫模型（HMM），和判别式模型的代表——（线性链）条件随机场（CRF）</strong>。</p>
+<h5 id="基于-Bi-LSTM"><a href="#基于-Bi-LSTM" class="headerlink" title="基于(Bi-)LSTM"></a><strong>基于(Bi-)LSTM</strong></h5><p>字的上下文信息对于排解切分歧义来说非常重要，<strong>能考虑的上下文越长，自然排解歧义的能力就越强</strong>。而前面的n-gram语言模型也只能做到考虑一定距离的上下文，那么有没有在理论上能考虑无限长上下文距离的分词模型呢？答案就是<strong>基于LSTM</strong>来做。当然啦，<strong>LSTM是有方向的</strong>，为了让每个位置的字分类时既能考虑全部历史信息（左边的所有的字），又能考虑全部未来信息（右边所有的字），我们可以使用双向LSTM（Bi-LSTM）来充当序列标注的骨架模型，如图</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWMxLnpoaW1nLmNvbS92Mi04NzBkMzFlYWU0YjYyOWEzZDljZTkyNzE5ZWQ5ZmE5MF9iLmpwZw?x-oss-process=image/format,png" srcset="/img/loading.gif" alt="v2-870d31eae4b629a3d9ce92719ed9fa90_b.jpg"></p>
+<p>LSTM完成对每个位置的上下文信息的编码后，最终通过softmax分类层完成对每个位置的分类，从而跟HMM和CRF一样完成了基于序列标注的中文分词。</p>
+<h5 id="基于预训练模型-知识蒸馏"><a href="#基于预训练模型-知识蒸馏" class="headerlink" title="基于预训练模型+知识蒸馏"></a>基于预训练模型+知识蒸馏</h5><p>BERT、ERNIE、XLNet等大型预训练席卷了NLP的绝大部分领域，在分词问题上也有显著的优越性。众所周知，预训练模型太大了，过于消耗计算资源，如果要对海量的文本进行分词，哪怕用上8卡的32G Tesla V100都会显得力不从心，因此一种解决方案就是，将预训练模型中的分词知识通过<strong>知识蒸馏（Knowledge Distillation）</strong>来迁移到小模型（比如LSTM、GRU）上。近期<strong>Jieba分词器</strong>中就上线了这么一个用这种方法得到的先进分词模型（其实是个通用的词法分析模型）。</p>
+<h4 id="停用词过滤"><a href="#停用词过滤" class="headerlink" title="停用词过滤"></a><strong>停用词过滤</strong></h4><p>出现频率特别高的和频率特别低的词对于文本分析帮助不大，一般在预处理阶段会过滤掉。 在英文里，经典的停用词为 “The”, “an”…</p>
+<div class="hljs"><pre><code class="hljs python"><span class="hljs-comment"># 方法1： 自己建立一个停用词词典</span>
+stop_words = [<span class="hljs-string">&quot;the&quot;</span>, <span class="hljs-string">&quot;an&quot;</span>, <span class="hljs-string">&quot;is&quot;</span>, <span class="hljs-string">&quot;there&quot;</span>]
+<span class="hljs-comment"># 在使用时： 假设 word_list包含了文本里的单词</span>
+word_list = [<span class="hljs-string">&quot;we&quot;</span>, <span class="hljs-string">&quot;are&quot;</span>, <span class="hljs-string">&quot;the&quot;</span>, <span class="hljs-string">&quot;students&quot;</span>]
+filtered_words = [word <span class="hljs-keyword">for</span> word <span class="hljs-keyword">in</span> word_list <span class="hljs-keyword">if</span> word <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> stop_words]
+<span class="hljs-keyword">print</span> (filtered_words)
+
+<span class="hljs-comment"># 方法2：直接利用别人已经构建好的停用词库</span>
+<span class="hljs-keyword">from</span> nltk.corpus <span class="hljs-keyword">import</span> stopwords
+cachedStopWords = stopwords.words(<span class="hljs-string">&quot;english&quot;</span>)</code></pre></div>
+<h4 id="词的标准化"><a href="#词的标准化" class="headerlink" title="词的标准化"></a><strong>词的标准化</strong></h4><p>类似于多个词代表同一个意思，我们可以用一个词来表示他们，如：went，go，going可以用go来表示所有；fast，faster，fastest可以用fast来表示所有。这些词的意思怎么合并呢？我们使用stemming来进行词的标准化。</p>
+<div class="hljs"><pre><code class="hljs python"><span class="hljs-keyword">from</span> nltk.stem.porter <span class="hljs-keyword">import</span> *
+<span class="hljs-comment">#  词标准化工具stemming（PorterStemmer()）</span>
+stemmer = PorterStemmer()
+
+test_strs = [<span class="hljs-string">&#x27;caresses&#x27;</span>, <span class="hljs-string">&#x27;flies&#x27;</span>, <span class="hljs-string">&#x27;dies&#x27;</span>, <span class="hljs-string">&#x27;mules&#x27;</span>, <span class="hljs-string">&#x27;denied&#x27;</span>,
+             <span class="hljs-string">&#x27;died&#x27;</span>, <span class="hljs-string">&#x27;agreed&#x27;</span>, <span class="hljs-string">&#x27;owned&#x27;</span>, <span class="hljs-string">&#x27;humbled&#x27;</span>, <span class="hljs-string">&#x27;sized&#x27;</span>,
+             <span class="hljs-string">&#x27;meeting&#x27;</span>, <span class="hljs-string">&#x27;stating&#x27;</span>, <span class="hljs-string">&#x27;siezing&#x27;</span>, <span class="hljs-string">&#x27;itemization&#x27;</span>,
+             <span class="hljs-string">&#x27;sensational&#x27;</span>, <span class="hljs-string">&#x27;traditional&#x27;</span>, <span class="hljs-string">&#x27;reference&#x27;</span>, <span class="hljs-string">&#x27;colonizer&#x27;</span>,
+             <span class="hljs-string">&#x27;plotted&#x27;</span>]
+<span class="hljs-comment">#  进行词的标准化</span>
+singles = [stemmer.stem(word) <span class="hljs-keyword">for</span> word <span class="hljs-keyword">in</span> test_strs]    
+print(<span class="hljs-string">&#x27; &#x27;</span>+ <span class="hljs-string">&quot;- &quot;</span>.join(singles)) 
+</code></pre></div>
+<h4 id="文本相似度-TF-IDF"><a href="#文本相似度-TF-IDF" class="headerlink" title="文本相似度(TF-IDF)"></a>文本相似度(TF-IDF)</h4><p>我们在比较事物时，往往会用到“不同”，“一样”，“相似”等词语，这些词语背后都涉及到一个动作——双方的比较。只有通过比较才能得出结论，究竟是相同还是不同。但是万物真的有这么极端的区分吗？在我看来不是的，生活中通过“相似度”这词来描述可能会更加准确。比如男人和女人，虽然生理器官和可能思想有些不同，但也有相同的地方，那就是都是人，就是说相似度不为0；比如石头与小草，它们对于虚拟类都是一种实体类，相似度也不为0；两个句子词和词的顺序都一致，相似度就是1。一个概念可以应用到不同于相同的两个方面的定义。可真谓方便至极了。</p>
+<p>在生活中，信息检索、文档复制检测等领域都应用到“文本相似度”。可能有人觉得文本是文字，其实不尽然，文本相似度的应用更广，除了文字的匹配，还可以是图片，音频等，因为他们的实质都是在计算机中都是以二进制的方式存在的。</p>
+<p>相似度，实质就是计算个体间相程度。什么是个体？对于语句，个体就是语句，对于图片，个体就是图片。</p>
+<p>先介绍最常用最简单的方法：余弦相似度。</p>
+<p>余弦相似度就是通过一个向量空间中两个向量夹角的余弦值作为衡量两个个体之间差异的大小。把1设为相同，0设为不同，那么相似度的值就是在01之间，所有的事物的相似度范围都应该是01，如果不是0~1的话，就不是我们应该研究的事了，那是神经学家和生物学家的事了。余弦相似度的特点是余弦值接近1，夹角趋于0，表明两个向量越相似。看下图，</p>
+<p><img src="https://img-blog.csdnimg.cn/20201123093214761.png#pic_center" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<p>三角形越扁平，证明两个个体间的距离越小，相似度越大；反之，相似度越小。但是，文本的相似度计算只是针对字面量来计算的，也就是说只是针对语句的字符是否相同，而不考虑它的语义，那是另外一个研究方向来着。比如，句子1：你真好看:。句子2：你真难看。这两句话相似度75%，但是它们的语义相差十万八千里，可以说是完全相反。又比如，句子1：真好吃。句子2：很美味。两个句子相似度为0，但是语义在某个场景下是一致的。</p>
+<p>所以在实际中，没有很完美的解决方案。每个公司会针对业务要求来调节相似度算法，使其在某些场合能够精确计算。</p>
+<p>计算两个图片的相似度，就是把图片a，图片b，映射为向量，然后通过这个公式来计算出相似度。在这里，最最最重要的是“映射”这个过程，这个过程，如果在大数据的应用中，涉及到了对数据的分词，去重，转换，计算等步骤。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201123093259787.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2JldHRlcnps,size_16,color_FFFFFF,t_70#pic_center" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20201123093355798.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2JldHRlcnps,size_16,color_FFFFFF,t_70#pic_center" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<p>由图可知，两个句子的相似度计算的步骤是：</p>
+<blockquote>
+<p>1.通过中文分词，把完整的句子根据分词算法分为独立的词集合<br>2.求出两个词集合的并集(词包)<br>3.计算各自词集的词频并把词频向量化<br>4.带入向量计算模型就可以求出文本相似度</p>
+</blockquote>
+<p>注意，词包确定之后，词的顺序是不能修改的，不然会影响到向量的变化。</p>
+<p>以上是对两个句子做相似度计算，如果是对两篇文章做相似度计算，步骤如下：</p>
+<blockquote>
+<p>1.找出各自文章的关键词并合成一个词集合<br>2.求出两个词集合的并集(词包)<br>3.计算各自词集的词频并把词频向量化<br>4.带入向量计算模型就可以求出文本相似度</p>
+</blockquote>
+<p>句子的相似度计算只是文章相似度计算的一个子部分。文章的关键词提取可以通过其他的算法来实现，这里先跳过，下一篇才介绍。</p>
+<p>到这里出现一个关键的名词——词频TF，词频是一个词语在文章或句子中出现的次数。如果一个词很重要，很明显是应该在一个文章中出现很多次的，但是这也不是绝对的，比如“地”，“的”，“啊”等词，它们出现的次数对一篇文章的中心思想没有一点帮助，只是中文语法结构的一部分而已。这类词也被称为“停用词”。所以，在计算一篇文章的词频时，停用词是应该过滤掉的。</p>
+<p>如果某个词比较少见（在我们准备的文章库中的占比比较少），但是它在这篇文章中多次出现，那么它很可能反映了这篇文章的特性，正是我们所需要的关键词。在此，在词频TF的基础上又引出了反文档频率IDF的概念。一般来说，在一篇文章或一个句子来说，对于每个词都有不同的重要性，这也就是词的权重。在词频的基础上，赋予每一个词的权重，进一步体现该词的重要性。比如一篇报道中国农业养殖的新闻报道。最常见的词（“的”、“是”、“在”）给予最小的权重，较常见的词（“国内”、“中国”、“报道”）给予较小的权重，较少见的词（“养殖”、“维基”）。所以刻画能力强的词语，权重应该是最高的。</p>
+<p>将TF和IDF进行相乘，就得到了一个词的TF-IDF值，某个词对文章重要性越高，该值越大，于是排在前面的几个词，就是这篇文章的关键词。（在实际中，还要考虑词的词性等多维度的特性，动词，名词，形容词的刻画能力也是有所差别的；因社会热点而词的刻画性爆发式提高(比如 打call)）。</p>
+<p>下图是词频的计算方法：<img src="https://img-blog.csdnimg.cn/20201123093422664.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2JldHRlcnps,size_16,color_FFFFFF,t_70#pic_center" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<p>词频标准化的目的是把所有的词频在同一维度上分析。词频的标准化有两个标准，第一种情况，得出词汇较小，不便于分析。一般情况下，第二个标准更适用，因为能够使词频的值相对大点，便于分析。比如一本书出现一个词语100次，但整本书10万字，词频但是在一句话中出现5次，</p>
+<p>下面是反文档频率的计算方法：<img src="https://img-blog.csdnimg.cn/2020112309350240.png#pic_center" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<blockquote>
+<p>1.为什么+1？是为了处理分母为0的情况。假如所有的文章都不包含这个词，分子就为0，所以+1是为了防止分母为0的情况。<br>2.为什么要用log函数？log函数是单调递增，求log是为了归一化，保证反文档频率不会过大。<br>3.会出现负数？肯定不会，分子肯定比分母大。</p>
+</blockquote>
+<p>TF-IDF = 计算的词频(TF)*计算的反文档频率(IDF)。<br>通过公式可以知道，TF-IDF与在该文档中出现的次数成正比，与包含该词的文档数成反比。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/NLP/">NLP</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%88%86%E8%AF%8D/">分词</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/01/23/rnn/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">RNN、LSTM及其变体</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/01/19/day01/">
+                        <span class="hidden-mobile">关键字及基本数据类型</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments">
+                
+                
+  <script type="text/javascript">
+    function loadUtterances() {
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'misaka2019/misaka2019.github.io');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', 'github-light');
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    }
+    waitElementVisible('comments', loadUtterances)
+  </script>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+    <!-- APlayer 音乐播放器 -->
+    <div id="aplayer"></div>
+    <script defer src="https://cdn.staticfile.org/aplayer/1.10.1/APlayer.min.js" ></script>
+<link  rel="stylesheet" href="https://cdn.staticfile.org/aplayer/1.10.1/APlayer.min.css" />
+<script type="text/javascript">
+  var oldLoadAp = window.onload;
+  window.onload = function () {
+    oldLoadAp && oldLoadAp();
+
+    new APlayer({
+      container: document.getElementById('aplayer'),
+      fixed: true,
+      autoplay: 'false' === 'true',
+      loop: 'all',
+      order: 'random',
+      theme: '#b7daff',
+      preload: 'none',
+      audio: [{"name":"Cyberangel-Hanser","url":"/songs/1.mp3","cover":"/img/1.jpg"},{"name":"RISE-The Glitch Mob","url":"/songs/2.mp3","cover":"/img/cover.jpg"},{"name":"only my railgun","artist":"fripSide","url":"/songs/3.mp3","cover":"/img/example.jpg"},{"name":"Lemon（翻自 米津玄師","artist":"希杨是尤诺","url":"/songs/4.mp3","cover":"/img/favicon.png"},{"name":"你曾是少年","artist":"S.H.E","url":"/songs/5.mp3","cover":"/img/avatar.png"}]
+    });
+  }
+</script>
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '#post-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "分词&nbsp;",
+      ],
+      cursorChar: " ",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.0.5/es5/tex-svg.js" ></script>
+
+  
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

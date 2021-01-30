@@ -19,7 +19,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>图 - whu</title>
+  <title>分布式词向量 - whu</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -162,8 +162,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-10-17 15:23" pubdate>
-      2020年10月17日 下午
+    <time datetime="2021-01-19 13:20" pubdate>
+      2021年1月19日 下午
     </time>
   </div>
 
@@ -173,7 +173,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      809 字
+      2.9k 字
     </span>
   
 
@@ -183,7 +183,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      8
+      32
        分钟
     </span>
   
@@ -221,53 +221,70 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto" id="post">
             <!-- SEO header -->
-            <h1 style="display: none">图</h1>
+            <h1 style="display: none">分布式词向量</h1>
             
             <div class="markdown-body" id="post-body">
-              <h3 id="图"><a href="#图" class="headerlink" title="图"></a>图</h3><p>图表示多对多地关系。包含</p>
-<ul>
-<li>一组顶点：通常用V表示顶点集合。</li>
-<li>一组边：通常用E表示边的集合。<ul>
-<li>边是顶点对：（v,w）∈E，其中v，w∈V</li>
-<li>有向边<v,w>表示从v指向w的边（单行线）</li>
-<li>不考虑重边和自回路</li>
-</ul>
+              <h2 id="word2vec"><a href="#word2vec" class="headerlink" title="word2vec"></a>word2vec</h2><h4 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h4><p><img src="https://upload-images.jianshu.io/upload_images/9285151-c719e0fee3d2bcb6.png?imageMogr2/auto-orient/strip|imageView2/2/w/670/format/webp" srcset="/img/loading.gif" alt="img"></p>
+<p>word2vec本质上是只具有一个隐含层的神经元网络。它的输入是采用One-Hot编码的词汇表向量，它的输出也是One-Hot编码的词汇表向量。使用语料来训练这个神经网络直到收敛，然后从输入层与隐藏层之间的权重就是每一个词的词向量。word2vec分为CBOW和Skip-Gram两种模型。CBOW模型的训练输入时某一个特征的上下文相关的词对应的词向量，而输出就是这特定的一个词的词向量。Skip-Gram模型和CBOW的思路时反着来的，即输入是特定的一个词的词向量，而输出是特定词对应的上下文的词向量。CBOW对小型数据库比较合适，而Skip-Gram再大型语料库中表现更好。</p>
+<h4 id="二、神经概率语言模型"><a href="#二、神经概率语言模型" class="headerlink" title="二、神经概率语言模型"></a>二、神经概率语言模型</h4><p>神经概率语言模型通常包括三个层：输入层、投影层和输出层。其中W和U是权重矩阵，p和q是偏置向量。</p>
+<p><img src="C:\Users\16355\AppData\Roaming\Typora\typora-user-images\image-20210116173055558.png" srcset="/img/loading.gif" alt="image-20210116173055558"></p>
+<p>对于语料C中的任意一个词w，将Context(w)取为其前面的n-1个词，这样对与(Context(w),w)就是一个训练样本了。</p>
+<script type="math/tex; mode=display">
+\left\{\begin{array}{l}
+\mathbf{z}_{w}=\tanh \left(W \mathbf{x}_{w}+\mathbf{p}\right) \\
+\mathbf{y}_{w}=U \mathbf{z}_{w}+\mathbf{q}
+\end{array}\right.</script><p>这是神经网络的计算公式。假设有n-1个样本，要生成长度为m词向量，那么投影层的规模就是(n-1)m，输出层的规模就是N。然后还需要使用softmax对输出的向量归一化来表示概率。</p>
+<h4 id="三、CBOW"><a href="#三、CBOW" class="headerlink" title="三、CBOW"></a>三、CBOW</h4><h4 id=""><a href="#" class="headerlink" title=""></a><img src="https://pic4.zhimg.com/80/v2-8fcd03fa3dad0cf4d0af1a890ace5193_720w.jpg" srcset="/img/loading.gif" alt="img"></h4><p>1、输入层：上下文单词的One-Hot编码词向量，V为词汇表单词个数，C为上下文单词个数。以上文那句话为例，这里C=4，所以模型的输入是（is,an,on,the）4个单词的One-Hot编码词向量。</p>
+<p>2、初始化一个权重矩阵 <img src="https://www.zhihu.com/equation?tex=W_%7BV%C3%97N%7D" srcset="/img/loading.gif" alt="[公式]"> ，然后用所有输入的One-Hot编码词向量左乘该矩阵,得到维数为N的向量 <img src="https://www.zhihu.com/equation?tex=%CF%89_1+%CF%89_2%2C%E2%80%A6%2C%CF%89_c" srcset="/img/loading.gif" alt="[公式]"> ，这里的N由自己根据任务需要设置。</p>
+<p>3、将所得的向量 <img src="https://www.zhihu.com/equation?tex=%CF%89_1+%CF%89_2%2C%E2%80%A6%2C%CF%89_c" srcset="/img/loading.gif" alt="[公式]"> 相加求平均作为隐藏层向量h。</p>
+<p>4、初始化另一个权重矩阵 <img src="https://www.zhihu.com/equation?tex=W_%7BN%C3%97V%7D%5E%7B%27%7D" srcset="/img/loading.gif" alt="[公式]"> ,用隐藏层向量h左乘 <img src="https://www.zhihu.com/equation?tex=W_%7BN%C3%97V%7D%5E%7B%27%7D" srcset="/img/loading.gif" alt="[公式]"> ，再经激活函数处理得到V维的向量y，y的每一个元素代表相对应的每个单词的概率分布。</p>
+<p>5、y中概率最大的元素所指示的单词为预测出的中间词（target word）与true label的One-Hot编码词向量做比较，误差越小越好（根据误差更新两个权重矩阵）</p>
+<p>在训练前需要定义好损失函数（一般为交叉熵代价函数），采用梯度下降算法更新W和W’。训练完毕后，输入层的每个单词与矩阵W相乘得到的向量的就是我们想要的Distributed Representation表示的词向量，也叫做word embedding。因为One-Hot编码词向量中只有一个元素为1，其他都为0，所以第i个词向量乘以矩阵W得到的就是矩阵的第i行，所以这个矩阵也叫做look up table，有了look up table就可以免去训练过程，直接查表得到单词的词向量了。          </p>
+<h4 id="四、Skip-gram"><a href="#四、Skip-gram" class="headerlink" title="四、Skip-gram"></a>四、Skip-gram</h4><p><img src="https://pic2.zhimg.com/80/v2-a04dca66f5e8456f50b4b43fb87b98dd_720w.jpg" srcset="/img/loading.gif" alt="img"> </p>
+<p>Skip-Gram是给定input word来预测上下文，其模型结构如上图所示。它的做法是，将一个词所在的上下文中的词作为输出，而那个词本身作为输入，也就是说，给出一个词，希望预测可能出现的上下文的词。通过在一个大的语料库训练，得到一个从输入层到隐含层的权重模型。“apple”的上下文词是（’there’，’is’，’an’，’on’,’the’,’table’）.那么以apple的One-Hot词向量作为输入，输出则是（’there’，’is’，’an’，’on’,’the’,’table’）的One-Hot词向量。训练完成后，就得到了每个词到隐含层的每个维度的权重，就是每个词的向量（和CBOW中一样）。接下来具体介绍如何训练我们的神经网络。</p>
+<p>假如我们有一个句子“There is an apple on the table”。</p>
+<p>1、首先我们选句子中间的一个词作为我们的输入词，例如我们选取“apple”作为input word；</p>
+<p>2、有了input word以后，我们再定义一个叫做skip_window的参数，它代表着我们从当前input word的一侧（左边或右边）选取词的数量。如果我们设置skip_window=2，那么我们最终获得窗口中的词（包括input word在内）就是[‘is’,’an’,’apple’,’on’,’the’ ]。skip_window=2代表着选取左input word左侧2个词和右侧2个词进入我们的窗口，所以整个窗口大小span=2x2=4。另一个参数叫num_skips，它代表着我们从整个窗口中选取多少个不同的词作为我们的output word，当skip_window=2，num_skips=2时，我们将会得到两组 (input word, output word) 形式的训练数据，即 (‘apple’, ‘an’)，(‘apple’, ‘one’)。</p>
+<p>3、神经网络基于这些训练数据中每对单词出现的次数习得统计结果，并输出一个概率分布，这个概率分布代表着到我们词典中每个词有多大可能性跟input word同时出现。举个例子，如果我们向神经网络模型中输入一个单词“中国“，那么最终模型的输出概率中，像“英国”， ”俄罗斯“这种相关词的概率将远高于像”苹果“，”蝈蝈“非相关词的概率。因为”英国“，”俄罗斯“在文本中更大可能在”中国“的窗口中出现。我们将通过给神经网络输入文本中成对的单词来训练它完成上面所说的概率计算。</p>
+<p>4、通过梯度下降和反向传播更新矩阵W</p>
+<p>5、W中的行向量即为每个单词的Word embedding表示</p>
+<script type="math/tex; mode=display">
+$\prod_{t=1}^T \ \prod_{-m\leq j \leq m,j\neq 0} P(w^{t+j}|w^{t})$</script><p><strong>这个公式对应着两个连乘，第一个连乘是对应 T 个输入样本，也就是说我们文本中的每个单词都要做中心词。第二个连乘代表着给定一个中心词的情况下，窗口中的单词出现的概率，内含相互独立的假设</strong>。</p>
+<h4 id="五、Hierarchical-Softmax"><a href="#五、Hierarchical-Softmax" class="headerlink" title="五、Hierarchical Softmax"></a>五、Hierarchical Softmax</h4><p>Hierarchical Softmax对原模型的改进主要有两点，第一点是从输入层到隐藏层的映射，没有采用原先的与矩阵W相乘然后相加求平均的方法，而是直接对所有输入的词向量求和。假设输入的词向量为（0，1，0，0）和（0,0,0,1），那么隐藏层的向量为（0,1,0,1）。</p>
+<p>Hierarchical Softmax的第二点改进是采用哈夫曼树来替换了原先的从隐藏层到输出层的矩阵W’。哈夫曼树的叶节点个数为词汇表的单词个数V，一个叶节点代表一个单词，而从根节点到该叶节点的路径确定了这个单词最终输出的词向量。</p>
+<p>​                                 <img src="https://pic4.zhimg.com/80/v2-3db7e66f36db0a9e6e6bc2f348dece47_720w.jpg" srcset="/img/loading.gif" alt="img">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </p>
+<h4 id="六、Negative-Sampling"><a href="#六、Negative-Sampling" class="headerlink" title="六、Negative Sampling"></a>六、Negative Sampling</h4><p>尽管哈夫曼树的引入为模型的训练缩短了许多开销，但对于一些不常见、较生僻的词汇，哈夫曼树在计算它们的词向量时仍然需要做大量的运算。</p>
+<p>负采样是另一种用来提高Word2Vec效率的方法，它是基于这样的观察：训练一个神经网络意味着使用一个训练样本就要稍微调整一下神经网络中所有的权重，这样才能够确保预测训练样本更加精确，如果能设计一种方法每次只更新一部分权重，那么计算复杂度将大大降低。</p>
+<p>将以上观察引入Word2Vec就是：当通过（”fox”, “quick”)词对来训练神经网络时，我们回想起这个神经网络的“标签”或者是“正确的输出”是一个one-hot向量。也就是说，对于神经网络中对应于”quick”这个单词的神经元对应为1，而其他上千个的输出神经元则对应为0。使用负采样，我们通过随机选择一个较少数目（比如说5个）的“负”样本来更新对应的权重。(在这个条件下，“负”单词就是我们希望神经网络输出为0的神经元对应的单词）。并且我们仍然为我们的“正”单词更新对应的权重（也就是当前样本下”quick”对应的神经元仍然输出为1）。</p>
+<h2 id="fasttext"><a href="#fasttext" class="headerlink" title="fasttext"></a>fasttext</h2><p>fasttext与CBOW的模型架构很相似。在word2vec中把每个单词当作最小的单位，把每个单词都变成一个向量。这就忽略了单词的形态特征，比如”apple”和”apples”。这两个单词具有较多的公共字符，但在传统的word2vec中，这种单词的内部形态信息丢失了。为了克服这一问题，fasttext使用了字符级别的n-grams来表示一个单词。对于单词”apple”,假设n取值为3，则它的trigram有”<ap"、"app"、"ppl"、"ple"、"le>“。其中，&lt;表示前缀，&gt;表示后缀。于是，我们可以用这些trigram来表示“apple”这个单词，进一步，我们可以用这5个trigram的向量叠加来表示“apple”的词向量。</p>
+<p>这带来两点<strong>好处</strong>：</p>
+<ol>
+<li><p>对于低频词生成的词向量效果会更好。因为它们的n-gram可以和其它词共享。</p>
 </li>
-</ul>
-<h5 id="常见术语"><a href="#常见术语" class="headerlink" title="常见术语"></a>常见术语</h5><p>图中所有路径都是右方向的称为无向图，有方向的称为有向图。</p>
-<p>顶点的度指顶点相连接的边的条数。在有向图中，入度表示有多少条边指向这个顶点。出度表示有多少条边是以这个顶点为起点指向其他顶点。带权重的图称为网络。</p>
-<h5 id="图的表示"><a href="#图的表示" class="headerlink" title="图的表示"></a>图的表示</h5><h6 id="邻接矩阵"><a href="#邻接矩阵" class="headerlink" title="邻接矩阵"></a>邻接矩阵</h6><ul>
-<li>使用二维数组来存储，若有边为1，无边则为0。如果用一个长度为N(N+1)/2的1维数组A存储，则Gij在A中对应的下标是(i*(i+1)/2+j)</li>
-<li>好处<ul>
-<li>直观、简单、好理解</li>
-<li>方便检查任意一对顶点间是否存在边</li>
-<li>方便找任一顶点的所有“邻接点”（有边直接相连的顶点）</li>
-<li>方便计算任一顶点的“度”（从该点发出的边数为“出度”，指向该点的边数为“入度”）<ul>
-<li>无向图：对应行非0元素的个数</li>
-<li>有向图：对应行非0元素的个数是“出度”；对应列非0元素的个数是“入度”。</li>
-</ul>
+<li><p>对于训练词库之外的单词，仍然可以构建它们的词向量。我们可以叠加它们的字符级n-gram向量。</p>
 </li>
-</ul>
-</li>
-<li>坏处<ul>
-<li>浪费空间，存稀疏图有大量无效元素</li>
-</ul>
-</li>
-</ul>
-<h6 id="邻接表"><a href="#邻接表" class="headerlink" title="邻接表"></a>邻接表</h6><ul>
-<li>G[N]维指针数组，对应矩阵每行一个链表，只存非0元素。</li>
-<li>好处<ul>
-<li>方便找任一顶点的所有邻接点</li>
-<li>节约稀疏图的空间</li>
-<li>对于无向图方便计算任一顶点的度，对于有向图只能计算出度，需要构造逆邻接表来方便计算入度。</li>
-<li>不方便检查任意一堆顶点间是否存在边。 </li>
-</ul>
-</li>
-</ul>
-<h3 id="图的遍历"><a href="#图的遍历" class="headerlink" title="图的遍历"></a>图的遍历</h3><p>深度优先搜索(DFS)相当于树的先序遍历。<br>广度优先搜索相当于树的层序遍历。，它其实就是一种“地毯式”层层推进的搜索策略，即先查找离起始顶点最近的，然后 是次近的，依次往外搜索。</p>
-<p>广度优先搜索，通俗的理解就是，地毯式层层推进，从起始顶点开始，依次往外遍历。广度优先搜索需要借助队列来实现，遍历得到的路径就是，起始顶点到终 止顶点的最短路径。深度优先搜索用的是回溯思想，非常适合用递归实现。换种说法，深度优先搜索是借助栈来实现的。在执行效率方面，深度优先和广度优先 搜索的时间复杂度都是O(E)，空间复杂度是O(V)。 </p>
-<p> 最短路径问题的抽象<br> 在网络中，求两个不同顶点之间的所有路径中，边的权值之和最小的那一条路径。这条路径就是两点之间的最短路径，第一个顶点为源点，最后一个顶点为终点。</p>
-<p> 无权图的单源最短路算法<br> 按照递增的顺序找出到各个顶点的最短路。相当于BFS。 </p>
+</ol>
+<h4 id="模型架构"><a href="#模型架构" class="headerlink" title="模型架构"></a>模型架构</h4><p><img src="C:\Users\16355\AppData\Roaming\Typora\typora-user-images\image-20210118141225474.png" srcset="/img/loading.gif" alt="image-20210118141225474"></p>
+<p>fastText模型只有三层：输入层、隐含层、输出层，输入也是向量表示的单词，输出也是一个特定的target，隐含层是对多个词向量的叠加平均。不过CBOW的输入是目标单词的上下文，并且通过one-hot编码过。但fasttext的输入是对个单词及其n-gram特征，并且被embedding。值得注意的是，fastText在输入时，将单词的字符级别的n-gram向量作为额外的特征；在输出时，fastText采用了分层Softmax，大大降低了模型训练时间。这两个知识点在前文中已经讲过，这里不再赘述。</p>
+<p>fastText的核心思想就是：将整篇文档的词及n-gram向量叠加平均得到文档向量，然后使用文档向量做softmax多分类。这中间涉及到两个技巧：字符级n-gram特征的引入以及分层Softmax分类。</p>
+<h2 id="GloVe"><a href="#GloVe" class="headerlink" title="GloVe"></a>GloVe</h2><p>glove模型也是一种转化为词向量的工具。首先基于语料库构建共现矩阵然后基于共现矩阵和glove模型学习词向量。</p>
+<h4 id="统计共现矩阵"><a href="#统计共现矩阵" class="headerlink" title="统计共现矩阵"></a>统计共现矩阵</h4><p>设共现矩阵为X，其元素为Xi<em>,</em>j</p>
+<p><em>Xi</em>,<em>j</em>的意义为：在整个语料库中，单词i和单词j共同出现在一个窗口中的次数。</p>
+<p>比如一段话i love you but you love him i am sad，涉及到七个单词i、love、you、but、him、am、sad。</p>
+<p>如果采用窗口宽度为5，左右为2的统计窗口，那么就有9个窗口。以中心词为love，语境词为but、you、him、i的窗口为例子。则</p>
+<script type="math/tex; mode=display">
+X_love,but += 1\\
+X_love,you += 1\\
+X_love,him += 1\\
+X_love,i += 1\\</script><p>使用窗口将整个语料库遍历一遍，即可得到共现矩阵X。</p>
+<p><img src="https://img2018.cnblogs.com/blog/1338991/201907/1338991-20190718000306405-461485887.png" srcset="/img/loading.gif" alt="img"></p>
+<p><img src="https://img2018.cnblogs.com/blog/1338991/201907/1338991-20190718000335985-604228384.png" srcset="/img/loading.gif" alt="img"></p>
+<p><img src="https://img2018.cnblogs.com/blog/1338991/201907/1338991-20190718000409375-37595833.png" srcset="/img/loading.gif" alt="img"></p>
+<p><img src="https://img2018.cnblogs.com/blog/1338991/201907/1338991-20190718000553238-2003865637.png" srcset="/img/loading.gif" alt="img"></p>
+<p><img src="https://img2018.cnblogs.com/blog/1338991/201907/1338991-20190718000617760-903171449.png" srcset="/img/loading.gif" alt="img"></p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p>[1] <a target="_blank" rel="noopener" href="https://blog.csdn.net/itplus/article/details/37999613">https://blog.csdn.net/itplus/article/details/37999613</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/61635013">https://zhuanlan.zhihu.com/p/61635013</a></p>
+<p>[3]<a target="_blank" rel="noopener" href="https://blog.csdn.net/u014665013/article/details/79642083">https://blog.csdn.net/u014665013/article/details/79642083</a></p>
 
             </div>
             <hr>
@@ -277,7 +294,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+                      <a class="hover-with-bg" href="/categories/NLP/">NLP</a>
                     
                   </div>
                 
@@ -285,7 +302,13 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+                      <a class="hover-with-bg" href="/tags/word2vec/">word2vec</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%AF%8D%E5%90%91%E9%87%8F/">词向量</a>
+                    
+                      <a class="hover-with-bg" href="/tags/fasttext/">fasttext</a>
+                    
+                      <a class="hover-with-bg" href="/tags/clove/">clove</a>
                     
                   </div>
                 
@@ -298,9 +321,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/01/19/word2vec/">
+                      <a href="/2021/01/19/day01/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">分布式词向量</span>
+                        <span class="hidden-mobile">关键字及基本数据类型</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -308,8 +331,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2020/10/11/%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91%E5%92%8C%E5%93%88%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81/">
-                        <span class="hidden-mobile">哈夫曼树和哈夫曼编码</span>
+                      <a href="/2020/10/17/%E5%9B%BE/">
+                        <span class="hidden-mobile">图</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -520,7 +543,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "图&nbsp;",
+        "分布式词向量&nbsp;",
       ],
       cursorChar: " ",
       typeSpeed: 70,

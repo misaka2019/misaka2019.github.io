@@ -1,0 +1,777 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/9.jpg">
+  <link rel="icon" type="image/png" href="/img/10.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>RNN、LSTM及其变体 - whu</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/tomorrow-night-eighties.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_6peoq002giu.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>whu's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/5.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container page-header text-center fade-in-up">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2021-01-23 14:15" pubdate>
+      2021年1月23日 下午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5.9k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      65
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto" id="post">
+            <!-- SEO header -->
+            <h1 style="display: none">RNN、LSTM及其变体</h1>
+            
+            <div class="markdown-body" id="post-body">
+              <h3 id="RNN"><a href="#RNN" class="headerlink" title="RNN"></a>RNN</h3><p>RNN是一类用于处理序列数据的神经网络。序列数据就是后面的数据和前面的数据有关系的数据。</p>
+<h4 id="RNN的结构及变体"><a href="#RNN的结构及变体" class="headerlink" title="RNN的结构及变体"></a>RNN的结构及变体</h4><p>神经网络包含输入层、隐藏层、输出层，通过激活函数控制输出，层与层之间通过权值连接。激活函数是事先确定好的，那么神经网络模型通过训练“学”到的东西就蕴含在“权值”中。</p>
+<p>基础的神经网络只在层与层之间建立了权连接，RNN最大的不同之处就是在层之间的神经元之间也建立的权连接。如图。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWFnZXMyMDE1LmNuYmxvZ3MuY29tL2Jsb2cvMTA0MjQwNi8yMDE3MDMvMTA0MjQwNi0yMDE3MDMwNjE0MjI1MzM3NS0xNzU5NzE3NzkucG5n?x-oss-process=image/format,png" srcset="/img/loading.gif" alt="img"></p>
+<p>这是一个标准的RNN结构图，图中每个箭头代表做一次变换，也就是说箭头连接带有权值。左侧是折叠起来的样子，右侧是展开的样子，左侧旁边的箭头代表此结构中的“循环”体现在隐藏层。</p>
+<p>在展开结构中我们可以观察到，在标准的RNN结构中，隐层的神经元之间也是带有权值的。也就是说，随着序列的不断推进，前面的隐层将会影响后面的隐层。图中O代表输出，y代表样本给出的确定值，L代表损失函数，我们可以看到，“损失“也是随着序列的推荐而不断积累的。</p>
+<p>除上述特点以为，标准的RNN还有以下特点：</p>
+<ol>
+<li>权值共享，共用三组权值，即W、U、V。</li>
+<li>每一个输入值都只与它本身的那条路线建立权连接，不会和别的神经元连接。</li>
+</ol>
+<p>以上是RNN的标准结构，然而在实际中这一种结构并不能解决所有的问题，例如我们做文本分类，输入为一串文字，输出为类别，那么就只需要单个输出。如图。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL3AwLmlmZW5naW1nLmNvbS9wbW9wLzIwMTcvMDkwMS8zOTRBNDZFRTE1MjcwMkZGM0Q1NjQxMTQ3OTE3QTMxN0ExRTZCNzMyX3NpemUyOV93NjAwX2g0NjAuanBlZw?x-oss-process=image/format,png" srcset="/img/loading.gif" alt="这里写图片描述"></p>
+<p>同样的，我们有时候还需要单输入但是输出为序列的情况。那么就可以使用如下结构：</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL3AwLmlmZW5naW1nLmNvbS9wbW9wLzIwMTcvMDkwMS83MEJBOTM4OUU2M0VDMzE2QUIwQzg5QzRFRDE1RkFBMUM1RTVEQjFDX3NpemUyM193NjAwX2g0NzAuanBlZw?x-oss-process=image/format,png" srcset="/img/loading.gif" alt="img"></p>
+<p>还有一种结构是输入虽是序列，但不随着序列变化，就可以使用如下结构：</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL3AwLmlmZW5naW1nLmNvbS9wbW9wLzIwMTcvMDkwMS81MUYyM0Q0NTIxMEVGN0Y3MzBBOTI3RENGMzJGMkJGRjBEQkI3QTY1X3NpemUzMF93NjAwX2g0NjguanBlZw?x-oss-process=image/format,png" srcset="/img/loading.gif" alt="这里写图片描述"></p>
+<p>原始的N vs N RNN要求序列等长，然而我们遇到的大部分问题序列都是不等长的，如机器翻译中，源语言和目标语言的句子往往并没有相同的长度。<br>下面我们来介绍RNN最重要的一个变种：N vs M。这种结构又叫Encoder-Decoder模型，也可以称之为Seq2Seq模型。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL3AwLmlmZW5naW1nLmNvbS9wbW9wLzIwMTcvMDkwMS83MjYxNUFDODNEMTFFQkQ2RTczMjA4RkE4Q0UwOTMyRDNEMEU1RkU5X3NpemUyNV93NjAwX2gzOTEuanBlZw?x-oss-process=image/format,png" srcset="/img/loading.gif" alt="这里写图片描述"></p>
+<p>从名字就能看出，这个结构的原理是先编码后解码。左侧的RNN用来编码得到c，拿到c后再用右侧的RNN进行解码。得到c有多种方式，最简单的方法就是把Encoder的最后一个隐状态赋值给c，还可以对最后的隐状态做一个变换得到c，也可以对所有的隐状态做变换。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL3AwLmlmZW5naW1nLmNvbS9wbW9wLzIwMTcvMDkwMS9DQjg4NkZGRDU1RDQ4QjRGNkUxODNENDc5NEUxRjMwNUZGQzI1RkM5X3NpemUxN193NjAwX2gyNDEuanBlZw?x-oss-process=image/format,png" srcset="/img/loading.gif" alt="这里写图片描述"></p>
+<h4 id="标准RNN的前向输出流程"><a href="#标准RNN的前向输出流程" class="headerlink" title="标准RNN的前向输出流程"></a>标准RNN的前向输出流程</h4><p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWFnZXMyMDE1LmNuYmxvZ3MuY29tL2Jsb2cvMTA0MjQwNi8yMDE3MDMvMTA0MjQwNi0yMDE3MDMwNjE0MjI1MzM3NS0xNzU5NzE3NzkucG5n?x-oss-process=image/format,png" srcset="/img/loading.gif" alt="这里写图片描述"></p>
+<p>各个符号的含义：x是输入，h是隐层单元，o为输出，L为损失函数，y为训练集的标签。这些元素右上角带的t代表t时刻的状态，其中需要注意的是，因策单元h在t时刻的表现不仅由此刻的输入决定，还受t时刻之前时刻的影响。V、W、U是权值，同一类型的权连接权值相同。</p>
+<p>对于t时刻：<script type="math/tex">h^{(t)}  =\phi (Ux^{(t)} +Wh^{(t)} +b)</script>,其中$\phi()$为激活函数，一般来说会选择tanh函数，b为偏置。</p>
+<p>t时刻的输出就更加简单：$o^{(t)}=Vh^{(t)}+c$。</p>
+<p>最终模型的预测输出为：$\hat{y}^{(t)}=\sigma(o^{(t)})$其中σ为激活函数，通常RNN用于分类，所以这里一般用sotfmax函数。</p>
+<h4 id="RNN训练方法——BPTT"><a href="#RNN训练方法——BPTT" class="headerlink" title="RNN训练方法——BPTT"></a>RNN训练方法——BPTT</h4><p>BPTT（back-propagation through time）算法是常用的训练RNN的方法，其实本质还是BP算法，只不过RNN处理时间序列数据，所以要基于时间反向传播，故叫随时间反向传播。BPTT的中心思想和BP算法相同，沿着需要优化的参数的负梯度方向不断寻找更优的点直至收敛。综上所述，BPTT算法本质还是BP算法，BP算法本质还是梯度下降法，那么求各个参数的梯度便成了此算法的核心。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWFnZXMyMDE1LmNuYmxvZ3MuY29tL2Jsb2cvMTA0MjQwNi8yMDE3MDMvMTA0MjQwNi0yMDE3MDMwNjE0MjI1MzM3NS0xNzU5NzE3NzkucG5n?x-oss-process=image/format,png" srcset="/img/loading.gif" alt="这里写图片描述"></p>
+<p>需要寻优的参数有三个，分别是U、V、W。与BP算法不同的是，其中W和U两个参数的寻优过程需要追溯之前的历史数据，参数V相对简单只需关注目前，那么我们就来先求解参数V的偏导数。</p>
+<script type="math/tex; mode=display">
+\frac{\partial L^{(t)}}{\partial V} = \frac{\partial L^{(t)}}{\partial o^{(t)}}\cdot \frac{\partial o^{(t)}}{\partial V}</script><p>RNN的损失也是会随着时间累加的，所以不能只求t时刻的偏导。</p>
+<script type="math/tex; mode=display">
+\begin{array}{c}
+L=\sum_{t=1}^{n} L^{(t)} \\
+\frac{\partial L}{\partial V}=\sum_{t=1}^{n} \frac{\partial L^{(t)}}{\partial o^{(t)}} \cdot \frac{\partial o^{(t)}}{\partial V}
+\end{array}</script><p>W和U的偏导的求解由于需要涉及到历史数据，其偏导求起来相对复杂，我们先假设只有三个时刻，那么<strong>在第三个时刻</strong> L对W的偏导数为：</p>
+<script type="math/tex; mode=display">
+\frac{\partial L^{(3)}}{\partial W}=\frac{\partial L^{(3)}}{\partial o^{(3)}} \frac{\partial o^{(3)}}{\partial h^{(3)}} \frac{\partial h^{(3)}}{\partial W}+\frac{\partial L^{(3)}}{\partial o^{(3)}} \frac{\partial o^{(3)}}{\partial h^{(3)}} \frac{\partial h^{(3)}}{\partial h^{(2)}} \frac{\partial h^{(2)}}{\partial W}+\frac{\partial L^{(3)}}{\partial o^{(3)}} \frac{\partial o^{(3)}}{\partial h^{(3)}} \frac{\partial h^{(3)}}{\partial h^{(2)}} \frac{\partial h^{(2)}}{\partial h^{(1)}} \frac{\partial h^{(1)}}{\partial W}</script><p>相应的，L在第三个时刻对U的偏导数为：</p>
+<script type="math/tex; mode=display">
+\frac{\partial L^{(3)}}{\partial U}=\frac{\partial L^{(3)}}{\partial o^{(3)}} \frac{\partial o^{(3)}}{\partial h^{(3)}} \frac{\partial h^{(3)}}{\partial U}+\frac{\partial L^{(3)}}{\partial o^{(3)}} \frac{\partial o^{(3)}}{\partial h^{(3)}} \frac{\partial h^{(3)}}{\partial h^{(2)}} \frac{\partial h^{(2)}}{\partial U}+\frac{\partial L^{(3)}}{\partial o^{(3)}} \frac{\partial o^{(3)}}{\partial h^{(3)}} \frac{\partial h^{(3)}}{\partial h^{(2)}} \frac{\partial h^{(2)}}{\partial h^{(1)}} \frac{\partial h^{(1)}}{\partial U}</script><p>可以观察到，在某个时刻的对W或是U的偏导数，需要追溯这个时刻之前所有时刻的信息，这还仅仅是一个时刻的偏导数，上面说过损失也是会累加的，那么整个损失函数对W和U的偏导数将会非常繁琐。虽然如此但好在规律还是有迹可循，我们根据上面两个式子可以写出L在t时刻对W和U偏导数的通式：</p>
+<script type="math/tex; mode=display">
+\begin{array}{l}
+\frac{\partial L^{(t)}}{\partial W}=\sum_{k=0}^{t} \frac{\partial L^{(t)}}{\partial o^{(t)}} \frac{\partial o^{(t)}}{\partial h^{(t)}}\left(\prod_{j=k+1}^{t} \frac{\partial h^{(j)}}{\partial h^{(j-1)}}\right) \frac{\partial h^{(k)}}{\partial W} \\
+\frac{\partial L^{(t)}}{\partial U}=\sum_{k=0}^{t} \frac{\partial L^{(t)}}{\partial o^{(t)}} \frac{\partial o^{(t)}}{\partial h^{(t)}}\left(\prod_{j=k+1}^{t} \frac{\partial h^{(j)}}{\partial h^{(j-1)}}\right) \frac{\partial h^{(k)}}{\partial U}
+\end{array}</script><p>整体的偏导公式就是将其按时刻再一一加起来。</p>
+<p>前面说过激活函数是嵌套在里面的，如果我们把激活函数放进去，拿出中间累乘的那部分：</p>
+<script type="math/tex; mode=display">
+\begin{array}{c}
+\prod_{j=k+1}^{t} \frac{\partial h^{j}}{\partial h^{j-1}}=\prod_{j=k+1}^{t} \tanh ^{\prime} \cdot W_{s} \\
+\prod_{j=k+1}^{t} \frac{\partial h^{j}}{\partial h^{j-1}}=\prod_{j=k+1}^{t} \text { sigmoid }^{\prime} \cdot W_{s}
+\end{array}</script><p>我们会发现累乘会导致激活函数导数的累乘，进而会导致“<strong>梯度消失</strong>“和“<strong>梯度爆炸</strong>“现象的发生。</p>
+<p>在上面式子累乘的过程中，如果取sigmoid函数作为激活函数的话，那么必然是一堆小数在做乘法，结果就是越乘越小。随着时间序列的不断深入，小数的累乘就会导致梯度越来越小直到接近于0，这就是“梯度消失“现象。其实RNN的时间序列与深层神经网络很像，在较为深层的神经网络中使用sigmoid函数做激活函数也会导致反向传播时梯度消失，梯度消失就意味消失那一层的参数再也不更新，那么那一层隐层就变成了单纯的映射层，毫无意义了，所以在深层神经网络中，有时候多加神经元数量可能会比多家深度好。</p>
+<p>你可能会提出异议，RNN明明与深层神经网络不同，RNN的参数都是共享的，而且某时刻的梯度是此时刻和之前时刻的累加，即使传不到最深处那浅层也是有梯度的。这当然是对的，但如果我们根据<strong>有限层</strong>的梯度来更新<strong>更多层的共享的参数</strong>一定会出现问题的，因为将有限的信息来作为寻优根据必定不会找到所有信息的最优解。</p>
+<p>之前说过我们多用tanh函数作为激活函数，那tanh函数的导数最大也才1啊，而且又不可能所有值都取到1，那相当于还是一堆小数在累乘，还是会出现“梯度消失“，那为什么还要用它做激活函数呢？原因是tanh函数相对于sigmoid函数来说梯度较大，收敛速度更快且引起梯度消失更慢。</p>
+<p>还有一个原因是sigmoid函数还有一个缺点，Sigmoid函数输出不是零中心对称。sigmoid的输出均大于0，这就使得输出不是0均值，称为偏移现象，这将导致后一层的神经元将上一层输出的非0均值的信号作为输入。关于原点对称的输入和中心对称的输出，网络会收敛地更好。</p>
+<p>RNN的特点本来就是能“追根溯源“利用历史数据，现在告诉我可利用的历史数据竟然是有限的，这就令人非常难受，解决“梯度消失“是非常必要的。这里说两种改善“梯度消失”的方法：<br>1、选取更好的激活函数<br>2、改变传播结构</p>
+<p>关于第一点，一般选用ReLU函数作为激活函数</p>
+<p>ReLU函数的左侧导数为0，右侧导数恒为1，这就避免了小数的连乘，但反向传播中仍有权值的累乘，所以说ReLU函数不能说完全解决了“梯度消失”现象，只能说改善。有研究表明，在RNN中使用ReLU函数配合将权值初始化到单位矩阵附近，可以达到接近LSTM网络的效果。但恒为1的导数容易导致“梯度爆炸“，但设定合适的阈值可以解决这个问题。还有一点就是如果左侧横为0的导数有可能导致把神经元学死，不过设置合适的步长（学习率）也可以有效避免这个问题的发生。</p>
+<p>关于第二点，LSTM结构就是传统RNN的改善。</p>
+<p>总结一下，sigmoid函数的缺点：<br>1、导数值范围为(0,0.25]，反向传播时会导致“梯度消失“。tanh函数导数值范围更大，相对好一点。<br>2、sigmoid函数不是0中心对称，tanh函数是，可以使网络收敛的更好。</p>
+<h3 id="Bi-directional-Recurrent-Neural-Network-BRNN"><a href="#Bi-directional-Recurrent-Neural-Network-BRNN" class="headerlink" title="Bi-directional Recurrent Neural Network (BRNN)"></a>Bi-directional Recurrent Neural Network (BRNN)</h3><p>由于标准的循环神经网络（RNN）在时序上处理序列，他们往往忽略了未来的上下文信息。一种很显而易见的解决办法是在输入和目标之间添加延迟，进而可以给网络一些时步来加入未来的上下文信息，也就是加入M时间帧的未来信息来一起预测输出。理论上，M可以非常大来捕获所有未来的可用信息，但事实上发现如果M过大，预测结果将会变差。这是因为网路把精力都集中记忆大量的输入信息，而导致将不同输入向量的预测知识联合的建模能力下降。因此，M的大小需要手动来调节。</p>
+<p>双向循环神经网络（BRNN）的基本思想是提出每一个训练序列向前和向后分别是两个循环神经网络（RNN），而且这两个都连接着一个输出层。这个结构提供给输出层输入序列中每一个点的完整的过去和未来的上下文信息。下图展示的是一个沿着时间展开的双向循环神经网络。六个独特的权值在每一个时步被重复的利用，六个权值分别对应：输入到向前和向后隐含层（w1, w3），隐含层到隐含层自己（w2, w5），向前和向后隐含层到输出层（w4, w6）。值得注意的是：向前和向后隐含层之间没有信息流，这保证了展开图是非循环的。</p>
+<p>对于双向循环神经网络（BRNN）的隐含层，向前推算跟单向的循环神经网络（RNN）一样，除了输入序列对于两个隐含层是相反方向的，输出层直到两个隐含层处理完所有的全部输入序列才更新：</p>
+<p><img src="https://img-blog.csdn.net/20160721152522777" srcset="/img/loading.gif" alt="这里写图片描述"></p>
+<p>双向循环神经网络（BRNN）的向后推算与标准的循环神经网络（RNN）通过时间反向传播相似，除了所有的输出层δ项首先被计算，然后返回给两个不同方向的隐含层：</p>
+<p><img src="https://img-blog.csdn.net/20160721153358055" srcset="/img/loading.gif" alt="这里写图片描述"></p>
+<h3 id="LSTM"><a href="#LSTM" class="headerlink" title="LSTM"></a>LSTM</h3><p>长短期记忆网络是RNN的一种变体，RNN由于梯度消失的原因只能有短期记忆，LSTM网络通过精妙的门控制将加法运算带入网络中，一定程度上解决了梯度消失的问题。只能说一定程度上，过长的序列还是会出现“梯度消失”（我记得有个老外的博客上说长度超过300就有可能出现），所以LSTM叫长一点的“短时记忆”。</p>
+<h4 id="长期依赖（Long-Term-Dependencies）问题"><a href="#长期依赖（Long-Term-Dependencies）问题" class="headerlink" title="长期依赖（Long-Term Dependencies）问题"></a>长期依赖（Long-Term Dependencies）问题</h4><p>RNN 的关键点之一就是他们可以用来连接先前的信息到当前的任务上，例如使用过去的视频段来推测对当前段的理解。如果 RNN 可以做到这个，他们就变得非常有用。但是真的可以么？答案是，还有很多依赖因素。</p>
+<p>有时候，我们仅仅需要知道先前的信息来执行当前的任务。例如，我们有一个语言模型用来基于先前的词来预测下一个词。如果我们试着预测 “the clouds are in the sky” 最后的词，我们并不需要任何其他的上下文 —— 因此下一个词很显然就应该是 sky。在这样的场景中，相关的信息和预测的词位置之间的间隔是非常小的，RNN 可以学会使用先前的信息。</p>
+<p><img src="https://img-blog.csdnimg.cn/20190613125339273.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3poYW9qYzE5OTU=,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="不太长的相关信息和位置间隔"></p>
+<p>但是同样会有一些更加复杂的场景。假设我们试着去预测“I grew up in France… I speak fluent French”最后的词。当前的信息建议下一个词可能是一种语言的名字，但是如果我们需要弄清楚是什么语言，我们是需要先前提到的离当前位置很远的 France 的上下文的。这说明相关信息和当前预测位置之间的间隔就肯定变得相当的大。</p>
+<p>不幸的是，在这个间隔不断增大时，RNN 会丧失学习到连接如此远的信息的能力。</p>
+<p><img src="https://img-blog.csdnimg.cn/20190613125403928.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3poYW9qYzE5OTU=,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<h4 id="LSTM网络"><a href="#LSTM网络" class="headerlink" title="LSTM网络"></a>LSTM网络</h4><p>LSTM 通过刻意的设计来避免长期依赖问题。记住长期的信息在实践中是 LSTM 的默认行为，而非需要付出很大代价才能获得的能力！</p>
+<p>所有 RNN 都具有一种重复神经网络模块的链式的形式。在标准的 RNN 中，这个重复的模块只有一个非常简单的结构，例如一个 tanh 层。</p>
+<p><img src="https://img-blog.csdnimg.cn/20190701145548129.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3poYW9qYzE5OTU=,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<p>LSTM 同样是这样的结构，但是重复的模块拥有一个不同的结构。不同于单一神经网络层，整体上除了h在随时间流动，细胞状态c也在随时间流动，细胞状态c就代表着长期记忆。</p>
+<p><img src="https://img-blog.csdnimg.cn/20190701145646333.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3poYW9qYzE5OTU=,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190701145707658.png" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<ul>
+<li>黄色的矩形是学习得到的神经网络层</li>
+<li>粉色的圆形表示一些运算操作，诸如加法乘法</li>
+<li>黑色的单箭头表示向量的传输</li>
+<li>两个箭头合成一个表示向量的连接</li>
+<li>一个箭头分开表示向量的复制</li>
+</ul>
+<h4 id="LSTM的核心思想"><a href="#LSTM的核心思想" class="headerlink" title="LSTM的核心思想"></a>LSTM的核心思想</h4><p>LSTM 的关键就是细胞状态，水平线在图上方贯穿运行。</p>
+<p>细胞状态类似于传送带。直接在整个链上运行，只有一些少量的线性交互。信息在上面流传保持不变会很容易。</p>
+<p><img src="https://img-blog.csdnimg.cn/20190701145744799.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3poYW9qYzE5OTU=,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<p>LSTM 有通过精心设计的称作为“门”的结构来去除或者增加信息到细胞状态的能力。门是一种让信息选择式通过的方法。他们包含一个 sigmoid 神经网络层和一个 pointwise 乘法操作。</p>
+<p>Sigmoid 层输出 0 到 1 之间的数值，描述每个部分有多少量可以通过。0 代表“不许任何量通过”，1 就指“允许任意量通过”！</p>
+<p>LSTM 拥有三个门，来保护和控制细胞状态。</p>
+<p>在我们 LSTM 中的第一步是决定我们会从细胞状态中丢弃什么信息。这个决定通过一个称为遗忘门完成。该门会读取$h<em>{t-1}$和$x_t$，输出一个在 0 到 1 之间的数值给每个在细胞状态$C</em>{t-1}$中的数字。1 表示“完全保留”，0 表示“完全舍弃”。</p>
+<p>让我们回到语言模型的例子中来基于已经看到的预测下一个词。在这个问题中，细胞状态可能包含当前主语的性别，因此正确的代词可以被选择出来。当我们看到新的主语，我们希望忘记旧的主语。</p>
+<p><img src="https://img-blog.csdnimg.cn/2019070114590464.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3poYW9qYzE5OTU=,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<p>这里可以抛出两个问题：这个门怎么做到“遗忘“的呢？怎么理解？既然是遗忘旧的内容，为什么这个门还要接收新的$x_{t}$?<br>对于第一个问题，“遗忘“可以理解为“之前的内容记住多少“，其精髓在于只能输出（0，1）小数的sigmoid函数和粉色圆圈的乘法，LSTM网络经过学习决定让网络记住以前百分之多少的内容。对于第二个问题就更好理解，决定记住什么遗忘什么，其中新的输入肯定要产生影响。</p>
+<p>下一步是确定什么样的新信息被存放在细胞状态中。这里包含两个部分。第一，sigmoid 层称 “输入门层” 决定什么值我们将要更新。然后，一个 tanh 层创建一个新的候选值向量，$\tilde{C}_t$会被加入到状态中。下一步，我们会讲这两个信息来产生对状态的更新。</p>
+<p>在我们语言模型的例子中，我们希望增加新的主语的性别到细胞状态中，来替代旧的需要忘记的主语。</p>
+<p><img src="https://img-blog.csdn.net/20160731214331118" srcset="/img/loading.gif" alt="这里写图片描述"></p>
+<p>现在是更新旧细胞状态的时间了，$C_{t-1}$更新为 $C_t$ 。前面的步骤已经决定了将会做什么，我们现在就是实际去完成。</p>
+<p>我们把旧状态与$ f_t$ 相乘 ， 丢弃掉我们确定需要丢弃的信息 。接着加上相乘，丢弃掉我们确定需要丢弃的信息。接着加上相乘，丢弃掉我们确定需要丢弃的信息。接着加上 $i_t * \tilde{C}_t$。这就是新的候选值，根据我们决定更新每个状态的程度进行变化。</p>
+<p>有了上面的理解基础输入门，输入门理解起来就简单多了。<strong>sigmoid函数选择更新内容，tanh函数创建更新候选。</strong></p>
+<p><img src="https://img-blog.csdn.net/20160731215529417" srcset="/img/loading.gif" alt="这里写图片描述"></p>
+<p>其中直接将新信息乘进长时记忆单元只会让情况更糟糕<strong>，导致当初c(t)=c(t-1)让导数恒为1的构想完全失效，</strong>这也说明了乘性更新并不是简单的信息叠加，而是控制和scaling。在往长时记忆单元添加信息方面，加性规则要显著优于乘性规则。<strong>也证明了加法更适合做信息叠加，而乘法更适合做控制和scaling。</strong></p>
+<p>最终，我们需要确定输出什么值。这个输出将会基于我们的细胞状态，但是也是一个过滤后的版本。首先，我们运行一个 sigmoid 层来确定细胞状态的哪个部分将输出出去。接着，我们把细胞状态通过 tanh 进行处理（得到一个在-1到1之间的值）并将它和 sigmoid 门的输出相乘，最终我们仅仅会输出我们确定输出的那部分。</p>
+<p><img src="https://img-blog.csdn.net/20160731220103283" srcset="/img/loading.gif" alt="这里写图片描述"></p>
+<p>设计过程总结一下：</p>
+<p>1、我们为了解决RNN中的梯度消失的问题，为了让梯度无损传播，想到了c(t)=c(t-1)这个朴素却没毛病的梯度传播模型，我们于是称c为“长时记忆单元”。</p>
+<p>2、然后为了把新信息平稳安全可靠的<strong>装入</strong>长时记忆单元，我们引入了“输入门”。</p>
+<p>3、然后为了解决新信息装载次数过多带来的<strong>激活函数饱和</strong>的问题，引入了“遗忘门”。</p>
+<p>4、然后为了让网络能够<strong>选择合适的记忆进行输出</strong>，我们引入了“输出门”。</p>
+<p>5、然后为了解决记忆被<strong>输出门截断</strong>后使得各个门单元<strong>受控性降低</strong>的问题，我们引入了“peephole”连接。</p>
+<p>6、然后为了将神经网络的简单反馈结构升级成<strong>模糊历史记忆</strong>的结构，引入了隐单元h，并且发现h中存储的模糊历史记忆是短时的，于是记h为短时记忆单元。</p>
+<p>7、于是该网络既具备长时记忆，又具备短时记忆，就干脆起名叫<strong>“长短时记忆神经网络(Long Short Term Memory Neural Networks，简称LSTM)“</strong>啦。</p>
+<h3 id="GRU"><a href="#GRU" class="headerlink" title="GRU"></a>GRU</h3><p><img src="https://mmbiz.qpic.cn/mmbiz_png/o3hIBlkRCialdSxa6hONOFBkCCweB8jia5B6a5Iia0GaLnhSn8ib7C0icmtZ3gKlc5iaW71l3YAPRtaPpRtEp3W6PQ7w/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" srcset="/img/loading.gif" alt="图片"></p>
+<ol>
+<li>这里GRU只有两个gate，一个是reset gate， 一个是update gate， update gate的作用类似于input gate和forget gate，(1-z)相当于input gate， z相当于forget gate。</li>
+<li>输入为两个值，输出也为一个值，输入为输入此时时刻值x和上一个时刻的输出ht-1， 输出这个时刻的输出值ht</li>
+<li>首先依然是利用xt和ht-1经过权重相乘通过sigmoid，得到两个0-1的值，即两个门值。</li>
+<li>接下来这里有一些不同，并且经常容易搞混淆。对于LSTM来说依然还是xt与ht-1分别权重相乘相加，之后经过tanh函数为此时的new memory，而GRU为在这个计算过程中，在ht-1与权重乘积之后和reset gate相乘，之后最终得到new memory，这里的reset gate的作用为让这个new memory包括之前的ht-1的信息的多少。</li>
+<li>接下来和lstm得到final memory其实一样，只是GRU只有两个输入，一个输出，其实这里h即输出也是state，就是说GRU的输出和state是一个值，所以4步骤得到的是new h，这步骤得到的是final h，通过update gate得到。</li>
+</ol>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">神经网络</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/NLP/">NLP</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/RNN/">RNN</a>
+                    
+                      <a class="hover-with-bg" href="/tags/LSTM/">LSTM</a>
+                    
+                      <a class="hover-with-bg" href="/tags/GRU/">GRU</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/01/29/Text-CNN/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Text-CNN</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/01/20/%E5%88%86%E8%AF%8D/">
+                        <span class="hidden-mobile">分词</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments">
+                
+                
+  <script type="text/javascript">
+    function loadUtterances() {
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'misaka2019/misaka2019.github.io');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', 'github-light');
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    }
+    waitElementVisible('comments', loadUtterances)
+  </script>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+    <!-- APlayer 音乐播放器 -->
+    <div id="aplayer"></div>
+    <script defer src="https://cdn.staticfile.org/aplayer/1.10.1/APlayer.min.js" ></script>
+<link  rel="stylesheet" href="https://cdn.staticfile.org/aplayer/1.10.1/APlayer.min.css" />
+<script type="text/javascript">
+  var oldLoadAp = window.onload;
+  window.onload = function () {
+    oldLoadAp && oldLoadAp();
+
+    new APlayer({
+      container: document.getElementById('aplayer'),
+      fixed: true,
+      autoplay: 'false' === 'true',
+      loop: 'all',
+      order: 'random',
+      theme: '#b7daff',
+      preload: 'none',
+      audio: [{"name":"Cyberangel-Hanser","url":"/songs/1.mp3","cover":"/img/1.jpg"},{"name":"RISE-The Glitch Mob","url":"/songs/2.mp3","cover":"/img/cover.jpg"},{"name":"only my railgun","artist":"fripSide","url":"/songs/3.mp3","cover":"/img/example.jpg"},{"name":"Lemon（翻自 米津玄師","artist":"希杨是尤诺","url":"/songs/4.mp3","cover":"/img/favicon.png"},{"name":"你曾是少年","artist":"S.H.E","url":"/songs/5.mp3","cover":"/img/avatar.png"}]
+    });
+  }
+</script>
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '#post-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "RNN、LSTM及其变体&nbsp;",
+      ],
+      cursorChar: " ",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.0.5/es5/tex-svg.js" ></script>
+
+  
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

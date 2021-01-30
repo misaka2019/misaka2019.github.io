@@ -19,7 +19,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>图 - whu</title>
+  <title>Text-CNN - whu</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -162,8 +162,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-10-17 15:23" pubdate>
-      2020年10月17日 下午
+    <time datetime="2021-01-29 14:53" pubdate>
+      2021年1月29日 下午
     </time>
   </div>
 
@@ -173,7 +173,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      809 字
+      888 字
     </span>
   
 
@@ -183,7 +183,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      8
+      10
        分钟
     </span>
   
@@ -221,53 +221,40 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto" id="post">
             <!-- SEO header -->
-            <h1 style="display: none">图</h1>
+            <h1 style="display: none">Text-CNN</h1>
             
             <div class="markdown-body" id="post-body">
-              <h3 id="图"><a href="#图" class="headerlink" title="图"></a>图</h3><p>图表示多对多地关系。包含</p>
+              <h3 id="Text-CNN"><a href="#Text-CNN" class="headerlink" title="Text-CNN"></a>Text-CNN</h3><h4 id="一维卷积"><a href="#一维卷积" class="headerlink" title="一维卷积"></a>一维卷积</h4><p>一维卷积通常有三种类型：full卷积、same卷积和valid卷积，下面以一个长度为5的一维张量I和长度为3的一维张量K（卷积核）为例，介绍这三种卷积的计算过程</p>
+<h5 id="一维Full卷积"><a href="#一维Full卷积" class="headerlink" title="一维Full卷积"></a>一维Full卷积</h5><p>Full卷积的计算过程是：K沿着I顺序移动，每移动到一个固定位置，对应位置的值相乘再求和，计算过程如下：</p>
+<p><img src="https://img2018.cnblogs.com/blog/1244340/201907/1244340-20190712174053004-1773413676.png" srcset="/img/loading.gif" alt="img"></p>
+<p>将得到的值依次存入一维张量Cfull，该张量就是I和卷积核K的full卷积结果，其中K卷积核或者滤波器或者卷积掩码，卷积符号用符号★表示，记Cfull=I★K</p>
+<p><img src="https://img2018.cnblogs.com/blog/1244340/201907/1244340-20190712172621556-503131905.png" srcset="/img/loading.gif" alt="img"></p>
+<h5 id="一维Same卷积"><a href="#一维Same卷积" class="headerlink" title="一维Same卷积"></a>一维Same卷积</h5><p>卷积核K都有一个锚点，然后将锚点顺序移动到张量I的每一个位置处，对应位置相乘再求和，计算过程如下：</p>
+<p><img src="https://img2018.cnblogs.com/blog/1244340/201907/1244340-20190712174211681-1549927797.png" srcset="/img/loading.gif" alt="img"></p>
+<p>假设卷积核的长度为FL，如果FL为奇数，锚点位置在(FL-1)/2处；如果FL为偶数，锚点位置在(FL-2)/2处。</p>
+<h5 id="一维Valid卷积"><a href="#一维Valid卷积" class="headerlink" title="一维Valid卷积"></a><strong>一维Valid卷积</strong></h5><p>从full卷积的计算过程可知，如果K靠近I，就会有部分延伸到I之外，valid卷积只考虑I能完全覆盖K的情况，即K在I的内部移动的情况，计算过程如下：</p>
+<p><img src="https://img2018.cnblogs.com/blog/1244340/201907/1244340-20190712174137660-2128836425.png" srcset="/img/loading.gif" alt="img"></p>
+<h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p><img src="http://d3kbpzbmcynnmx.cloudfront.net/wp-content/uploads/2015/11/Screen-Shot-2015-11-06-at-8.03.47-AM.png" srcset="/img/loading.gif" alt="网络结构"></p>
+<p>TextCNN是利用卷积神经网络来处理文本分类的一种模型。其思想与计算机视觉中的CNN大同小异。</p>
+<h4 id="参数与超参数"><a href="#参数与超参数" class="headerlink" title="参数与超参数"></a>参数与超参数</h4><ul>
+<li>sequence_length<br>Q: 对于CNN, 输入与输出都是固定的，可每个句子长短不一, 怎么处理?<br>A: 需要做定长处理, 比如定为n, 超过的截断, 不足的补0. 注意补充的0对后面的结果没有影响，因为后面的max-pooling只会输出最大值，补零的项会被过滤掉.</li>
+<li>num_classes<br>多分类, 分为几类.</li>
+<li>vocabulary_size<br>语料库的词典大小, 记为|D|.</li>
+<li>embedding_size<br>将词向量的维度, 由原始的 |D| 降维到 embedding_size.</li>
+<li>filter_size_arr<br>多个不同size的filter.</li>
+</ul>
+<h4 id="Embedding-Layer"><a href="#Embedding-Layer" class="headerlink" title="Embedding Layer"></a>Embedding Layer</h4><p>嵌入层是通过一个隐藏层, 将 one-hot 编码的词 投影 到一个低维空间中。<br>本质上是特征提取器，在指定维度中编码语义特征. 这样, 语义相近的词, 它们的欧氏距离或余弦距离也比较近。</p>
+<h4 id="Convolution-Layer"><a href="#Convolution-Layer" class="headerlink" title="Convolution Layer"></a>Convolution Layer</h4><p>为不同尺寸的 filter 都建立一个卷积层. 所以会有多个 feature map.<br>图像是像素点组成的二维数据, 有时还会有RGB三个通道, 所以它们的卷积核至少是二维的.<br>从某种程度上讲, word is to text as pixel is to image, 所以这个卷积核的 size 与 stride 会有些不一样.</p>
 <ul>
-<li>一组顶点：通常用V表示顶点集合。</li>
-<li>一组边：通常用E表示边的集合。<ul>
-<li>边是顶点对：（v,w）∈E，其中v，w∈V</li>
-<li>有向边<v,w>表示从v指向w的边（单行线）</li>
-<li>不考虑重边和自回路</li>
+<li>xixi<br>xi∈Rkxi∈Rk, 一个长度为n的句子中, 第 i 个词语的词向量, 维度为k.</li>
+<li>xi:jxi:j<br>xi:j=xi⊕xi+1⊕…⊕xjxi:j=xi⊕xi+1⊕…⊕xj<br>表示在长度为n的句子中, 第 [i,j] 个词语的词向量的拼接.</li>
+<li>hh<br>卷积核所围窗口中单词的个数, 卷积核的尺寸其实就是 hkhk.</li>
+<li>ww<br>w∈Rhkw∈Rhk, 卷积核的权重矩阵.</li>
+<li>cici<br>ci=f(w⋅xi:i+h−1+b)ci=f(w⋅xi:i+h−1+b), 卷积核在单词i位置上的输出. b∈RKb∈RK, 是 bias. ff 是双曲正切之类的激活函数.</li>
+<li>c=[c1,c2,…,cn−h+1]c=[c1,c2,…,cn−h+1]<br>filter在句中单词上进行所有可能的滑动, 得到的 feature mapfeature map.</li>
 </ul>
-</li>
-</ul>
-<h5 id="常见术语"><a href="#常见术语" class="headerlink" title="常见术语"></a>常见术语</h5><p>图中所有路径都是右方向的称为无向图，有方向的称为有向图。</p>
-<p>顶点的度指顶点相连接的边的条数。在有向图中，入度表示有多少条边指向这个顶点。出度表示有多少条边是以这个顶点为起点指向其他顶点。带权重的图称为网络。</p>
-<h5 id="图的表示"><a href="#图的表示" class="headerlink" title="图的表示"></a>图的表示</h5><h6 id="邻接矩阵"><a href="#邻接矩阵" class="headerlink" title="邻接矩阵"></a>邻接矩阵</h6><ul>
-<li>使用二维数组来存储，若有边为1，无边则为0。如果用一个长度为N(N+1)/2的1维数组A存储，则Gij在A中对应的下标是(i*(i+1)/2+j)</li>
-<li>好处<ul>
-<li>直观、简单、好理解</li>
-<li>方便检查任意一对顶点间是否存在边</li>
-<li>方便找任一顶点的所有“邻接点”（有边直接相连的顶点）</li>
-<li>方便计算任一顶点的“度”（从该点发出的边数为“出度”，指向该点的边数为“入度”）<ul>
-<li>无向图：对应行非0元素的个数</li>
-<li>有向图：对应行非0元素的个数是“出度”；对应列非0元素的个数是“入度”。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>坏处<ul>
-<li>浪费空间，存稀疏图有大量无效元素</li>
-</ul>
-</li>
-</ul>
-<h6 id="邻接表"><a href="#邻接表" class="headerlink" title="邻接表"></a>邻接表</h6><ul>
-<li>G[N]维指针数组，对应矩阵每行一个链表，只存非0元素。</li>
-<li>好处<ul>
-<li>方便找任一顶点的所有邻接点</li>
-<li>节约稀疏图的空间</li>
-<li>对于无向图方便计算任一顶点的度，对于有向图只能计算出度，需要构造逆邻接表来方便计算入度。</li>
-<li>不方便检查任意一堆顶点间是否存在边。 </li>
-</ul>
-</li>
-</ul>
-<h3 id="图的遍历"><a href="#图的遍历" class="headerlink" title="图的遍历"></a>图的遍历</h3><p>深度优先搜索(DFS)相当于树的先序遍历。<br>广度优先搜索相当于树的层序遍历。，它其实就是一种“地毯式”层层推进的搜索策略，即先查找离起始顶点最近的，然后 是次近的，依次往外搜索。</p>
-<p>广度优先搜索，通俗的理解就是，地毯式层层推进，从起始顶点开始，依次往外遍历。广度优先搜索需要借助队列来实现，遍历得到的路径就是，起始顶点到终 止顶点的最短路径。深度优先搜索用的是回溯思想，非常适合用递归实现。换种说法，深度优先搜索是借助栈来实现的。在执行效率方面，深度优先和广度优先 搜索的时间复杂度都是O(E)，空间复杂度是O(V)。 </p>
-<p> 最短路径问题的抽象<br> 在网络中，求两个不同顶点之间的所有路径中，边的权值之和最小的那一条路径。这条路径就是两点之间的最短路径，第一个顶点为源点，最后一个顶点为终点。</p>
-<p> 无权图的单源最短路算法<br> 按照递增的顺序找出到各个顶点的最短路。相当于BFS。 </p>
+<h4 id="Max-Pooling-Layer"><a href="#Max-Pooling-Layer" class="headerlink" title="Max-Pooling Layer"></a>Max-Pooling Layer</h4><p>max-pooling只会输出最大值, 对输入中的补0 做过滤.</p>
+<h4 id="Fulled-Connected-Layer"><a href="#Fulled-Connected-Layer" class="headerlink" title="Fulled-Connected Layer"></a>Fulled-Connected Layer</h4><p>使用dropout和softmax函数输出每个类别的概率。</p>
 
             </div>
             <hr>
@@ -277,7 +264,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+                      <a class="hover-with-bg" href="/categories/NLP/">NLP</a>
                     
                   </div>
                 
@@ -285,7 +272,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+                      <a class="hover-with-bg" href="/tags/textcnn/">textcnn</a>
                     
                   </div>
                 
@@ -298,18 +285,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/01/19/word2vec/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">分布式词向量</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2020/10/11/%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91%E5%92%8C%E5%93%88%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81/">
-                        <span class="hidden-mobile">哈夫曼树和哈夫曼编码</span>
+                      <a href="/2021/01/23/rnn/">
+                        <span class="hidden-mobile">RNN、LSTM及其变体</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -520,7 +501,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "图&nbsp;",
+        "Text-CNN&nbsp;",
       ],
       cursorChar: " ",
       typeSpeed: 70,

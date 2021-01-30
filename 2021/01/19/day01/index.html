@@ -19,7 +19,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>图 - whu</title>
+  <title>关键字及基本数据类型 - whu</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -162,8 +162,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-10-17 15:23" pubdate>
-      2020年10月17日 下午
+    <time datetime="2021-01-19 20:12" pubdate>
+      2021年1月19日 晚上
     </time>
   </div>
 
@@ -173,7 +173,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      809 字
+      976 字
     </span>
   
 
@@ -183,7 +183,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      8
+      10
        分钟
     </span>
   
@@ -221,53 +221,95 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto" id="post">
             <!-- SEO header -->
-            <h1 style="display: none">图</h1>
+            <h1 style="display: none">关键字及基本数据类型</h1>
             
             <div class="markdown-body" id="post-body">
-              <h3 id="图"><a href="#图" class="headerlink" title="图"></a>图</h3><p>图表示多对多地关系。包含</p>
+              <div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">// 第一行的第三个单词必须和所在的文件名称完全一样，大小写也要一样</span>
+<span class="hljs-comment">// public class后面代表定义一个类的名称，类是Java当中所有源代码的基本组织单位</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HelloWorld</span></span>&#123;
+	<span class="hljs-comment">//第二行是万年不变的固定写法，代表main方法</span>
+	<span class="hljs-comment">//这一行代表程序执行的起点</span>
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span></span>&#123;
+		<span class="hljs-comment">//第三行代表打印输出语句（其实就是屏幕显示）</span>
+		<span class="hljs-comment">//希望显示什么东西，就在小括号里写什么</span>
+		System.out.println(<span class="hljs-string">&quot;HelloWorld&quot;</span>);
+	&#125;
+&#125;</code></pre></div>
+<h4 id="关键字特点："><a href="#关键字特点：" class="headerlink" title="关键字特点："></a>关键字特点：</h4><ol>
+<li>完全小写的字母。</li>
+<li>有特殊的颜色。</li>
+</ol>
+<h4 id="标识符"><a href="#标识符" class="headerlink" title="标识符"></a>标识符</h4><p>标识符是指在程序中我们自己定义的内容。</p>
 <ul>
-<li>一组顶点：通常用V表示顶点集合。</li>
-<li>一组边：通常用E表示边的集合。<ul>
-<li>边是顶点对：（v,w）∈E，其中v，w∈V</li>
-<li>有向边<v,w>表示从v指向w的边（单行线）</li>
-<li>不考虑重边和自回路</li>
+<li>命名规则：硬性要求<ul>
+<li>标识符可以包含26个字母，0-9数字，$和下划线_</li>
+<li>标识符不能以数字开头。</li>
+<li>标识符不能是关键字。</li>
+</ul>
+</li>
+<li>命名规范<ul>
+<li>类名规范：首字母大写，后面每个单词首字母大写。</li>
+<li>变量名规范：首字母小写，后面每个字母首字母大写。</li>
 </ul>
 </li>
 </ul>
-<h5 id="常见术语"><a href="#常见术语" class="headerlink" title="常见术语"></a>常见术语</h5><p>图中所有路径都是右方向的称为无向图，有方向的称为有向图。</p>
-<p>顶点的度指顶点相连接的边的条数。在有向图中，入度表示有多少条边指向这个顶点。出度表示有多少条边是以这个顶点为起点指向其他顶点。带权重的图称为网络。</p>
-<h5 id="图的表示"><a href="#图的表示" class="headerlink" title="图的表示"></a>图的表示</h5><h6 id="邻接矩阵"><a href="#邻接矩阵" class="headerlink" title="邻接矩阵"></a>邻接矩阵</h6><ul>
-<li>使用二维数组来存储，若有边为1，无边则为0。如果用一个长度为N(N+1)/2的1维数组A存储，则Gij在A中对应的下标是(i*(i+1)/2+j)</li>
-<li>好处<ul>
-<li>直观、简单、好理解</li>
-<li>方便检查任意一对顶点间是否存在边</li>
-<li>方便找任一顶点的所有“邻接点”（有边直接相连的顶点）</li>
-<li>方便计算任一顶点的“度”（从该点发出的边数为“出度”，指向该点的边数为“入度”）<ul>
-<li>无向图：对应行非0元素的个数</li>
-<li>有向图：对应行非0元素的个数是“出度”；对应列非0元素的个数是“入度”。</li>
+<h4 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h4><p>常量是在程序运行期间固定不变的量。</p>
+<p>常量的分类：</p>
+<ol>
+<li>字符串常量，凡是用双引号亲戚来的部分都是字符串常量。</li>
+<li>整数常量：就是整数</li>
+<li>浮点数常量：有小数点的数字</li>
+<li>字符常量：单引号引起来的</li>
+<li>布尔常量：只有两种取值。true，flase。</li>
+<li>空常量：null。代表没有任何数据。</li>
+</ol>
+<h4 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h4><ul>
+<li>整数型byte short int long</li>
+<li>浮点型 float double</li>
+<li>字符型 char</li>
+<li>布尔型 boolean</li>
+<li>引用数据类型 字符串、数组、类、接口、Lambda</li>
+<li>注意事项<ul>
+<li>字符串不是基本类型，而是引用类型。</li>
+<li>浮点型可能只是一个近似值，并非精确的值。</li>
+<li>数据范围与字节数不一定相关，例如float数据范围比long更加广泛，但是float是4字节，long是8字节。</li>
+<li>浮点数当中默认类型是double。如果一定要使用float类型，需要加上一个后缀F。</li>
+<li>如果是整数，默认为int类型，如果一定要使用long类型，需要加上一个后缀L、推荐使用大写字母后缀。System.out.println(100);</li>
 </ul>
 </li>
 </ul>
-</li>
-<li>坏处<ul>
-<li>浪费空间，存稀疏图有大量无效元素</li>
-</ul>
-</li>
-</ul>
-<h6 id="邻接表"><a href="#邻接表" class="headerlink" title="邻接表"></a>邻接表</h6><ul>
-<li>G[N]维指针数组，对应矩阵每行一个链表，只存非0元素。</li>
-<li>好处<ul>
-<li>方便找任一顶点的所有邻接点</li>
-<li>节约稀疏图的空间</li>
-<li>对于无向图方便计算任一顶点的度，对于有向图只能计算出度，需要构造逆邻接表来方便计算入度。</li>
-<li>不方便检查任意一堆顶点间是否存在边。 </li>
-</ul>
-</li>
-</ul>
-<h3 id="图的遍历"><a href="#图的遍历" class="headerlink" title="图的遍历"></a>图的遍历</h3><p>深度优先搜索(DFS)相当于树的先序遍历。<br>广度优先搜索相当于树的层序遍历。，它其实就是一种“地毯式”层层推进的搜索策略，即先查找离起始顶点最近的，然后 是次近的，依次往外搜索。</p>
-<p>广度优先搜索，通俗的理解就是，地毯式层层推进，从起始顶点开始，依次往外遍历。广度优先搜索需要借助队列来实现，遍历得到的路径就是，起始顶点到终 止顶点的最短路径。深度优先搜索用的是回溯思想，非常适合用递归实现。换种说法，深度优先搜索是借助栈来实现的。在执行效率方面，深度优先和广度优先 搜索的时间复杂度都是O(E)，空间复杂度是O(V)。 </p>
-<p> 最短路径问题的抽象<br> 在网络中，求两个不同顶点之间的所有路径中，边的权值之和最小的那一条路径。这条路径就是两点之间的最短路径，第一个顶点为源点，最后一个顶点为终点。</p>
-<p> 无权图的单源最短路算法<br> 按照递增的顺序找出到各个顶点的最短路。相当于BFS。 </p>
+<h4 id="强制类型转换"><a href="#强制类型转换" class="headerlink" title="强制类型转换"></a>强制类型转换</h4><ol>
+<li>特点：代码需要进行特殊的格式处理，不能自动完成。</li>
+<li>格式：范围小的类型 范围小的变量名 = （范围小的类型） 原本范围大的数据；</li>
+</ol>
+<h5 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h5><ol>
+<li>强制类型转换一般不推荐用，因为有可能发生精度损失，数据溢出。</li>
+<li>byte/short/char这三种类型都可以发生数学运算，例如加法”+”</li>
+<li>byte/short/char这三种类型在运算的时候，都会被首先提升成为int类型，然后再计算。</li>
+<li>boolean类型不能发生数据类型转换。</li>
+</ol>
+<h4 id="ASCII编码表"><a href="#ASCII编码表" class="headerlink" title="ASCII编码表"></a>ASCII编码表</h4><p>数字和字符对照关系表（编码表）：</p>
+<p>ASCII码表：American Standard Code for Information Interchange,美国信息交换标准代码。</p>
+<p>Unicode码表：万国码。也是数字和符号的对照关系，开头0-127部分和ASCII完全一样，但是从128开始包含有更多的字符。</p>
+<p>48-‘0’</p>
+<p>65 - ‘A’</p>
+<p>97-‘a’</p>
+<h4 id="三元运算符"><a href="#三元运算符" class="headerlink" title="三元运算符"></a>三元运算符</h4><p>需要三个数据才可以操作的运算符。</p>
+<p>格式：</p>
+<p>数据类型 变量名称 = 条件判断?表达式A:表达式B；</p>
+<p>流程：</p>
+<p>首先判断条件是否成立：</p>
+<p>​    如果成立为true，那么将表达式A的值赋值给左侧的变量。</p>
+<p>​    如果不成立为flase，那么将表达式B的值赋值给左侧的变量。</p>
+<h4 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h4><p>定义一个方法的格式：</p>
+<p>public static void 方法名称(){</p>
+<p>​    方法体</p>
+<p>}</p>
+<h5 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h5><ol>
+<li>方法定义的先后顺序无所谓。</li>
+<li>方法的定义不能产生嵌套包含关系。</li>
+<li>方法定义好之后不会执行。如果执行需要方法的调用。</li>
+</ol>
 
             </div>
             <hr>
@@ -277,7 +319,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+                      <a class="hover-with-bg" href="/categories/JAVA/">JAVA</a>
                     
                   </div>
                 
@@ -285,7 +327,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+                      <a class="hover-with-bg" href="/tags/JAVA/">JAVA</a>
                     
                   </div>
                 
@@ -298,9 +340,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/01/19/word2vec/">
+                      <a href="/2021/01/20/%E5%88%86%E8%AF%8D/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">分布式词向量</span>
+                        <span class="hidden-mobile">分词</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -308,8 +350,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2020/10/11/%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91%E5%92%8C%E5%93%88%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81/">
-                        <span class="hidden-mobile">哈夫曼树和哈夫曼编码</span>
+                      <a href="/2021/01/19/word2vec/">
+                        <span class="hidden-mobile">分布式词向量</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -520,7 +562,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "图&nbsp;",
+        "关键字及基本数据类型&nbsp;",
       ],
       cursorChar: " ",
       typeSpeed: 70,

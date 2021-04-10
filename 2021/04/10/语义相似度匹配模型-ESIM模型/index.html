@@ -19,7 +19,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>Text-CNN - whu</title>
+  <title>语义相似度匹配模型-ESIM模型 - whu</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -162,8 +162,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2021-01-29 14:53" pubdate>
-      2021年1月29日 下午
+    <time datetime="2021-04-10 14:20" pubdate>
+      2021年4月10日 下午
     </time>
   </div>
 
@@ -173,7 +173,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      888 字
+      686 字
     </span>
   
 
@@ -183,7 +183,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      10
+      7
        分钟
     </span>
   
@@ -221,40 +221,31 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto" id="post">
             <!-- SEO header -->
-            <h1 style="display: none">Text-CNN</h1>
+            <h1 style="display: none">语义相似度匹配模型-ESIM模型</h1>
             
             <div class="markdown-body" id="post-body">
-              <h3 id="Text-CNN"><a href="#Text-CNN" class="headerlink" title="Text-CNN"></a>Text-CNN</h3><h4 id="一维卷积"><a href="#一维卷积" class="headerlink" title="一维卷积"></a>一维卷积</h4><p>一维卷积通常有三种类型：full卷积、same卷积和valid卷积，下面以一个长度为5的一维张量I和长度为3的一维张量K（卷积核）为例，介绍这三种卷积的计算过程</p>
-<h5 id="一维Full卷积"><a href="#一维Full卷积" class="headerlink" title="一维Full卷积"></a>一维Full卷积</h5><p>Full卷积的计算过程是：K沿着I顺序移动，每移动到一个固定位置，对应位置的值相乘再求和，计算过程如下：</p>
-<p><img src="https://img2018.cnblogs.com/blog/1244340/201907/1244340-20190712174053004-1773413676.png" srcset="/img/loading.gif" alt="img"></p>
-<p>将得到的值依次存入一维张量Cfull，该张量就是I和卷积核K的full卷积结果，其中K卷积核或者滤波器或者卷积掩码，卷积符号用符号★表示，记Cfull=I★K</p>
-<p><img src="https://img2018.cnblogs.com/blog/1244340/201907/1244340-20190712172621556-503131905.png" srcset="/img/loading.gif" alt="img"></p>
-<h5 id="一维Same卷积"><a href="#一维Same卷积" class="headerlink" title="一维Same卷积"></a>一维Same卷积</h5><p>卷积核K都有一个锚点，然后将锚点顺序移动到张量I的每一个位置处，对应位置相乘再求和，计算过程如下：</p>
-<p><img src="https://img2018.cnblogs.com/blog/1244340/201907/1244340-20190712174211681-1549927797.png" srcset="/img/loading.gif" alt="img"></p>
-<p>假设卷积核的长度为FL，如果FL为奇数，锚点位置在(FL-1)/2处；如果FL为偶数，锚点位置在(FL-2)/2处。</p>
-<h5 id="一维Valid卷积"><a href="#一维Valid卷积" class="headerlink" title="一维Valid卷积"></a><strong>一维Valid卷积</strong></h5><p>从full卷积的计算过程可知，如果K靠近I，就会有部分延伸到I之外，valid卷积只考虑I能完全覆盖K的情况，即K在I的内部移动的情况，计算过程如下：</p>
-<p><img src="https://img2018.cnblogs.com/blog/1244340/201907/1244340-20190712174137660-2128836425.png" srcset="/img/loading.gif" alt="img"></p>
-<h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p><img src="http://d3kbpzbmcynnmx.cloudfront.net/wp-content/uploads/2015/11/Screen-Shot-2015-11-06-at-8.03.47-AM.png" srcset="/img/loading.gif" alt="网络结构"></p>
-<p>TextCNN是利用卷积神经网络来处理文本分类的一种模型。其思想与计算机视觉中的CNN大同小异。</p>
-<h4 id="参数与超参数"><a href="#参数与超参数" class="headerlink" title="参数与超参数"></a>参数与超参数</h4><ul>
-<li>sequence_length<br>Q: 对于CNN, 输入与输出都是固定的，可每个句子长短不一, 怎么处理?<br>A: 需要做定长处理, 比如定为n, 超过的截断, 不足的补0. 注意补充的0对后面的结果没有影响，因为后面的max-pooling只会输出最大值，补零的项会被过滤掉.</li>
-<li>num_classes<br>多分类, 分为几类.</li>
-<li>vocabulary_size<br>语料库的词典大小, 记为|D|.</li>
-<li>embedding_size<br>将词向量的维度, 由原始的 |D| 降维到 embedding_size.</li>
-<li>filter_size_arr<br>多个不同size的filter.</li>
-</ul>
-<h4 id="Embedding-Layer"><a href="#Embedding-Layer" class="headerlink" title="Embedding Layer"></a>Embedding Layer</h4><p>嵌入层是通过一个隐藏层, 将 one-hot 编码的词 投影 到一个低维空间中。<br>本质上是特征提取器，在指定维度中编码语义特征. 这样, 语义相近的词, 它们的欧氏距离或余弦距离也比较近。</p>
-<h4 id="Convolution-Layer"><a href="#Convolution-Layer" class="headerlink" title="Convolution Layer"></a>Convolution Layer</h4><p>为不同尺寸的 filter 都建立一个卷积层. 所以会有多个 feature map.<br>图像是像素点组成的二维数据, 有时还会有RGB三个通道, 所以它们的卷积核至少是二维的.<br>从某种程度上讲, word is to text as pixel is to image, 所以这个卷积核的 size 与 stride 会有些不一样.</p>
-<ul>
-<li>xixi<br>xi∈Rkxi∈Rk, 一个长度为n的句子中, 第 i 个词语的词向量, 维度为k.</li>
-<li>xi:jxi:j<br>xi:j=xi⊕xi+1⊕…⊕xjxi:j=xi⊕xi+1⊕…⊕xj<br>表示在长度为n的句子中, 第 [i,j] 个词语的词向量的拼接.</li>
-<li>hh<br>卷积核所围窗口中单词的个数, 卷积核的尺寸其实就是 hkhk.</li>
-<li>ww<br>w∈Rhkw∈Rhk, 卷积核的权重矩阵.</li>
-<li>cici<br>ci=f(w⋅xi:i+h−1+b)ci=f(w⋅xi:i+h−1+b), 卷积核在单词i位置上的输出. b∈RKb∈RK, 是 bias. ff 是双曲正切之类的激活函数.</li>
-<li>c=[c1,c2,…,cn−h+1]c=[c1,c2,…,cn−h+1]<br>filter在句中单词上进行所有可能的滑动, 得到的 feature mapfeature map.</li>
-</ul>
-<h4 id="Max-Pooling-Layer"><a href="#Max-Pooling-Layer" class="headerlink" title="Max-Pooling Layer"></a>Max-Pooling Layer</h4><p>max-pooling只会输出最大值, 对输入中的补0 做过滤.</p>
-<h4 id="Fulled-Connected-Layer"><a href="#Fulled-Connected-Layer" class="headerlink" title="Fulled-Connected Layer"></a>Fulled-Connected Layer</h4><p>使用dropout和softmax函数输出每个类别的概率。</p>
+              <h2 id="语义相似度匹配模型-ESIM模型"><a href="#语义相似度匹配模型-ESIM模型" class="headerlink" title="语义相似度匹配模型-ESIM模型"></a>语义相似度匹配模型-ESIM模型</h2><p>ESIM是一个综合运用了BiLSTM和注意力机制的模型，在文本匹配中效果很好。</p>
+<p>文本匹配简单来说就是分析两个句子之间的关系，比如有一个问题，现在给出一个答案，我们就需要分析这个答案是否匹配这个问题，所以本质上就是一个分类问题。</p>
+<h4 id="模型结构"><a href="#模型结构" class="headerlink" title="模型结构"></a>模型结构</h4><p><img src="https://img-blog.csdnimg.cn/20181213150803869.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3djeTIzNTgw,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<p>ESIM是左边的模型，主要分为三部分：Input Encoding、Local Inference Modeling、Inference Composition。</p>
+<h4 id="Input-Encoding"><a href="#Input-Encoding" class="headerlink" title="Input Encoding"></a>Input Encoding</h4><p>这部分主要是对于输入的两句话（Premise和Hypothesis）分别进行embedding和BiLSTM来解码。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201126185853441.png" srcset="/img/loading.gif" alt="img"></p>
+<p>$l_a$和$l_b$分别表示Premise和Hypothesis句子的长度，另外$a_i$、$b_i$就是Premise和Hypothesis的某个单词的表示。</p>
+<p>使用BiLSTM可以学习如何表示一句话中的word和它上下文的关系，我们也可以理解成这是在wordEmbedding之后，结合当前局的语境encoding得到新的embedding向量。</p>
+<h4 id="Local-Inference-Modeling"><a href="#Local-Inference-Modeling" class="headerlink" title="Local Inference Modeling"></a>Local Inference Modeling</h4><p>接下来我们需要分析这两个句子之间的联系，我们得到句子和单词的表示向量是基于当前语境以及单词之间的意思综合分析得到的。如果两个单词之间的联系大，就意味着他们之间的距离和夹角越小。所以这里使用点积的方式来计算$a^→$和$b^→$的attention权重。</p>
+<p><img src="https://private.codecogs.com/gif.latex?e_%7Bij%7D%3D%5Cbar%7Ba%7D_%7Bi%7D%5E%7BT%7D%5Cbar%7Bb%7D_j" srcset="/img/loading.gif" alt="e_{ij}=\bar{a}_{i}^{T}\bar{b}_j"></p>
+<p>然后计算两个句子的交互表示：</p>
+<p><img src="https://private.codecogs.com/gif.latex?%5Ctilde%7Ba%7D_%7Bi%7D%3D%5Csum%20_%7Bj%3D1%7D%5E%7Bl_b%7D%5Cfrac%7Bexp%28e_%7Bij%7D%29%7D%7B%5Csum_%7Bk%3D1%7D%5E%7Bl_b%7Dexp%28e_%7Bik%7D%29%7D%5Cbar%7Bb_%7Bj%7D%7D%2C%5Cforall%20i%5Cin%20%5B1%2C%20...%2Cl_a%5D" srcset="/img/loading.gif" alt="\tilde{a}_{i}=\sum _{j=1}^{l_b}\frac{exp(e_{ij})}{\sum_{k=1}^{l_b}exp(e_{ik})}\bar{b_{j}},\forall i\in [1, ...,l_a]"></p>
+<p><img src="https://private.codecogs.com/gif.latex?%5Ctilde%7Bb%7D_%7Bj%7D%3D%5Csum%20_%7Bi%3D1%7D%5E%7Bl_a%7D%5Cfrac%7Bexp%28e_%7Bij%7D%29%7D%7B%5Csum_%7Bk%3D1%7D%5E%7Bl_b%7Dexp%28e_%7Bkj%7D%29%7D%5Cbar%7Ba_%7Bi%7D%7D%2C%5Cforall%20j%5Cin%20%5B1%2C%20...%2Cl_b%5D" srcset="/img/loading.gif" alt="\tilde{b}_{j}=\sum _{i=1}^{l_a}\frac{exp(e_{ij})}{\sum_{k=1}^{l_b}exp(e_{kj})}\bar{a_{i}},\forall j\in [1, ...,l_b]"></p>
+<p>这里就是用注意力机制来计算新的词向量表示，第一个公式代表对权重矩阵按行softmax求权重，然后求与b的加权和来代表a的新序列。比如premise中有一个单词“I”，首先让“I”与hypothesis中的各词相乘并且标准化后作为权重，用另一句话中的各个词向量按照权重去表示“I”。这样如此得到新的序列，以上称为Local Inference Modelling。这里的注意力机制实现了局部推断。</p>
+<h4 id="Inference-composition"><a href="#Inference-composition" class="headerlink" title="Inference composition"></a>Inference composition</h4><p>接下来就是分析差异，从而判断两个句子之间的联系是否足够大了，ESIM主要是计算新旧序列之间的差和积，并把所有信息合并起来储存在一个序列中，以此来增强局部推理信息。</p>
+<p><img src="https://private.codecogs.com/gif.latex?m_a%3D%5B%5Cbar%7Ba%7D%3B%5Ctilde%7Ba%7D%3B%5Cbar%7Ba%7D-%5Ctilde%7Ba%7D%3B%5Cbar%7Ba%7D%5Cbigodot%20%5Ctilde%7Ba%7D%5D" srcset="/img/loading.gif" alt="m_a=[\bar{a};\tilde{a};\bar{a}-\tilde{a};\bar{a}\bigodot \tilde{a}]"></p>
+<p><img src="https://private.codecogs.com/gif.latex?m_b%3D%5B%5Cbar%7Bb%7D%3B%5Ctilde%7Bb%7D%3B%5Cbar%7Bb%7D-%5Ctilde%7Bb%7D%3B%5Cbar%7Bb%7D%5Cbigodot%20%5Ctilde%7Bb%7D%5D" srcset="/img/loading.gif" alt="m_b=[\bar{b};\tilde{b};\bar{b}-\tilde{b};\bar{b}\bigodot \tilde{b}]"></p>
+<h4 id="Inference-Composition"><a href="#Inference-Composition" class="headerlink" title="Inference Composition"></a>Inference Composition</h4><p>使用BiLSTM来提取<img src="https://private.codecogs.com/gif.latex?m_a" srcset="/img/loading.gif" alt="m_a">和<img src="https://private.codecogs.com/gif.latex?m_b" srcset="/img/loading.gif" alt="m_b">的局部推理信息，对于BiLSTM提取到的信息，作者认为求和对序列长度比较敏感，不太健壮，因此他们采用了：最大池化和平均池化的方案，并将池化后的结果连接为固定长度的向量。如下：</p>
+<p><img src="https://private.codecogs.com/gif.latex?v_%7Ba%2Cavg%7D%3D%5Csum_%7Bi%3D1%7D%5E%7Bl_a%7D%5Cfrac%7Bv_%7Ba%2C%20i%7D%7D%7Bl_a%7D%2C%5Cquad%20v_%7Ba%2Cmax%7D%3Dmax_%7Bi%3D1%7D%5E%7Bl_a%7Dv_%7Ba%2Ci%7D" srcset="/img/loading.gif" alt="v_{a,avg}=\sum_{i=1}^{l_a}\frac{v_{a, i}}{l_a},\quad v_{a,max}=max_{i=1}^{l_a}v_{a,i}"></p>
+<p><img src="https://private.codecogs.com/gif.latex?v_%7Bb%2Cavg%7D%3D%5Csum_%7Bj%3D1%7D%5E%7Bl_b%7D%5Cfrac%7Bv_%7Ba%2C%20j%7D%7D%7Bl_b%7D%2C%5Cquad%20v_%7Bb%2Cmax%7D%3Dmax_%7Bj%3D1%7D%5E%7Bl_b%7Dv_%7Bb%2Cj%7D" srcset="/img/loading.gif" alt="v_{b,avg}=\sum_{j=1}^{l_b}\frac{v_{a, j}}{l_b},\quad v_{b,max}=max_{j=1}^{l_b}v_{b,j}"></p>
+<p><img src="https://private.codecogs.com/gif.latex?v%3D%5Bv_%7Ba%2Cave%7D%3Bv_%7Ba%2Cmax%7D%3Bv_%7Bb%2Cave%7D%3Bv_%7Bb%3Bmax%7D%5D" srcset="/img/loading.gif" alt="v=[v_{a,ave};v_{a,max};v_{b,ave};v_{b;max}]"></p>
+<p>然后将<img src="https://private.codecogs.com/gif.latex?v" srcset="/img/loading.gif" alt="v">放入一个全连接层分类器中进行分类。这里进行了全局推断。</p>
 
             </div>
             <hr>
@@ -272,7 +263,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/textcnn/">textcnn</a>
+                      <a class="hover-with-bg" href="/tags/%E6%96%87%E6%9C%AC%E5%8C%B9%E9%85%8D/">文本匹配</a>
                     
                   </div>
                 
@@ -285,18 +276,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/04/10/BILSTM+CRF%E5%AE%9E%E7%8E%B0%E5%91%BD%E5%90%8D%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%AB/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">BILSTM+CRF实现命名实体识别</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/01/23/rnn/">
-                        <span class="hidden-mobile">RNN、LSTM及其变体</span>
+                      <a href="/2021/04/10/BILSTM+CRF%E5%AE%9E%E7%8E%B0%E5%91%BD%E5%90%8D%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%AB/">
+                        <span class="hidden-mobile">BILSTM+CRF实现命名实体识别</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -507,7 +492,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Text-CNN&nbsp;",
+        "语义相似度匹配模型-ESIM模型&nbsp;",
       ],
       cursorChar: " ",
       typeSpeed: 70,

@@ -4,6 +4,56 @@
   
   
   <entry>
+    <title>语义相似度匹配模型-ESIM模型</title>
+    <link href="/2021/04/10/%E8%AF%AD%E4%B9%89%E7%9B%B8%E4%BC%BC%E5%BA%A6%E5%8C%B9%E9%85%8D%E6%A8%A1%E5%9E%8B-ESIM%E6%A8%A1%E5%9E%8B/"/>
+    <url>/2021/04/10/%E8%AF%AD%E4%B9%89%E7%9B%B8%E4%BC%BC%E5%BA%A6%E5%8C%B9%E9%85%8D%E6%A8%A1%E5%9E%8B-ESIM%E6%A8%A1%E5%9E%8B/</url>
+    
+    <content type="html"><![CDATA[<h2 id="语义相似度匹配模型-ESIM模型"><a href="#语义相似度匹配模型-ESIM模型" class="headerlink" title="语义相似度匹配模型-ESIM模型"></a>语义相似度匹配模型-ESIM模型</h2><p>ESIM是一个综合运用了BiLSTM和注意力机制的模型，在文本匹配中效果很好。</p><p>文本匹配简单来说就是分析两个句子之间的关系，比如有一个问题，现在给出一个答案，我们就需要分析这个答案是否匹配这个问题，所以本质上就是一个分类问题。</p><h4 id="模型结构"><a href="#模型结构" class="headerlink" title="模型结构"></a>模型结构</h4><p><img src="https://img-blog.csdnimg.cn/20181213150803869.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3djeTIzNTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p><p>ESIM是左边的模型，主要分为三部分：Input Encoding、Local Inference Modeling、Inference Composition。</p><h4 id="Input-Encoding"><a href="#Input-Encoding" class="headerlink" title="Input Encoding"></a>Input Encoding</h4><p>这部分主要是对于输入的两句话（Premise和Hypothesis）分别进行embedding和BiLSTM来解码。</p><p><img src="https://img-blog.csdnimg.cn/20201126185853441.png" alt="img"></p><p>$l_a$和$l_b$分别表示Premise和Hypothesis句子的长度，另外$a_i$、$b_i$就是Premise和Hypothesis的某个单词的表示。</p><p>使用BiLSTM可以学习如何表示一句话中的word和它上下文的关系，我们也可以理解成这是在wordEmbedding之后，结合当前局的语境encoding得到新的embedding向量。</p><h4 id="Local-Inference-Modeling"><a href="#Local-Inference-Modeling" class="headerlink" title="Local Inference Modeling"></a>Local Inference Modeling</h4><p>接下来我们需要分析这两个句子之间的联系，我们得到句子和单词的表示向量是基于当前语境以及单词之间的意思综合分析得到的。如果两个单词之间的联系大，就意味着他们之间的距离和夹角越小。所以这里使用点积的方式来计算$a^→$和$b^→$的attention权重。</p><p><img src="https://private.codecogs.com/gif.latex?e_%7Bij%7D%3D%5Cbar%7Ba%7D_%7Bi%7D%5E%7BT%7D%5Cbar%7Bb%7D_j" alt="e_{ij}=\bar{a}_{i}^{T}\bar{b}_j"></p><p>然后计算两个句子的交互表示：</p><p><img src="https://private.codecogs.com/gif.latex?%5Ctilde%7Ba%7D_%7Bi%7D%3D%5Csum%20_%7Bj%3D1%7D%5E%7Bl_b%7D%5Cfrac%7Bexp%28e_%7Bij%7D%29%7D%7B%5Csum_%7Bk%3D1%7D%5E%7Bl_b%7Dexp%28e_%7Bik%7D%29%7D%5Cbar%7Bb_%7Bj%7D%7D%2C%5Cforall%20i%5Cin%20%5B1%2C%20...%2Cl_a%5D" alt="\tilde{a}_{i}=\sum _{j=1}^{l_b}\frac{exp(e_{ij})}{\sum_{k=1}^{l_b}exp(e_{ik})}\bar{b_{j}},\forall i\in [1, ...,l_a]"></p><p><img src="https://private.codecogs.com/gif.latex?%5Ctilde%7Bb%7D_%7Bj%7D%3D%5Csum%20_%7Bi%3D1%7D%5E%7Bl_a%7D%5Cfrac%7Bexp%28e_%7Bij%7D%29%7D%7B%5Csum_%7Bk%3D1%7D%5E%7Bl_b%7Dexp%28e_%7Bkj%7D%29%7D%5Cbar%7Ba_%7Bi%7D%7D%2C%5Cforall%20j%5Cin%20%5B1%2C%20...%2Cl_b%5D" alt="\tilde{b}_{j}=\sum _{i=1}^{l_a}\frac{exp(e_{ij})}{\sum_{k=1}^{l_b}exp(e_{kj})}\bar{a_{i}},\forall j\in [1, ...,l_b]"></p><p>这里就是用注意力机制来计算新的词向量表示，第一个公式代表对权重矩阵按行softmax求权重，然后求与b的加权和来代表a的新序列。比如premise中有一个单词“I”，首先让“I”与hypothesis中的各词相乘并且标准化后作为权重，用另一句话中的各个词向量按照权重去表示“I”。这样如此得到新的序列，以上称为Local Inference Modelling。这里的注意力机制实现了局部推断。</p><h4 id="Inference-composition"><a href="#Inference-composition" class="headerlink" title="Inference composition"></a>Inference composition</h4><p>接下来就是分析差异，从而判断两个句子之间的联系是否足够大了，ESIM主要是计算新旧序列之间的差和积，并把所有信息合并起来储存在一个序列中，以此来增强局部推理信息。</p><p><img src="https://private.codecogs.com/gif.latex?m_a%3D%5B%5Cbar%7Ba%7D%3B%5Ctilde%7Ba%7D%3B%5Cbar%7Ba%7D-%5Ctilde%7Ba%7D%3B%5Cbar%7Ba%7D%5Cbigodot%20%5Ctilde%7Ba%7D%5D" alt="m_a=[\bar{a};\tilde{a};\bar{a}-\tilde{a};\bar{a}\bigodot \tilde{a}]"></p><p><img src="https://private.codecogs.com/gif.latex?m_b%3D%5B%5Cbar%7Bb%7D%3B%5Ctilde%7Bb%7D%3B%5Cbar%7Bb%7D-%5Ctilde%7Bb%7D%3B%5Cbar%7Bb%7D%5Cbigodot%20%5Ctilde%7Bb%7D%5D" alt="m_b=[\bar{b};\tilde{b};\bar{b}-\tilde{b};\bar{b}\bigodot \tilde{b}]"></p><h4 id="Inference-Composition"><a href="#Inference-Composition" class="headerlink" title="Inference Composition"></a>Inference Composition</h4><p>使用BiLSTM来提取<img src="https://private.codecogs.com/gif.latex?m_a" alt="m_a">和<img src="https://private.codecogs.com/gif.latex?m_b" alt="m_b">的局部推理信息，对于BiLSTM提取到的信息，作者认为求和对序列长度比较敏感，不太健壮，因此他们采用了：最大池化和平均池化的方案，并将池化后的结果连接为固定长度的向量。如下：</p><p><img src="https://private.codecogs.com/gif.latex?v_%7Ba%2Cavg%7D%3D%5Csum_%7Bi%3D1%7D%5E%7Bl_a%7D%5Cfrac%7Bv_%7Ba%2C%20i%7D%7D%7Bl_a%7D%2C%5Cquad%20v_%7Ba%2Cmax%7D%3Dmax_%7Bi%3D1%7D%5E%7Bl_a%7Dv_%7Ba%2Ci%7D" alt="v_{a,avg}=\sum_{i=1}^{l_a}\frac{v_{a, i}}{l_a},\quad v_{a,max}=max_{i=1}^{l_a}v_{a,i}"></p><p><img src="https://private.codecogs.com/gif.latex?v_%7Bb%2Cavg%7D%3D%5Csum_%7Bj%3D1%7D%5E%7Bl_b%7D%5Cfrac%7Bv_%7Ba%2C%20j%7D%7D%7Bl_b%7D%2C%5Cquad%20v_%7Bb%2Cmax%7D%3Dmax_%7Bj%3D1%7D%5E%7Bl_b%7Dv_%7Bb%2Cj%7D" alt="v_{b,avg}=\sum_{j=1}^{l_b}\frac{v_{a, j}}{l_b},\quad v_{b,max}=max_{j=1}^{l_b}v_{b,j}"></p><p><img src="https://private.codecogs.com/gif.latex?v%3D%5Bv_%7Ba%2Cave%7D%3Bv_%7Ba%2Cmax%7D%3Bv_%7Bb%2Cave%7D%3Bv_%7Bb%3Bmax%7D%5D" alt="v=[v_{a,ave};v_{a,max};v_{b,ave};v_{b;max}]"></p><p>然后将<img src="https://private.codecogs.com/gif.latex?v" alt="v">放入一个全连接层分类器中进行分类。这里进行了全局推断。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>NLP</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>文本匹配</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>BILSTM+CRF实现命名实体识别</title>
+    <link href="/2021/04/10/BILSTM+CRF%E5%AE%9E%E7%8E%B0%E5%91%BD%E5%90%8D%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%AB/"/>
+    <url>/2021/04/10/BILSTM+CRF%E5%AE%9E%E7%8E%B0%E5%91%BD%E5%90%8D%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%AB/</url>
+    
+    <content type="html"><![CDATA[<h2 id="BILSTM-CRF实现命名实体识别"><a href="#BILSTM-CRF实现命名实体识别" class="headerlink" title="BILSTM+CRF实现命名实体识别"></a>BILSTM+CRF实现命名实体识别</h2><p>命名实体识别属于NLP中的序列任务，简单来说就是识别一句话中的人名、地名、时间等名词。</p><p>对于数据集，一般采用BIO标注法。其中BIO的三个标记为：</p><p>（1）B-NP：名词短语的开头</p><p>（2）I-NP：名词短语的中间</p><p>（3）O：不是名词短语</p><h3 id="模型架构"><a href="#模型架构" class="headerlink" title="模型架构"></a>模型架构</h3><p><img src="https://img-blog.csdnimg.cn/20190422095025356.png" alt="img"></p><ul><li>对于已经处理好的sequence，先进行word embedding，可以随机初始化，也可以用预训练模型初始化。</li><li>然后使用双向lstm进行特征提取，再通过全连接层生成tag_size的output（即状态分数）。</li><li>最后再放入CRF层输出最优序列。</li></ul><p>如果只有BiLSTM，只能学习到输入之间的特征，无法学习到tag之间的依赖关系，而CRF可以学习到一些约束条件。所以采用CRF层可以很好的解决这个问题。</p><p>如：句子的开始单词的标签类型应该是B或O，而不是I；限制一些格式，B-Person I-Person是合理的，B-Person I-Organization是不合理的</p><h3 id="CRF层详解"><a href="#CRF层详解" class="headerlink" title="CRF层详解"></a>CRF层详解</h3><p>CRF层的损失函数包含两部分<br>第一部分是<strong>发射概率或者发射得分</strong>,这个发射概率由BiLSTM层产生,比如w0发射B-Person的概率得分是1.5</p><p>为了方便起见，给每个标签一个索引号，如下表所示。</p><p><img src="https://pic2.zhimg.com/80/v2-d6ed1cadb710ae868f4582722dc7810d_720w.jpg" alt="img"></p><p><img src="https://pic2.zhimg.com/80/v2-5301c39aa8aead4778a03f4b8627ba6d_720w.jpg" alt="img"></p><p>为了使transition评分矩阵更健壮，我们将添加另外两个标签，START和END。START是指一个句子的开头，而不是第一个单词。END表示句子的结尾。</p><p>下面是一个transition得分矩阵的例子，包括额外添加的START和END标签。</p><p><img src="https://pic3.zhimg.com/80/v2-b8e713dbf24afb0431f5670e10c94a86_720w.jpg" alt="img"></p><p>如上表所示，我们可以发现transition矩阵已经学习了一些有用的约束。</p><ul><li>句子中第一个单词的标签应该以“B-”或“O”开头，而不是“I-”开头<strong>(从“START”到“I- person或I- organization”的transition分数非常低)</strong></li><li>“B-label1 I-label2 I-label3 I-…”，在这个模式中，label1、label2、label3…应该是相同的命名实体标签。例如，“B-Person I-Person”是有效的，但是“B-Person I-Organization”是无效的。<strong>(例如，从“B-Organization”到“I-Person”的分数只有0.0003，比其他分数低很多)</strong></li><li>“O I-label”无效。一个被命名实体的第一个标签应该以“B-”而不是“I-”开头，换句话说，有效的模式应该是“O B-label”<strong>(同样，t_{O,I-Person}的分数非常小)</strong></li></ul><p>你可能想问一个关于矩阵的问题。<strong>在哪里或如何得到transition矩阵</strong>？</p><p>实际上，该矩阵是BiLSTM-CRF模型的一个参数。在训练模型之前，可以随机初始化矩阵中的所有transition分数。所有的随机分数将在你的训练过程中自动更新。换句话说，CRF层可以自己学习这些约束。我们不需要手动构建矩阵。随着训练迭代次数的增加，分数会逐渐趋于合理。</p><h3 id="2-3-CRF损失函数"><a href="#2-3-CRF损失函数" class="headerlink" title="2.3 CRF损失函数"></a><strong>2.3 CRF损失函数</strong></h3><p>CRF损失函数由真实路径得分和所有可能路径的总得分组成。在所有可能的路径中，真实路径的得分应该是最高的。</p><p>例如，如果我们的数据集中有如下表所示的这些标签：</p><p><img src="https://pic1.zhimg.com/80/v2-15264592ffdffb4c54afc4f62c6157e4_720w.jpg" alt="img"></p><p>我们还是有一个5个单词的句子。可能的路径是：</p><ul><li>1) START B-Person B-Person B-Person B-Person B-Person END</li><li>2) START B-Person I-Person B-Person B-Person B-Person END</li><li>…</li><li><strong>10) START B-Person I-Person O B-Organization O END</strong></li><li>…</li><li>N) O O O O O O O</li></ul><p><img src="https://pic2.zhimg.com/80/v2-98a7406a02c4e245854e993e38118e11_720w.jpg" alt="img"></p><p>下一步是<strong>如何计算所有可能路径的总分</strong>？</p><h3 id="2-5-所有可能的路径的得分"><a href="#2-5-所有可能的路径的得分" class="headerlink" title="2.5 所有可能的路径的得分"></a><strong>2.5 所有可能的路径的得分</strong></h3><p><img src="https://pic4.zhimg.com/80/v2-4db0e2cb141ed9c0600bed119d3ff5cf_720w.jpg" alt="img"></p><p><strong>步骤2: 回忆一下Emission和Transition得分</strong></p><p><img src="https://pic4.zhimg.com/80/v2-cd4b642818feed74de3410daeecedc6b_720w.jpg" alt="img"></p><p><img src="https://pic1.zhimg.com/80/v2-3441d09333a449e8ecaf620a1ea574a4_720w.jpg" alt="img"></p><p><img src="https://pic1.zhimg.com/80/v2-2807822cc1293b2bfd8e5a107ae0a088_720w.jpg" alt="img"></p><p><img src="https://pic3.zhimg.com/80/v2-41bd4f0249925ce774d65f4e03d5d4f6_720w.jpg" alt="img"></p><p><img src="https://pic4.zhimg.com/80/v2-8d7a12744e48116451a1de50ffd87bb7_720w.jpg" alt="img"></p><p>④  Bi-lstm+CRF训练时采用监督学习方法，通过最大化预测为真实标记序列的概率（将概率取对数再取负，然后用梯度下降算法优化）来更新Bi-lstm中的参数与CRF中转移概率矩阵A。虽然刚开始训练“真实标记序列不会对应最大的概率值”，但通过样本的连续迭代优化，最终会实现“真实标记序列应该对应最大的概率值”；Bi-lstm+CRF测试时，直接根据训练好的参数求出所有可能的预测序列对应的得分（这里应该会用到维特比算法），最后取对应最大得分的预测序列作为最终预测结果。</p><p>⑤ Bi-lstm+CRF的输入是一组词（字符）向量，输出是一组预测tag序列</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>NLP</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>NER</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Text-CNN</title>
     <link href="/2021/01/29/Text-CNN/"/>
     <url>/2021/01/29/Text-CNN/</url>

@@ -19,7 +19,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>Text-CNN - whu</title>
+  <title>BILSTM+CRF实现命名实体识别 - whu</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -162,8 +162,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2021-01-29 14:53" pubdate>
-      2021年1月29日 下午
+    <time datetime="2021-04-10 14:18" pubdate>
+      2021年4月10日 下午
     </time>
   </div>
 
@@ -173,7 +173,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      888 字
+      1.1k 字
     </span>
   
 
@@ -183,7 +183,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      10
+      13
        分钟
     </span>
   
@@ -221,40 +221,60 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto" id="post">
             <!-- SEO header -->
-            <h1 style="display: none">Text-CNN</h1>
+            <h1 style="display: none">BILSTM+CRF实现命名实体识别</h1>
             
             <div class="markdown-body" id="post-body">
-              <h3 id="Text-CNN"><a href="#Text-CNN" class="headerlink" title="Text-CNN"></a>Text-CNN</h3><h4 id="一维卷积"><a href="#一维卷积" class="headerlink" title="一维卷积"></a>一维卷积</h4><p>一维卷积通常有三种类型：full卷积、same卷积和valid卷积，下面以一个长度为5的一维张量I和长度为3的一维张量K（卷积核）为例，介绍这三种卷积的计算过程</p>
-<h5 id="一维Full卷积"><a href="#一维Full卷积" class="headerlink" title="一维Full卷积"></a>一维Full卷积</h5><p>Full卷积的计算过程是：K沿着I顺序移动，每移动到一个固定位置，对应位置的值相乘再求和，计算过程如下：</p>
-<p><img src="https://img2018.cnblogs.com/blog/1244340/201907/1244340-20190712174053004-1773413676.png" srcset="/img/loading.gif" alt="img"></p>
-<p>将得到的值依次存入一维张量Cfull，该张量就是I和卷积核K的full卷积结果，其中K卷积核或者滤波器或者卷积掩码，卷积符号用符号★表示，记Cfull=I★K</p>
-<p><img src="https://img2018.cnblogs.com/blog/1244340/201907/1244340-20190712172621556-503131905.png" srcset="/img/loading.gif" alt="img"></p>
-<h5 id="一维Same卷积"><a href="#一维Same卷积" class="headerlink" title="一维Same卷积"></a>一维Same卷积</h5><p>卷积核K都有一个锚点，然后将锚点顺序移动到张量I的每一个位置处，对应位置相乘再求和，计算过程如下：</p>
-<p><img src="https://img2018.cnblogs.com/blog/1244340/201907/1244340-20190712174211681-1549927797.png" srcset="/img/loading.gif" alt="img"></p>
-<p>假设卷积核的长度为FL，如果FL为奇数，锚点位置在(FL-1)/2处；如果FL为偶数，锚点位置在(FL-2)/2处。</p>
-<h5 id="一维Valid卷积"><a href="#一维Valid卷积" class="headerlink" title="一维Valid卷积"></a><strong>一维Valid卷积</strong></h5><p>从full卷积的计算过程可知，如果K靠近I，就会有部分延伸到I之外，valid卷积只考虑I能完全覆盖K的情况，即K在I的内部移动的情况，计算过程如下：</p>
-<p><img src="https://img2018.cnblogs.com/blog/1244340/201907/1244340-20190712174137660-2128836425.png" srcset="/img/loading.gif" alt="img"></p>
-<h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p><img src="http://d3kbpzbmcynnmx.cloudfront.net/wp-content/uploads/2015/11/Screen-Shot-2015-11-06-at-8.03.47-AM.png" srcset="/img/loading.gif" alt="网络结构"></p>
-<p>TextCNN是利用卷积神经网络来处理文本分类的一种模型。其思想与计算机视觉中的CNN大同小异。</p>
-<h4 id="参数与超参数"><a href="#参数与超参数" class="headerlink" title="参数与超参数"></a>参数与超参数</h4><ul>
-<li>sequence_length<br>Q: 对于CNN, 输入与输出都是固定的，可每个句子长短不一, 怎么处理?<br>A: 需要做定长处理, 比如定为n, 超过的截断, 不足的补0. 注意补充的0对后面的结果没有影响，因为后面的max-pooling只会输出最大值，补零的项会被过滤掉.</li>
-<li>num_classes<br>多分类, 分为几类.</li>
-<li>vocabulary_size<br>语料库的词典大小, 记为|D|.</li>
-<li>embedding_size<br>将词向量的维度, 由原始的 |D| 降维到 embedding_size.</li>
-<li>filter_size_arr<br>多个不同size的filter.</li>
-</ul>
-<h4 id="Embedding-Layer"><a href="#Embedding-Layer" class="headerlink" title="Embedding Layer"></a>Embedding Layer</h4><p>嵌入层是通过一个隐藏层, 将 one-hot 编码的词 投影 到一个低维空间中。<br>本质上是特征提取器，在指定维度中编码语义特征. 这样, 语义相近的词, 它们的欧氏距离或余弦距离也比较近。</p>
-<h4 id="Convolution-Layer"><a href="#Convolution-Layer" class="headerlink" title="Convolution Layer"></a>Convolution Layer</h4><p>为不同尺寸的 filter 都建立一个卷积层. 所以会有多个 feature map.<br>图像是像素点组成的二维数据, 有时还会有RGB三个通道, 所以它们的卷积核至少是二维的.<br>从某种程度上讲, word is to text as pixel is to image, 所以这个卷积核的 size 与 stride 会有些不一样.</p>
+              <h2 id="BILSTM-CRF实现命名实体识别"><a href="#BILSTM-CRF实现命名实体识别" class="headerlink" title="BILSTM+CRF实现命名实体识别"></a>BILSTM+CRF实现命名实体识别</h2><p>命名实体识别属于NLP中的序列任务，简单来说就是识别一句话中的人名、地名、时间等名词。</p>
+<p>对于数据集，一般采用BIO标注法。其中BIO的三个标记为：</p>
+<p>（1）B-NP：名词短语的开头</p>
+<p>（2）I-NP：名词短语的中间</p>
+<p>（3）O：不是名词短语</p>
+<h3 id="模型架构"><a href="#模型架构" class="headerlink" title="模型架构"></a>模型架构</h3><p><img src="https://img-blog.csdnimg.cn/20190422095025356.png" srcset="/img/loading.gif" alt="img"></p>
 <ul>
-<li>xixi<br>xi∈Rkxi∈Rk, 一个长度为n的句子中, 第 i 个词语的词向量, 维度为k.</li>
-<li>xi:jxi:j<br>xi:j=xi⊕xi+1⊕…⊕xjxi:j=xi⊕xi+1⊕…⊕xj<br>表示在长度为n的句子中, 第 [i,j] 个词语的词向量的拼接.</li>
-<li>hh<br>卷积核所围窗口中单词的个数, 卷积核的尺寸其实就是 hkhk.</li>
-<li>ww<br>w∈Rhkw∈Rhk, 卷积核的权重矩阵.</li>
-<li>cici<br>ci=f(w⋅xi:i+h−1+b)ci=f(w⋅xi:i+h−1+b), 卷积核在单词i位置上的输出. b∈RKb∈RK, 是 bias. ff 是双曲正切之类的激活函数.</li>
-<li>c=[c1,c2,…,cn−h+1]c=[c1,c2,…,cn−h+1]<br>filter在句中单词上进行所有可能的滑动, 得到的 feature mapfeature map.</li>
+<li>对于已经处理好的sequence，先进行word embedding，可以随机初始化，也可以用预训练模型初始化。</li>
+<li>然后使用双向lstm进行特征提取，再通过全连接层生成tag_size的output（即状态分数）。</li>
+<li>最后再放入CRF层输出最优序列。</li>
 </ul>
-<h4 id="Max-Pooling-Layer"><a href="#Max-Pooling-Layer" class="headerlink" title="Max-Pooling Layer"></a>Max-Pooling Layer</h4><p>max-pooling只会输出最大值, 对输入中的补0 做过滤.</p>
-<h4 id="Fulled-Connected-Layer"><a href="#Fulled-Connected-Layer" class="headerlink" title="Fulled-Connected Layer"></a>Fulled-Connected Layer</h4><p>使用dropout和softmax函数输出每个类别的概率。</p>
+<p>如果只有BiLSTM，只能学习到输入之间的特征，无法学习到tag之间的依赖关系，而CRF可以学习到一些约束条件。所以采用CRF层可以很好的解决这个问题。</p>
+<p>如：句子的开始单词的标签类型应该是B或O，而不是I；限制一些格式，B-Person I-Person是合理的，B-Person I-Organization是不合理的</p>
+<h3 id="CRF层详解"><a href="#CRF层详解" class="headerlink" title="CRF层详解"></a>CRF层详解</h3><p>CRF层的损失函数包含两部分<br>第一部分是<strong>发射概率或者发射得分</strong>,这个发射概率由BiLSTM层产生,比如w0发射B-Person的概率得分是1.5</p>
+<p>为了方便起见，给每个标签一个索引号，如下表所示。</p>
+<p><img src="https://pic2.zhimg.com/80/v2-d6ed1cadb710ae868f4582722dc7810d_720w.jpg" srcset="/img/loading.gif" alt="img"></p>
+<p><img src="https://pic2.zhimg.com/80/v2-5301c39aa8aead4778a03f4b8627ba6d_720w.jpg" srcset="/img/loading.gif" alt="img"></p>
+<p>为了使transition评分矩阵更健壮，我们将添加另外两个标签，START和END。START是指一个句子的开头，而不是第一个单词。END表示句子的结尾。</p>
+<p>下面是一个transition得分矩阵的例子，包括额外添加的START和END标签。</p>
+<p><img src="https://pic3.zhimg.com/80/v2-b8e713dbf24afb0431f5670e10c94a86_720w.jpg" srcset="/img/loading.gif" alt="img"></p>
+<p>如上表所示，我们可以发现transition矩阵已经学习了一些有用的约束。</p>
+<ul>
+<li>句子中第一个单词的标签应该以“B-”或“O”开头，而不是“I-”开头<strong>(从“START”到“I- person或I- organization”的transition分数非常低)</strong></li>
+<li>“B-label1 I-label2 I-label3 I-…”，在这个模式中，label1、label2、label3…应该是相同的命名实体标签。例如，“B-Person I-Person”是有效的，但是“B-Person I-Organization”是无效的。<strong>(例如，从“B-Organization”到“I-Person”的分数只有0.0003，比其他分数低很多)</strong></li>
+<li>“O I-label”无效。一个被命名实体的第一个标签应该以“B-”而不是“I-”开头，换句话说，有效的模式应该是“O B-label”<strong>(同样，t_{O,I-Person}的分数非常小)</strong></li>
+</ul>
+<p>你可能想问一个关于矩阵的问题。<strong>在哪里或如何得到transition矩阵</strong>？</p>
+<p>实际上，该矩阵是BiLSTM-CRF模型的一个参数。在训练模型之前，可以随机初始化矩阵中的所有transition分数。所有的随机分数将在你的训练过程中自动更新。换句话说，CRF层可以自己学习这些约束。我们不需要手动构建矩阵。随着训练迭代次数的增加，分数会逐渐趋于合理。</p>
+<h3 id="2-3-CRF损失函数"><a href="#2-3-CRF损失函数" class="headerlink" title="2.3 CRF损失函数"></a><strong>2.3 CRF损失函数</strong></h3><p>CRF损失函数由真实路径得分和所有可能路径的总得分组成。在所有可能的路径中，真实路径的得分应该是最高的。</p>
+<p>例如，如果我们的数据集中有如下表所示的这些标签：</p>
+<p><img src="https://pic1.zhimg.com/80/v2-15264592ffdffb4c54afc4f62c6157e4_720w.jpg" srcset="/img/loading.gif" alt="img"></p>
+<p>我们还是有一个5个单词的句子。可能的路径是：</p>
+<ul>
+<li>1) START B-Person B-Person B-Person B-Person B-Person END</li>
+<li>2) START B-Person I-Person B-Person B-Person B-Person END</li>
+<li>…</li>
+<li><strong>10) START B-Person I-Person O B-Organization O END</strong></li>
+<li>…</li>
+<li>N) O O O O O O O</li>
+</ul>
+<p><img src="https://pic2.zhimg.com/80/v2-98a7406a02c4e245854e993e38118e11_720w.jpg" srcset="/img/loading.gif" alt="img"></p>
+<p>下一步是<strong>如何计算所有可能路径的总分</strong>？</p>
+<h3 id="2-5-所有可能的路径的得分"><a href="#2-5-所有可能的路径的得分" class="headerlink" title="2.5 所有可能的路径的得分"></a><strong>2.5 所有可能的路径的得分</strong></h3><p><img src="https://pic4.zhimg.com/80/v2-4db0e2cb141ed9c0600bed119d3ff5cf_720w.jpg" srcset="/img/loading.gif" alt="img"></p>
+<p><strong>步骤2: 回忆一下Emission和Transition得分</strong></p>
+<p><img src="https://pic4.zhimg.com/80/v2-cd4b642818feed74de3410daeecedc6b_720w.jpg" srcset="/img/loading.gif" alt="img"></p>
+<p><img src="https://pic1.zhimg.com/80/v2-3441d09333a449e8ecaf620a1ea574a4_720w.jpg" srcset="/img/loading.gif" alt="img"></p>
+<p><img src="https://pic1.zhimg.com/80/v2-2807822cc1293b2bfd8e5a107ae0a088_720w.jpg" srcset="/img/loading.gif" alt="img"></p>
+<p><img src="https://pic3.zhimg.com/80/v2-41bd4f0249925ce774d65f4e03d5d4f6_720w.jpg" srcset="/img/loading.gif" alt="img"></p>
+<p><img src="https://pic4.zhimg.com/80/v2-8d7a12744e48116451a1de50ffd87bb7_720w.jpg" srcset="/img/loading.gif" alt="img"></p>
+<p>④  Bi-lstm+CRF训练时采用监督学习方法，通过最大化预测为真实标记序列的概率（将概率取对数再取负，然后用梯度下降算法优化）来更新Bi-lstm中的参数与CRF中转移概率矩阵A。虽然刚开始训练“真实标记序列不会对应最大的概率值”，但通过样本的连续迭代优化，最终会实现“真实标记序列应该对应最大的概率值”；Bi-lstm+CRF测试时，直接根据训练好的参数求出所有可能的预测序列对应的得分（这里应该会用到维特比算法），最后取对应最大得分的预测序列作为最终预测结果。</p>
+<p>⑤ Bi-lstm+CRF的输入是一组词（字符）向量，输出是一组预测tag序列</p>
 
             </div>
             <hr>
@@ -272,7 +292,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/textcnn/">textcnn</a>
+                      <a class="hover-with-bg" href="/tags/NER/">NER</a>
                     
                   </div>
                 
@@ -285,9 +305,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/04/10/BILSTM+CRF%E5%AE%9E%E7%8E%B0%E5%91%BD%E5%90%8D%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%AB/">
+                      <a href="/2021/04/10/%E8%AF%AD%E4%B9%89%E7%9B%B8%E4%BC%BC%E5%BA%A6%E5%8C%B9%E9%85%8D%E6%A8%A1%E5%9E%8B-ESIM%E6%A8%A1%E5%9E%8B/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">BILSTM+CRF实现命名实体识别</span>
+                        <span class="hidden-mobile">语义相似度匹配模型-ESIM模型</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -295,8 +315,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/01/23/rnn/">
-                        <span class="hidden-mobile">RNN、LSTM及其变体</span>
+                      <a href="/2021/01/29/Text-CNN/">
+                        <span class="hidden-mobile">Text-CNN</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -507,7 +527,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Text-CNN&nbsp;",
+        "BILSTM+CRF实现命名实体识别&nbsp;",
       ],
       cursorChar: " ",
       typeSpeed: 70,
